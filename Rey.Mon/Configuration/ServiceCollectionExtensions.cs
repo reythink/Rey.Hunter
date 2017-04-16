@@ -1,10 +1,11 @@
-﻿using Rey.Mon;
+﻿using Microsoft.Extensions.Configuration;
+using Rey.Mon;
 using Rey.Mon.Configuration;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection {
     public static class ServiceCollectionExtensions {
-        public static IServiceCollection AddReyMon(this IServiceCollection services, MonOptions options) {
+        public static IServiceCollection AddMon(this IServiceCollection services, MonOptions options) {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
@@ -25,13 +26,21 @@ namespace Microsoft.Extensions.DependencyInjection {
             return services;
         }
 
-        public static IServiceCollection AddReyMon(this IServiceCollection services, Action<MonOptions> setOptions = null) {
+        public static IServiceCollection AddMon(this IServiceCollection services, Action<MonOptions> setOptions = null) {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
             var options = new MonOptions();
             setOptions?.Invoke(options);
-            return AddReyMon(services, options);
+            return AddMon(services, options);
+        }
+
+        public static IServiceCollection AddMon(this IServiceCollection services, IConfiguration configuration) {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            var options = configuration.Get<MonOptions>();
+            return AddMon(services, options);
         }
     }
 }

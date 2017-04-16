@@ -9,8 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Rey.Hunter {
-    public class Startup {
+    public partial class Startup {
+
         public void ConfigureServices(IServiceCollection services) {
+            services.AddMvc();
+            services.AddMon(this.Configuration.GetSection("Mon"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
@@ -20,9 +23,8 @@ namespace Rey.Hunter {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) => {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

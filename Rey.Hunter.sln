@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.MvcExtensions", "Rey.Mv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Hunter.Models", "Rey.Hunter.Models\Rey.Hunter.Models.csproj", "{E29CEA96-2B8D-4287-A852-7794EF20013B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Hunter.Extensions", "Rey.Hunter.Extensions\Rey.Hunter.Extensions.csproj", "{4D739A7B-09FD-44B5-98C6-D70D49AC1469}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{E29CEA96-2B8D-4287-A852-7794EF20013B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E29CEA96-2B8D-4287-A852-7794EF20013B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E29CEA96-2B8D-4287-A852-7794EF20013B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D739A7B-09FD-44B5-98C6-D70D49AC1469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D739A7B-09FD-44B5-98C6-D70D49AC1469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D739A7B-09FD-44B5-98C6-D70D49AC1469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D739A7B-09FD-44B5-98C6-D70D49AC1469}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

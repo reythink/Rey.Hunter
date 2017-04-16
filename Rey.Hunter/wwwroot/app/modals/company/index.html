@@ -1,0 +1,196 @@
+﻿<form name="form" class="form-horizontal" ng-submit="ok()">
+    <div class="modal-header">
+        <span type="button" class="close" ng-click="cancel()">
+            <span aria-hidden="true">×</span>
+        </span>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <!--Basic Information-->
+        <div class="box box-info">
+            <div class="box-header with-border">Basic Information</div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="Name" ng-model="model.name" required>
+                    </div>
+                    <label class="col-sm-2 control-label">Industry</label>
+                    <div class="col-sm-4">
+                        <rey-multi-select rey-placeholder="Not Selected"
+                                          rey-uri="/api/industry/"
+                                          rey-tree
+                                          ng-model="model.industries"></rey-multi-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Type</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/companyType"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.type"></rey-enum-select>
+                    </div>
+                    <label class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/companyStatus"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.status"></rey-enum-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Basic Information-->
+        <!--Contact Information-->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                Company Address
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-sm-6">
+                    <div ng-if="model.contacts.length === 0" class="empty">Empty</div>
+                    <ul class="contact-list">
+                        <li ng-repeat="item in model.contacts" ng-class="contact_class(item)" ng-click="contact_select(item)">
+                            <div class="text">
+                                <label>Name:</label>{{item.name}}
+                            </div>
+                            <div class="text">
+                                <label>Phone:</label>{{item.phone}}
+                            </div>
+                            <div class="text">
+                                <label>Address:</label>{{item.address}}
+                            </div>
+                            <span class="remove" ng-click="contact_remove(item)">
+                                <i class="fa fa-times-circle-o"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-fw fa-building"></i></span>
+                            <input type="text" class="form-control" placeholder="Name" ng-model="current_contact.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-fw fa-phone"></i></span>
+                            <input type="text" class="form-control" placeholder="Phone" ng-model="current_contact.phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-fw fa-map-marker"></i></span>
+                            <textarea class="form-control" placeholder="Address" rows="3" ng-model="current_contact.address"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="button" class="btn btn-primary" ng-click="contact_save()" ng-disabled="!current_contact.name"><i class="fa fa-save"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Contact Information-->
+        <!--Department Structure-->
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border">
+                Department Structure
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul class="file-list">
+                    <li ng-repeat="item in model.departmentStructures">
+                        <a class="text" ng-bind="item.name" ng-href="{{item.url}}"></a>
+                        <span class="remove" ng-click="department_remove(item)">
+                            <i class="fa fa-times-circle-o"></i>
+                        </span>
+                    </li>
+                    <li class="add" ngf-select="department_add($files)" ngf-multiple="true">
+                        <i class="fa fa-plus"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--End Department Structure-->
+        <!--Namelist-->
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border">
+                Namelist
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul class="file-list">
+                    <li ng-repeat="item in model.nameList">
+                        <a class="text" ng-bind="item.name" ng-href="{{item.url}}"></a>
+                        <span class="remove" ng-click="namelist_remove(item)">
+                            <i class="fa fa-times-circle-o"></i>
+                        </span>
+                    </li>
+                    <li class="add" ngf-select="namelist_add($files)" ngf-multiple="true">
+                        <i class="fa fa-plus"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--End Namelist-->
+        <!--Others-->
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border">
+                Others
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Introduction</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" placeholder="Introduction" ng-model="model.introduction"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Salary Structure</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" placeholder="Salary Structure" ng-model="model.salaryStructure"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Culture</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" placeholder="Culture" ng-model="model.culture"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Principle</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" placeholder="Basic Recruitment Principle" ng-model="model.basicRecruitmentPrinciple"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Others-->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid"><i class="fa fa-save"></i> Save</button>
+    </div>
+</form>

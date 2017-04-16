@@ -1,0 +1,374 @@
+﻿<form name="form" class="form-horizontal" ng-submit="ok()">
+    <div class="modal-header clearfix">
+        <span type="button" class="close" ng-click="cancel()">
+            <span aria-hidden="true">×</span>
+        </span>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <!--Basic Information-->
+        <div class="box box-info">
+            <div class="box-header with-border">Basic Information</div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">English Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="English Name" ng-model="model.englishName">
+                    </div>
+                    <label class="col-sm-2 control-label">Chinese Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="Chinese Name" ng-model="model.chineseName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Date Of Birth</label>
+                    <div class="col-sm-4">
+                        <rey-date-picker ng-model="model.birthday" rey-end-today></rey-date-picker>
+                    </div>
+                    <label class="col-sm-2 control-label">Gender</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/gender"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.gender"></rey-enum-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Marital Status</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/maritalStatus"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.maritalStatus"></rey-enum-select>
+                    </div>
+                    <label class="col-sm-2 control-label">Education</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/educationLevel"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.educationLevel"></rey-enum-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Language</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/language"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.language"></rey-enum-select>
+                    </div>
+                    <label class="col-sm-2 control-label">Nationality</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/nationality"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.nationality"></rey-enum-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Job Intension</label>
+                    <div class="col-sm-4">
+                        <rey-enum-select rey-default="Not Selected"
+                                         rey-uri="/api/enum/JobIntension"
+                                         rey-attr-name="desc"
+                                         rey-attr-value="value"
+                                         ng-model="model.intension"></rey-enum-select>
+                    </div>
+                    <label class="col-sm-2 control-label">Linkedin Profile</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" ng-model="model.linkedin" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Notes</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="4" ng-model="model.notes"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Basic Information-->
+        <!--Location-->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                Location
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Current</label>
+                    <div class="col-sm-4">
+                        <rey-multi-select rey-placeholder="Not Selected"
+                                          rey-uri="/api/location/"
+                                          rey-tree
+                                          ng-model="model.currentLocations"></rey-multi-select>
+                    </div>
+                    <label class="col-sm-2 control-label">Mobility</label>
+                    <div class="col-sm-4">
+                        <rey-multi-select rey-placeholder="Not Selected"
+                                          rey-uri="/api/location/"
+                                          rey-tree
+                                          ng-model="model.mobilityLocations"></rey-multi-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Location-->
+        <!--Contact-->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                Contact
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Mobile Phone</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="Mobile Phone" ng-model="model.mobile">
+                    </div>
+                    <label class="col-sm-2 control-label">Table Phone</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="Table Phone" ng-model="model.phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="Email" ng-model="model.email">
+                    </div>
+                    <label class="col-sm-2 control-label">QQ</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="QQ" ng-model="model.qq">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Wechat</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" placeholder="Wechat" ng-model="model.wechat">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Contact-->
+        <!--Profile Label-->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                Profile Label
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Cross Function Experience</label>
+                    <div class="col-sm-4">
+                        <rey-multi-select rey-placeholder="Not Selected"
+                                          rey-uri="/api/function/"
+                                          rey-tree
+                                          ng-model="model.profileLabel.crossFunctions"></rey-multi-select>
+                    </div>
+                    <label class="col-sm-2 control-label">Cross Channel Experience</label>
+                    <div class="col-sm-4">
+                        <rey-multi-select rey-placeholder="Not Selected"
+                                          rey-uri="/api/channel/"
+                                          rey-tree
+                                          rey-multiple
+                                          ng-model="model.profileLabel.crossChannels"></rey-multi-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Cross Category Experience</label>
+                    <div class="col-sm-4">
+                        <rey-multi-select rey-placeholder="Not Selected"
+                                          rey-uri="/api/category/"
+                                          rey-tree
+                                          ng-model="model.profileLabel.crossCategories"></rey-multi-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Brands Had Managed</label>
+                    <div class="col-sm-4">
+                        <textarea class="form-control" ng-model="model.profileLabel.brandExp"></textarea>
+                    </div>
+                    <label class="col-sm-2 control-label">Key Account Had Managed</label>
+                    <div class="col-sm-4">
+                        <textarea class="form-control" ng-model="model.profileLabel.keyAccountExp"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Profile Label-->
+        <!--Work Experience-->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                Work Experience
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul class="editable-list">
+                    <li ng-repeat="item in model.experiences">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Company</label>
+                            <div class="col-sm-8">
+                                <rey-single-select rey-placeholder="Not Selected"
+                                                   rey-uri="/api/company/"
+                                                   ng-model="item.company"></rey-single-select>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="item.currentJob"> Current Job
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Time Period</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="item.fromYear">
+                                    <option value="">Year</option>
+                                    <option ng-repeat="item in years" ng-bind="item" ng-value="item"></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="item.fromMonth">
+                                    <option value="">Month</option>
+                                    <option ng-value="1">January</option>
+                                    <option ng-value="2">February</option>
+                                    <option ng-value="3">March</option>
+                                    <option ng-value="4">April</option>
+                                    <option ng-value="5">May</option>
+                                    <option ng-value="6">June</option>
+                                    <option ng-value="7">July</option>
+                                    <option ng-value="8">August</option>
+                                    <option ng-value="9">September</option>
+                                    <option ng-value="10">October</option>
+                                    <option ng-value="11">November</option>
+                                    <option ng-value="12">December</option>
+                                </select>
+                            </div>
+                            <div ng-if="!item.currentJob">
+                                <div class="col-sm-2 control-label" style="text-align:center;">
+                                    ~
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="item.toYear">
+                                        <option value="">Year</option>
+                                        <option ng-repeat="item in years" ng-bind="item" ng-value="item"></option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="item.toMonth">
+                                        <option value="">Month</option>
+                                        <option ng-value="1">January</option>
+                                        <option ng-value="2">February</option>
+                                        <option ng-value="3">March</option>
+                                        <option ng-value="4">April</option>
+                                        <option ng-value="5">May</option>
+                                        <option ng-value="6">June</option>
+                                        <option ng-value="7">July</option>
+                                        <option ng-value="8">August</option>
+                                        <option ng-value="9">September</option>
+                                        <option ng-value="10">October</option>
+                                        <option ng-value="11">November</option>
+                                        <option ng-value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Job</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" placeholder="Title" ng-model="item.title">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" placeholder="In Charge Of" ng-model="item.responsibility">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" placeholder="Grade" ng-model="item.grade">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Annual Total Package</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="item.annualPackage">
+                                    <option value="">Not Selected</option>
+                                    <option value="0-100000">0 ~ 100,000</option>
+                                    <option value="100001-200000">100,001 ~ 200,000</option>
+                                    <option value="200001-300000">200,001 ~ 300,000</option>
+                                    <option value="300001-400000">300,001 ~ 400,000</option>
+                                    <option value="400001-500000">400,001 ~ 500,000</option>
+                                    <option value="500001-600000">500,001 ~ 600,000</option>
+                                    <option value="600001-700000">600,001 ~ 700,000</option>
+                                    <option value="700001-800000">700,001 ~ 800,000</option>
+                                    <option value="800001-900000">800,001 ~ 900,000</option>
+                                    <option value="900001-1000000">900,001 ~ 1,000,000</option>
+                                    <option value="1000001-1100000">1,000,001 ~ 1,100,000</option>
+                                    <option value="1100001-1200000">1,100,001 ~ 1,200,000</option>
+                                    <option value="1200001-1300000">1,200,001 ~ 1,300,000</option>
+                                    <option value="1300001-1400000">1,300,001 ~ 1,400,000</option>
+                                    <option value="1400001-1500000">1,400,001 ~ 1,500,000</option>
+                                    <option value="1500001-1600000">1,500,001 ~ 1,600,000</option>
+                                    <option value="1600001-1700000">1,600,001 ~ 1,700,000</option>
+                                    <option value="1700001-1800000">1,700,001 ~ 1,800,000</option>
+                                    <option value="1800001-1900000">1,800,001 ~ 1,900,000</option>
+                                    <option value="1900001-2000000">1,900,001 ~ 2,000,000</option>
+                                    <option value="2000000-2500000">2,000,000 ~ 2,500,000</option>
+                                    <option value="2500001-3000000">2,500,001 ~ 3,000,000</option>
+                                    <option value="3000001-">3,000,001 and above</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Basic Salary</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" placeholder="per month" ng-model="item.basicSalary"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" ng-model="item.basicSalaryMonths">
+                                    <option ng-value="12">12 months</option>
+                                    <option ng-value="13">13 months</option>
+                                    <option ng-value="14">14 months</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" placeholder="Bonus" ng-model="item.bonus"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" placeholder="Allowance" ng-model="item.allowance"/>
+                            </div>
+                        </div>
+                        <span class="btn-remove" ng-click="experience_remove(item)"><i class="fa fa-times-circle-o"></i></span>
+                    </li>
+                    <li class="btn-create" ng-click="experience_create()">
+                        <i class="fa fa-plus"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--End Work Experience-->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid"><i class="fa fa-save"></i> Save</button>
+    </div>
+</form>

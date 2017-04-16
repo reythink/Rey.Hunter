@@ -1,0 +1,144 @@
+﻿@{ Layout = "_Layout"; }
+@inject ILoginContext<User> LoginCtx
+@{
+    var LoginUser = this.LoginCtx.User;
+}
+@section Head{
+    @Html.Partial("Partials/_LayoutPageStyles")
+    @RenderSection("Head", false)
+}
+<body class="hold-transition skin-blue sidebar-mini fixed" ng-app="app">
+    <div growl></div>
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="/" class="logo">
+                <span class="logo-mini">Rey</span>
+                <span class="logo-lg">Reythink</span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="@LoginUser.PortraitUrl" class="user-image" alt="User Image">
+                                <span class="hidden-xs">@LoginUser.Name</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="@LoginUser.PortraitUrl" class="img-circle" alt="User Image">
+                                    <p>
+                                        @LoginUser.Name - Web Developer
+                                        <small>Member since Nov. 2012</small>
+                                    </p>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="/Profile" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/Account/Logout" class="btn btn-default btn-flat">Logout</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="@LoginUser.PortraitUrl" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>@LoginUser.Name</p>
+                        <a href="mailto:@LoginUser.Email">@LoginUser.Email</a>
+                    </div>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="treeview">
+                        <a href="/">
+                            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="/Talent">
+                            <i class="fa fa-user-plus"></i> <span>Talent</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="/Company">
+                            <i class="fa fa-building"></i> <span>Company</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="/Project">
+                            <i class="fa fa-tasks"></i> <span>Project</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="/Statistic">
+                            <i class="fa fa-line-chart"></i> <span>Statistic</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="/Finance">
+                            <i class="fa fa-dollar"></i> <span>Finance</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="/Data">
+                            <i class="fa fa-database"></i> <span>Data</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cogs"></i> <span>Settings</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @*<li><a href="/Auth/Roles"><i class="fa fa-circle-o"></i> Basic</a></li>*@
+                            <li><a href="/Auth/Roles"><i class="fa fa-circle-o"></i> Role</a></li>
+                            <li><a href="/Auth/Users"><i class="fa fa-circle-o"></i> User</a></li>
+                            @*<li><a href="/Auth/Users"><i class="fa fa-circle-o"></i> Dictionary</a></li>*@
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    @this.ViewBag.Title
+                    <small>@this.ViewBag.Description</small>
+                </h1>
+                @RenderSection("Breadcrumb", false)
+                @*<ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li><a href="#">Examples</a></li>
+                        <li class="active">Blank page</li>
+                    </ol>*@
+            </section>
+            <section class="content">
+                @RenderBody()
+            </section>
+        </div>
+        <footer class="main-footer text-center">
+            <strong>Copyright &copy; 2016-2018 <a href="http://www.reythink.com" target="_blank">Reythink</a>.</strong> All rights reserved.
+        </footer>
+    </div>
+    @Html.Partial("Partials/_LayoutPageScripts")
+    @Html.Partial("Partials/_LayoutPageScriptsApp")
+    @RenderSection("Body", false)
+</body>
+

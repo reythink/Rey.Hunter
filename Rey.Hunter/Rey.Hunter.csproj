@@ -5,6 +5,51 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\app\app-api.js" />
+    <Content Include="wwwroot\app\app-modal.js" />
+    <Content Include="wwwroot\app\app.js" />
+    <Content Include="wwwroot\app\controllers\category.js" />
+    <Content Include="wwwroot\app\controllers\channel.js" />
+    <Content Include="wwwroot\app\controllers\company.js" />
+    <Content Include="wwwroot\app\controllers\function.js" />
+    <Content Include="wwwroot\app\controllers\industry.js" />
+    <Content Include="wwwroot\app\controllers\location.js" />
+    <Content Include="wwwroot\app\controllers\profile.js" />
+    <Content Include="wwwroot\app\controllers\project.js" />
+    <Content Include="wwwroot\app\controllers\talent.js" />
+    <Content Include="wwwroot\app\filters\filters.js" />
+    <Content Include="wwwroot\app\lib\candidate\index.js" />
+    <Content Include="wwwroot\app\lib\candidate\interview-panel.html" />
+    <Content Include="wwwroot\app\lib\candidate\status-panel.html" />
+    <Content Include="wwwroot\app\lib\candidate\table.html" />
+    <Content Include="wwwroot\app\lib\datepicker\index.html" />
+    <Content Include="wwwroot\app\lib\datepicker\index.js" />
+    <Content Include="wwwroot\app\lib\enumselect\index.html" />
+    <Content Include="wwwroot\app\lib\enumselect\index.js" />
+    <Content Include="wwwroot\app\lib\filter\index.js" />
+    <Content Include="wwwroot\app\lib\multiselect\index.html" />
+    <Content Include="wwwroot\app\lib\multiselect\index.js" />
+    <Content Include="wwwroot\app\lib\selector\index.js" />
+    <Content Include="wwwroot\app\lib\sidebar\index.html" />
+    <Content Include="wwwroot\app\lib\sidebar\index.js" />
+    <Content Include="wwwroot\app\lib\singleselect\index.html" />
+    <Content Include="wwwroot\app\lib\singleselect\index.js" />
+    <Content Include="wwwroot\app\lib\treeview\index.css" />
+    <Content Include="wwwroot\app\lib\treeview\index.html" />
+    <Content Include="wwwroot\app\lib\treeview\index.js" />
+    <Content Include="wwwroot\app\modals\candidate\index.html" />
+    <Content Include="wwwroot\app\modals\candidate\index.js" />
+    <Content Include="wwwroot\app\modals\company\index.html" />
+    <Content Include="wwwroot\app\modals\company\index.js" />
+    <Content Include="wwwroot\app\modals\portrait\index.html" />
+    <Content Include="wwwroot\app\modals\portrait\index.js" />
+    <Content Include="wwwroot\app\modals\project\index.html" />
+    <Content Include="wwwroot\app\modals\project\index.js" />
+    <Content Include="wwwroot\app\modals\talent\index.html" />
+    <Content Include="wwwroot\app\modals\talent\index.js" />
+    <Content Include="wwwroot\app\services\generator.js" />
+    <Content Include="wwwroot\app\services\page.js" />
+    <Content Include="wwwroot\app\services\transfer.js" />
     <Content Include="wwwroot\css\admin.css" />
     <Content Include="wwwroot\css\AdminLTE.css" />
     <Content Include="wwwroot\css\AdminLTE.min.css" />
@@ -93,6 +138,9 @@
     <ProjectReference Include="..\Rey.Hunter.Models\Rey.Hunter.Models.csproj" />
     <ProjectReference Include="..\Rey.Identity.Mongo\Rey.Identity.Mongo.csproj" />
     <ProjectReference Include="..\Rey.Mon\Rey.Mon.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\app\directives\transform\" />
   </ItemGroup>
 
 </Project>

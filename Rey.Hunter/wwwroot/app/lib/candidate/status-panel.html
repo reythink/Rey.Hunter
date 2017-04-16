@@ -1,0 +1,5 @@
+﻿<div>
+    <a class="btn btn-app" style="line-height:30px;" ng-class="status.class" ng-click="status.select()" ng-repeat="status in statusPanel.statuses">
+        <span ng-class="status.badgeClass" ng-bind="status.count"></span>{{status.name}}
+    </a>
+</div>

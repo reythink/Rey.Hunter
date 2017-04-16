@@ -6,11 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>Reythink - @ViewBag.Title</title>
-    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/lib/Ionicons/css/ionicons.min.css" rel="stylesheet" />
-    <link href="/css/AdminLTE.css" rel="stylesheet" />
-    <link href="/css/admin.css" rel="stylesheet" />
+    @Html.Partial("Partials/_LayoutStyles")
     @RenderSection("Head", false)
 </head>
 @RenderBody()

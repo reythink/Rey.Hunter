@@ -1,0 +1,8 @@
+﻿<ui-select multiple ng-model="$parent.ngModel">
+    <ui-select-match placeholder="{{reyPlaceholder}}">{{getSelected($item)}}</ui-select-match>
+    <ui-select-choices repeat="item in items | propsFilter: {name: $select.search}"
+                       refresh="search($select.search)"
+                       refresh-delay="0">
+        <div ng-bind-html="getSelect(item) | highlight: $select.search | textLevel: item"></div>
+    </ui-select-choices>
+</ui-select>

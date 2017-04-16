@@ -1,0 +1,14 @@
+﻿<form name="form" class="form-horizontal" ng-submit="ok()">
+    <div class="modal-header clearfix">
+        <h4 class="modal-title">Edit Portrait</h4>
+    </div>
+    <div class="modal-body">
+        <div ngf-drop ng-model="file_selected" ngf-pattern="image/*" style="width:100%;height:400px;border:1px dashed #ccc;">
+            <img-crop image="model.file | ngfDataUrl" result-image="data_cropped" result-image-format="image/jpeg" result-image-size="100"></img-crop>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid"><i class="fa fa-save"></i> Save</button>
+    </div>
+</form>

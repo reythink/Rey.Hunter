@@ -1,0 +1,4 @@
+﻿<select class="form-control" ng-model="ngModel">
+    <option ng-if="reyDefault" value="" ng-bind="reyDefault"></option>
+    <option ng-repeat="model in models" ng-value="getValue(model)" ng-bind="getName(model)"></option>
+</select>

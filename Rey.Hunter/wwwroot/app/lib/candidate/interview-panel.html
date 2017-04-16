@@ -1,0 +1,5 @@
+﻿<div ng-if="interviewPanel.panel.status.value === 4">
+    <a class="btn btn-app" style="line-height:30px;" ng-class="interview.class" ng-click="interview.select()" ng-repeat="interview in interviewPanel.interviews">
+        <span class="badge bg-purple" ng-bind="interview.count"></span>{{interview.name}}
+    </a>
+</div>

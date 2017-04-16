@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "_Layout";
+    this.ViewBag.Title = "Register";
+}
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <b>Reythink</b>
+        </div>
+        <div class="register-box-body">
+            <br />
+            <th:alert message="@this.ViewBag.Error"></th:alert>
+            <form action="" method="post">
+                <div class="form-group has-feedback">
+                    <input type="text" name="company" class="form-control" placeholder="Company">
+                    <span class="fa fa-building form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" name="name" class="form-control" placeholder="Name">
+                    <span class="fa fa-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="email" name="email" class="form-control" placeholder="EMail">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-8">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    </div>
+                </div>
+            </form>
+            <a href="@string.Format("/Account/Login?ReturnUrl={0}", Html.UrlEncoder.Encode( this.Context.Request.Query["ReturnUrl"]))" class="text-center">User Login</a>
+        </div>
+    </div>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>

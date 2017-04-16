@@ -5,7 +5,76 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Content Include="wwwroot\css\admin.css" />
+    <Content Include="wwwroot\css\AdminLTE.css" />
+    <Content Include="wwwroot\css\AdminLTE.min.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-bootstrap-social.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-bootstrap-social.min.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-fullcalendar.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-fullcalendar.min.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-select2.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-select2.min.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-without-plugins.css" />
+    <Content Include="wwwroot\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="wwwroot\css\skins\skin-black-light.css" />
+    <Content Include="wwwroot\css\skins\skin-black-light.min.css" />
+    <Content Include="wwwroot\css\skins\skin-black.css" />
+    <Content Include="wwwroot\css\skins\skin-black.min.css" />
+    <Content Include="wwwroot\css\skins\skin-blue-light.css" />
+    <Content Include="wwwroot\css\skins\skin-blue-light.min.css" />
+    <Content Include="wwwroot\css\skins\skin-blue.css" />
+    <Content Include="wwwroot\css\skins\skin-blue.min.css" />
+    <Content Include="wwwroot\css\skins\skin-green-light.css" />
+    <Content Include="wwwroot\css\skins\skin-green-light.min.css" />
+    <Content Include="wwwroot\css\skins\skin-green.css" />
+    <Content Include="wwwroot\css\skins\skin-green.min.css" />
+    <Content Include="wwwroot\css\skins\skin-purple-light.css" />
+    <Content Include="wwwroot\css\skins\skin-purple-light.min.css" />
+    <Content Include="wwwroot\css\skins\skin-purple.css" />
+    <Content Include="wwwroot\css\skins\skin-purple.min.css" />
+    <Content Include="wwwroot\css\skins\skin-red-light.css" />
+    <Content Include="wwwroot\css\skins\skin-red-light.min.css" />
+    <Content Include="wwwroot\css\skins\skin-red.css" />
+    <Content Include="wwwroot\css\skins\skin-red.min.css" />
+    <Content Include="wwwroot\css\skins\skin-yellow-light.css" />
+    <Content Include="wwwroot\css\skins\skin-yellow-light.min.css" />
+    <Content Include="wwwroot\css\skins\skin-yellow.css" />
+    <Content Include="wwwroot\css\skins\skin-yellow.min.css" />
+    <Content Include="wwwroot\css\skins\_all-skins.css" />
+    <Content Include="wwwroot\css\skins\_all-skins.min.css" />
+    <Content Include="wwwroot\img\avatar.png" />
+    <Content Include="wwwroot\img\avatar04.png" />
+    <Content Include="wwwroot\img\avatar2.png" />
+    <Content Include="wwwroot\img\avatar3.png" />
+    <Content Include="wwwroot\img\avatar5.png" />
+    <Content Include="wwwroot\img\boxed-bg.jpg" />
+    <Content Include="wwwroot\img\boxed-bg.png" />
+    <Content Include="wwwroot\img\credit\american-express.png" />
+    <Content Include="wwwroot\img\credit\cirrus.png" />
+    <Content Include="wwwroot\img\credit\mastercard.png" />
+    <Content Include="wwwroot\img\credit\mestro.png" />
+    <Content Include="wwwroot\img\credit\paypal.png" />
+    <Content Include="wwwroot\img\credit\paypal2.png" />
+    <Content Include="wwwroot\img\credit\visa.png" />
+    <Content Include="wwwroot\img\default-50x50.gif" />
+    <Content Include="wwwroot\img\icons.png" />
+    <Content Include="wwwroot\img\photo1.png" />
+    <Content Include="wwwroot\img\photo2.png" />
+    <Content Include="wwwroot\img\photo3.jpg" />
+    <Content Include="wwwroot\img\photo4.jpg" />
+    <Content Include="wwwroot\img\user1-128x128.jpg" />
+    <Content Include="wwwroot\img\user2-160x160.jpg" />
+    <Content Include="wwwroot\img\user3-128x128.jpg" />
+    <Content Include="wwwroot\img\user4-128x128.jpg" />
+    <Content Include="wwwroot\img\user5-128x128.jpg" />
+    <Content Include="wwwroot\img\user6-128x128.jpg" />
+    <Content Include="wwwroot\img\user7-128x128.jpg" />
+    <Content Include="wwwroot\img\user8-128x128.jpg" />
+    <Content Include="wwwroot\js\app.js" />
+    <Content Include="wwwroot\js\app.min.js" />
+    <Content Include="wwwroot\js\demo.js" />
+    <Content Include="wwwroot\js\pages\dashboard.js" />
+    <Content Include="wwwroot\js\pages\dashboard2.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,8 +88,10 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rey.Authority.Models\Rey.Authority.Models.csproj" />
     <ProjectReference Include="..\Rey.Hunter.Extensions\Rey.Hunter.Extensions.csproj" />
     <ProjectReference Include="..\Rey.Hunter.Models\Rey.Hunter.Models.csproj" />
+    <ProjectReference Include="..\Rey.Identity.Mongo\Rey.Identity.Mongo.csproj" />
     <ProjectReference Include="..\Rey.Mon\Rey.Mon.csproj" />
   </ItemGroup>
 

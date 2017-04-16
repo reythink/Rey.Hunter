@@ -1,0 +1,80 @@
+﻿html, body { font-family: 'Microsoft YaHei'; }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Microsoft YaHei'; }
+textarea { resize: none; }
+
+.label { margin-left: 2px; margin-right: 2px; }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background-color: #FFF; -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb { border-radius: 4px; background-color: #ddd; -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.5); }
+
+.indent-1 { padding-left: 10px; }
+.indent-2 { padding-left: 20px; }
+.indent-3 { padding-left: 30px; }
+.indent-4 { padding-left: 40px; }
+.indent-5 { padding-left: 50px; }
+.indent-6 { padding-left: 60px; }
+.indent-7 { padding-left: 70px; }
+.indent-8 { padding-left: 80px; }
+.indent-9 { padding-left: 90px; }
+
+.toggle-border { border-top-left-radius: 16px; border-bottom-left-radius: 16px; cursor: pointer; text-align: center; width: 16px; height: 300px; position: absolute; left: -15px; top: 50%; margin-top: -150px; padding: 143px 0; background-color: #222d32; color: white; }
+    .toggle-border > .fa { transform: rotate(0deg); }
+.control-sidebar-open .toggle-border > .fa { transform: rotate(180deg); }
+
+.control-label { font-size: 12px; }
+
+.empty { border: 1px dashed #ccc; text-align: center; padding: 40px 10px; color: #999; border-radius: 4px; }
+
+ul.file-list { list-style: none; margin: 0; padding: 0; }
+    ul.file-list > li { margin: 10px 15px; margin-left: 0; padding: 10px 15px; position: relative; display: inline-block; border: 1px solid #ccc; border-radius: 6px; }
+        ul.file-list > li > .remove { position: absolute; right: -10px; top: -12px; font-size: 22px; cursor: pointer; background-color: white; color: #ddd; line-height: 22px; }
+            ul.file-list > li > .remove:hover { color: #bbb !important; }
+        ul.file-list > li.add { text-align: center; cursor: pointer; border: 1px dashed #ccc; width: 60px; }
+            ul.file-list > li.add:hover { color: #00c0ef !important; border-color: #00c0ef !important; }
+
+ul.contact-list { list-style: none; margin: 0; padding: 0; }
+    ul.contact-list > li { margin: 10px 15px; margin-left: 0; padding: 10px 15px; position: relative; display: inline-block; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; width: 100%; }
+        ul.contact-list > li:first-of-type { margin-top: 0; }
+        ul.contact-list > li > .text > label { width: 60px; text-align: right; margin-right: 10px; }
+        ul.contact-list > li > .remove { position: absolute; right: -10px; top: -12px; font-size: 22px; cursor: pointer; background-color: white; color: #ddd; line-height: 22px; }
+            ul.contact-list > li > .remove:hover { color: #bbb !important; }
+        ul.contact-list > li.selected { border-color: #00a65a; border-style: dashed; }
+        ul.contact-list > li.add { text-align: center; cursor: pointer; border: 1px dashed #ccc; display: block; }
+            ul.contact-list > li.add:hover { color: #00c0ef !important; border-color: #00c0ef !important; }
+
+ul.editable-list { list-style: none; margin: 0; padding: 0; }
+    ul.editable-list > li { margin: 10px 15px; margin-left: 0; padding: 10px 15px; position: relative; display: inline-block; border: 1px solid #ccc; border-radius: 6px; width: 100%; }
+        ul.editable-list > li:first-of-type { margin-top: 0; }
+        ul.editable-list > li > .btn-remove { position: absolute; right: -10px; top: -12px; font-size: 22px; cursor: pointer; background-color: white; color: #ddd; line-height: 22px; }
+            ul.editable-list > li > .btn-remove:hover { color: #bbb !important; }
+        ul.editable-list > li.btn-create { text-align: center; cursor: pointer; border: 1px dashed #ccc; display: block; }
+            ul.editable-list > li.btn-create:hover { color: #00c0ef !important; border-color: #00c0ef !important; }
+
+.modal.modal-fullscreen { /* Maximize the main wrappers on the screen */ /* Make the parent wrapper of the modal box a full-width block */ /* Remove borders and effects on the content */ /**
+	 * /!\ By using this feature, you force the header and footer to be placed
+	 * in an absolute position. You must handle by yourself the margin of the
+	 * content.
+	 */ }
+    .modal.modal-fullscreen .modal-dialog,
+    .modal.modal-fullscreen .modal-content { bottom: 0; left: 0; position: absolute; right: 0; top: 0; }
+    .modal.modal-fullscreen .modal-dialog { margin: 0; width: 100%; }
+    .modal.modal-fullscreen .modal-content { border: none; -moz-border-radius: 0; border-radius: 0; -webkit-box-shadow: inherit; -moz-box-shadow: inherit; -o-box-shadow: inherit; box-shadow: inherit; }
+    .modal.modal-fullscreen.force-fullscreen { /* Remove the padding inside the body */ }
+        .modal.modal-fullscreen.force-fullscreen .modal-body { padding: 0; }
+        .modal.modal-fullscreen.force-fullscreen .modal-header,
+        .modal.modal-fullscreen.force-fullscreen .modal-footer { left: 0; position: absolute; right: 0; }
+        .modal.modal-fullscreen.force-fullscreen .modal-header { top: 0; }
+        .modal.modal-fullscreen.force-fullscreen .modal-footer { bottom: 0; }
+
+
+.filter-list { }
+    .filter-list > .filter-category { position: relative; padding-left: 160px; padding-right: 60px; margin: 8px 0; }
+        .filter-list > .filter-category > .name { position: absolute; left: 0; top: 0; min-width: 150px; text-align: right; font-weight: bold; }
+        .filter-list > .filter-category > .values { }
+            .filter-list > .filter-category > .values > .label { font-weight: normal; display: inline-block; margin: 0 2px; }
+                .filter-list > .filter-category > .values > .label > .fa-remove { cursor: pointer; }
+        .filter-list > .filter-category > .actions { position: absolute; right: 0; top: 0; }
+
+.filter-panel { }
+    .filter-panel .filter-category { margin: 15px 0; }

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Rey.Hunter.Models\Rey.Hunter.Models.csproj" />
     <ProjectReference Include="..\Rey.Mon\Rey.Mon.csproj" />
   </ItemGroup>
 

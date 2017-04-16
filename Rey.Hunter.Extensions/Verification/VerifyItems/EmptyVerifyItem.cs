@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Rey.MvcExtensions.Verification.VerifyItems {
+namespace Rey.Hunter.Verification.VerifyItems {
     public class EmptyVerifyItem<T> : VerifyItem {
         public IEnumerable<T> Values { get; }
         public EmptyVerifyItem(IEnumerable<T> values, Action failed)

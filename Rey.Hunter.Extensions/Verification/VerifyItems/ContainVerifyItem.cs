@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Rey.MvcExtensions.Verification.VerifyItems {
+namespace Rey.Hunter.Verification.VerifyItems {
     public class ContainVerifyItem<T> : VerifyItem {
         public IEnumerable<T> Values { get; }
         public T Value { get; }

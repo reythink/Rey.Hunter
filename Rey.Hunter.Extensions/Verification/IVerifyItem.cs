@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.MvcExtensions.Verification {
+namespace Rey.Hunter.Verification {
     public interface IVerifyItem {
         Action Failed { get; }
         bool Verify();

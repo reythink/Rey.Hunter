@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Rey.MvcExtensions.Verification.VerifyItems {
+namespace Rey.Hunter.Verification.VerifyItems {
     public class CountVerifyItem<T> : VerifyItem {
         public IEnumerable<T> Values { get; }
         public int Count { get; }

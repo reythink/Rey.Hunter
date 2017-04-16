@@ -1,6 +1,6 @@
 ﻿using Rey.Mon;
 using Rey.Mon.Models;
-using Rey.MvcExtensions.Modeling.JsonConverters;
+using Rey.Hunter.Modeling.JsonConverters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.MvcExtensions.Modeling {
+namespace Rey.Hunter.Modeling {
     public class MvcJsonNodeModelRefConfiguration<TModel, TKey> : IConfigureOptions<MvcJsonOptions>
         where TModel : class, IMonNodeModel<TModel, TKey> {
         private IMonDatabase Database { get; }

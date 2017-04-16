@@ -1,4 +1,4 @@
-﻿using Rey.MvcExtensions.Verification;
+﻿using Rey.Hunter.Verification;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rey.MvcExtensions.Verification.VerifyItems {
+namespace Rey.Hunter.Verification.VerifyItems {
     public class EqualVerifyItem : VerifyItem {
         public object Value1 { get; }
         public object Value2 { get; }

@@ -1,11 +1,11 @@
-﻿using Rey.MvcExtensions.Verification.VerifyItems;
+﻿using Rey.Hunter.Verification.VerifyItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Rey.MvcExtensions.Verification {
+namespace Rey.Hunter.Verification {
     public class Verifier : IVerifier {
         public static readonly Regex REGEX_MOBILE = new Regex("^0?1\\d{10}$");
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Rey.MvcExtensions.Verification {
+namespace Rey.Hunter.Verification {
     public interface IVerifier {
         IVerifier Is(IVerifyItem item);
         IVerifier Is(Func<bool> verifier, Action failed);

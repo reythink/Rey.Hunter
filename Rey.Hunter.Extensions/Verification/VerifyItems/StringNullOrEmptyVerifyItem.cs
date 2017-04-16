@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.MvcExtensions.Verification.VerifyItems {
+namespace Rey.Hunter.Verification.VerifyItems {
     public class StringNullOrEmptyVerifyItem : VerifyItem {
         public string Value { get; }
         public StringNullOrEmptyVerifyItem(string value, Action failed)

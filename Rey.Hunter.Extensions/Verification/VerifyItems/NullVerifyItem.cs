@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rey.MvcExtensions.Verification.VerifyItems {
+namespace Rey.Hunter.Verification.VerifyItems {
     public class NullVerifyItem : VerifyItem {
         public object Value { get; }
         public NullVerifyItem(object value, Action failed)

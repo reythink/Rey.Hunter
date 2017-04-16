@@ -1,5 +1,5 @@
 ﻿using Rey.Mon.Models;
-using Rey.MvcExtensions.Modeling;
+using Rey.Hunter.Modeling;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;

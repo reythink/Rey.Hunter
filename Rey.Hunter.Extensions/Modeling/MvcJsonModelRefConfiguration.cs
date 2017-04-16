@@ -6,9 +6,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using Rey.Mon.Models;
 using Rey.Mon;
-using Rey.MvcExtensions.Modeling.JsonConverters;
+using Rey.Hunter.Modeling.JsonConverters;
 
-namespace Rey.MvcExtensions.Modeling {
+namespace Rey.Hunter.Modeling {
     public class MvcJsonModelRefConfiguration<TModel, TKey> : IConfigureOptions<MvcJsonOptions>
         where TModel : class, IMonModel<TKey> {
         private IMonDatabase Database { get; }

@@ -19,9 +19,9 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rey.Hunter.Extensions\Rey.Hunter.Extensions.csproj" />
     <ProjectReference Include="..\Rey.Hunter.Models\Rey.Hunter.Models.csproj" />
     <ProjectReference Include="..\Rey.Mon\Rey.Mon.csproj" />
-    <ProjectReference Include="..\Rey.MvcExtensions\Rey.MvcExtensions.csproj" />
   </ItemGroup>
 
 </Project>

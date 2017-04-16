@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.MvcExtensions.Verification.VerifyItems {
+namespace Rey.Hunter.Verification.VerifyItems {
     public class DefaultValueVerifyItem : VerifyItem {
         public Func<bool> Verifier { get; }
         public DefaultValueVerifyItem(Func<bool> verifier, Action failed)

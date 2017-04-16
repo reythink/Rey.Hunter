@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Rey.Hunter {
     public partial class Startup {
-
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc();
             services.AddMon(this.Configuration.GetSection("Mon"));
@@ -22,6 +21,12 @@ namespace Rey.Hunter {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions {
+                AuthenticationScheme = "ReyHunterWeb",
+                AutomaticChallenge = true,
+                LoginPath = "/Account/Login",
+            });
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();

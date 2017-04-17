@@ -13,7 +13,7 @@ namespace Rey.Hunter {
                 return "Unknown";
 
             var type = typeof(T);
-            if (type.GetGenericTypeDefinition() == typeof(Nullable<>)) {
+            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)) {
                 type = type.GenericTypeArguments[0];
             }
 

@@ -10,11 +10,24 @@ using Microsoft.Extensions.Logging;
 using Rey.Hunter.Models.Web.Identity;
 using Rey.Identity.Services;
 using Rey.Authority.Models;
+using Rey.Hunter.Models.Web.Business;
+using Rey.Hunter.Models.Web.Basic;
 
 namespace Rey.Hunter {
     public partial class Startup {
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc();
+
+            services.AddMvcJsonModelRef(options => {
+                options.AddRef<Talent, string>();
+                options.AddRef<Company, string>();
+                options.AddNodeRef<LocationNode, string>();
+                options.AddNodeRef<CategoryNode, string>();
+                options.AddNodeRef<ChannelNode, string>();
+                options.AddNodeRef<FunctionNode, string>();
+                options.AddNodeRef<IndustryNode, string>();
+            });
+
             services.AddMon(this.Configuration.GetSection("Mon"));
 
             services.AddReyAuthority(authority => {

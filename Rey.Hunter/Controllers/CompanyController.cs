@@ -24,5 +24,11 @@ namespace Rey.Hunter.Controllers {
             var query = builder.Build().OrderByDescending(x => x.Id);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
+
+        [HttpGet("/[controller]/{id}")]
+        public IActionResult Item(string id) {
+            var model = this.GetMonCollection<Company>().FindOne(x => x.Id.Equals(id));
+            return View(model);
+        }
     }
 }

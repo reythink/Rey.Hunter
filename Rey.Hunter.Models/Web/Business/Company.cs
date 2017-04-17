@@ -9,11 +9,11 @@ namespace Rey.Hunter.Models.Web.Business {
     public class Company : AccountModel {
         public string Name { get; set; }
 
-        public List<MonStringModelRef<IndustryNode>> Industries { get; set; }
+        public List<MonStringNodeModelRef<IndustryNode>> Industries { get; set; } = new List<MonStringNodeModelRef<IndustryNode>>();
 
-        public CompanyType Type { get; set; }
+        public CompanyType? Type { get; set; }
 
-        public CompanyStatus Status { get; set; }
+        public CompanyStatus? Status { get; set; }
 
         public List<Contact> Contacts { get; set; } = new List<Contact>();
 

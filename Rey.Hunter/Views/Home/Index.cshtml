@@ -1,2 +1,65 @@
-﻿@model Rey.Hunter.Models.Web.Business.Talent
-@this.Model.ChineseName
+﻿@{
+    this.ViewBag.Title = "Dashboard";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>150</h3>
+                    <p>Talent</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-user-plus"></i>
+                </div>
+                <a href="/Candidate" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>53</h3>
+                    <p>Company</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-building"></i>
+                </div>
+                <a href="/Company" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>65</h3>
+                    <p>Project</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-tasks"></i>
+                </div>
+                <a href="/Project" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <section class="col-lg-7 connectedSortable ui-sortable">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Quick Addition</h3>
+                </div>
+                <div class="box-body">
+                    <a class="btn btn-app">
+                        <i class="fa fa-user-plus"></i> Talent
+                    </a>
+                    <a class="btn btn-app">
+                        <i class="fa fa-building"></i> Company
+                    </a>
+                    <a class="btn btn-app">
+                        <i class="fa fa-tasks"></i> Project
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</section>

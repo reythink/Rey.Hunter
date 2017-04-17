@@ -3,8 +3,13 @@
 @{
     var LoginUser = this.LoginCtx.User;
 }
+
 @section Head{
-    @Html.Partial("Partials/_LayoutPageStyles")
+    <link href="/css/skins/_all-skins.min.css" rel="stylesheet" />
+    <link href="/lib/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet" />
+    <link href="/lib/angular-growl-v2/build/angular-growl.min.css" rel="stylesheet" />
+    <link href="/lib/angular-ui-select/dist/select.min.css" rel="stylesheet" />
+    <link href="/app/lib/treeview/index.css" rel="stylesheet" />
     @RenderSection("Head", false)
 }
 <body class="hold-transition skin-blue sidebar-mini fixed" ng-app="app">
@@ -137,8 +142,68 @@
             <strong>Copyright &copy; 2016-2018 <a href="http://www.reythink.com" target="_blank">Reythink</a>.</strong> All rights reserved.
         </footer>
     </div>
-    @Html.Partial("Partials/_LayoutPageScripts")
-    @Html.Partial("Partials/_LayoutPageScriptsApp")
+    <script src="/lib/underscore/underscore-min.js"></script>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/js/app.js"></script>
+
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.min.js"></script>
+    <script src="/lib/angular-animate/angular-animate.min.js"></script>
+
+    <script src="/lib/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="/lib/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
+    <script src="/lib/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+    <script src="/lib/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
+    <script src="/lib/angular-growl-v2/build/angular-growl.min.js"></script>
+    <script src="/lib/bootbox/bootbox.js"></script>
+    <script src="/lib/ngBootbox/dist/ngBootbox.min.js"></script>
+    <script src="/lib/ng-file-upload/ng-file-upload-all.min.js"></script>
+    <script src="/lib/angular-ui-select/dist/select.min.js"></script>
+    <script src="/lib/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+
+    @{
+        var ts = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+    }
+    <script src="/app/app.js?ts=@ts"></script>
+    <script src="/app/app-api.js?ts=@ts"></script>
+    <script src="/app/app-modal.js?ts=@ts"></script>
+
+    <script src="/app/modals/talent/index.js?ts=@ts"></script>
+    <script src="/app/modals/company/index.js?ts=@ts"></script>
+    <script src="/app/modals/project/index.js?ts=@ts"></script>
+    <script src="/app/modals/candidate/index.js?ts=@ts"></script>
+    <script src="/app/modals/portrait/index.js?ts=@ts"></script>
+
+    <script src="/app/services/transfer.js?ts=@ts"></script>
+    <script src="/app/services/generator.js?ts=@ts"></script>
+    <script src="/app/services/page.js?ts=@ts"></script>
+
+    <script src="/app/filters/filters.js?ts=@ts"></script>
+
+    <script src="/app/lib/sidebar/index.js?ts=@ts"></script>
+    <script src="/app/lib/datepicker/index.js?ts=@ts"></script>
+    <script src="/app/lib/enumselect/index.js?ts=@ts"></script>
+    <script src="/app/lib/singleselect/index.js?ts=@ts"></script>
+    <script src="/app/lib/multiselect/index.js?ts=@ts"></script>
+    <script src="/app/lib/selector/index.js?ts=@ts"></script>
+    <script src="/app/lib/filter/index.js?ts=@ts"></script>
+    <script src="/app/lib/candidate/index.js?ts=@ts"></script>
+    <script src="/app/lib/treeview/index.js?ts=@ts"></script>
+
+    <script src="/app/controllers/talent.js?ts=@ts"></script>
+    <script src="/app/controllers/company.js?ts=@ts"></script>
+    <script src="/app/controllers/project.js?ts=@ts"></script>
+    <script src="/app/controllers/industry.js?ts=@ts"></script>
+    <script src="/app/controllers/function.js?ts=@ts"></script>
+    <script src="/app/controllers/location.js?ts=@ts"></script>
+    <script src="/app/controllers/category.js?ts=@ts"></script>
+    <script src="/app/controllers/channel.js?ts=@ts"></script>
+    <script src="/app/controllers/profile.js?ts=@ts"></script>
+
     @RenderSection("Body", false)
 </body>
 

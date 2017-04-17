@@ -1,0 +1,141 @@
+﻿<div ng-app="app" ng-controller="app-controller as ctrl">
+    <div class="box">
+        <div class="box-body no-padding">
+            <div class="mailbox-controls">
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-click="ctrl.expand()"><i class="fa fa-expand"></i> Expand</button>
+                    <button type="button" class="btn btn-default" ng-click="ctrl.collapse()"><i class="fa fa-compress"></i> Collapse</button>
+                </div>
+                <div class="btn-group btn-group-sm pull-right">
+                    <button type="button" class="btn btn-primary" ng-click="ctrl.save()" ng-disabled="!ctrl.tree.changed"><i class="fa fa-save"></i> Save</button>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-body" style="display: block;">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-8 col-lg-9">
+                            <rey-tree-view tree-items="ctrl.tree.items" tree-options="ctrl.tree.options" tree-view="ctrl.tree.view"></rey-tree-view>
+                        </div>
+                        <div class="col-sm-5 col-md-4 col-lg-3">
+                            <form name="form_add" class="input-group input-group-sm" ng-submit="ctrl.add()">
+                                <input type="text" class="form-control" ng-model="ctrl.tree.name_add" required>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default" ng-disabled="form_add.$invalid">Add</button>
+                                </span>
+                            </form>
+                            <br />
+                            <form name="form_edit" class="input-group input-group-sm" ng-submit="ctrl.edit()" ng-if="ctrl.tree.current">
+                                <input type="text" class="form-control" ng-model="ctrl.tree.name_edit" required>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default" ng-disabled="form_edit.$invalid">Edit</button>
+                                    <button type="button" class="btn btn-default" ng-click="ctrl.cancel()">Cancel</button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Head {
+    <link href="/app/lib/treeview/rey-tree-view.css" rel="stylesheet" />
+}
+@section Body {
+    <script src="/app/lib/treeview/rey-tree-view.js"></script>
+    <script>
+        angular.module('app', ['app-api', 'reyTreeView', 'ngAnimate'])
+            .controller('app-controller', ['$scope', 'api', function ($scope, api) {
+                var tree = this.tree = {
+                    items: [
+                        { name: 'item1', children: ['child11', 'child12', 'child13'], data: 'Kevin' },
+                        { name: 'item2', children: [{ name: 'child21', children: ['child211', 'child212', { name: 'child213', children: ['child2131', 'child2132', 'child2133'] }] }, 'child22', 'child23'] }
+                    ],
+                    options: {
+                        show_checkbox: false,
+                        show_icon: true,
+                        //expanded: function (node) { return node.name === "item1"; },
+                        selectable: true,
+                        buttons: [
+                            {
+                                classes: 'btn btn-xs btn-danger',
+                                html: '<span class="glyphicon glyphicon-trash"></span>',
+                                click: function (node) {
+                                    if (node === tree.current) {
+                                        tree.current = null;
+                                    }
+                                    node.remove();
+                                    tree.changed = true;
+                                }
+                            }
+                        ],
+                        events: {
+                            selected: function (node) {
+                                tree.current = node;
+                                tree.name_edit = node.name;
+                            }
+                        }
+                    },
+                    view: null,
+                    changed: false,
+                    current: null,
+                    name_add: null,
+                    name_edit: null,
+                };
+
+                var root = new api.Function({ name: 'root' });
+                api.Function.query(function (resp) {
+                    if (resp.length > 0 && resp[0].children.length > 0) {
+                        root = resp[0];
+                        tree.items = root.children;
+                    }
+                });
+
+                this.add = function () {
+                    tree.view.createNode({ name: tree.name_add }, tree.current);
+                    tree.name_add = null;
+                    if (tree.current) {
+                        tree.current.expand();
+                    }
+                    tree.changed = true;
+                };
+
+                this.edit = function () {
+                    if (tree.current) {
+                        tree.current.name = tree.name_edit;
+                        tree.current.unselect();
+                        tree.current = null;
+                        tree.name_edit = null;
+                        tree.changed = true;
+                    }
+                };
+
+                this.cancel = function () {
+                    if (tree.current) {
+                        tree.current.unselect();
+                        tree.current = null;
+                        tree.name_edit = null;
+                    }
+                };
+
+                this.expand = function () {
+                    tree.view.expand();
+                };
+
+                this.collapse = function () {
+                    tree.view.collapse();
+                };
+
+                this.save = function () {
+                    var json = tree.view.toJson();
+                    root.children = json;
+                    console.log(root);
+                    root.$save(function () {
+                        tree.changed = false;
+                    });
+                }
+            }]);
+    </script>
+}

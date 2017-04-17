@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Role>
+@{
+    this.ViewBag.Title = "Role";
+}
+<div ng-app="app-role" ng-controller="app-role-ctrl">
+    <div growl></div>
+    <div class="box">
+        <div class="box-body no-padding">
+            <div class="mailbox-controls">
+                <button type="button" class="btn btn-default btn-sm" ng-click="selector.toggle_all()">
+                    <i ng-if="!selector.all_selected()" class="fa fa-fw fa-square-o"></i>
+                    <i ng-if="selector.all_selected()" class="fa fa-fw fa-check-square-o"></i>
+                    All
+                </button>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-click="create()"><i class="fa fa-plus"></i> Create</button>
+                    <button type="button" class="btn btn-danger" ng-disabled="selector.selected_count() === 0" ng-click="batch_delete(selector.selected_id_list())"><i class="fa fa-trash-o"></i> Delete</button>
+                </div>
+                <div class="box-tools pull-right">
+                    <form action="">
+                        <div class="has-feedback">
+                            @Html.TextBox("search", null, new { @class = "form-control input-sm", placeholder = "Search" })
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                    @foreach (var item in this.Model) {
+                        <tr>
+                            <td width="40">
+                                @if (!item.IsSuper) {
+                                    <checkbox ng-model="selector.models['@item.Id']" class="select-item"></checkbox>
+                                }
+                            </td>
+                            <td width="220">@item.Id</td>
+                            <td>@item.Name</td>
+                            <td width="70" align="center">
+                                @if (item.Enabled) {
+                                    <span class="label label-primary">Enabled</span>
+                                } else {
+                                    <span class="label label-default">Disabled</span>
+                                }
+                            </td>
+                            <td width="210" align="right">
+                                <div class="btn-group btn-group-xs">
+                                    <button class="btn btn-default" ng-click="update('@item.Id')"><i class="fa fa-edit"></i> Edit</button>
+                                    @if (!item.IsSuper) {
+                                        <button class="btn btn-default" ng-click="config_role_auth('@item.Id')"><i class="fa fa-unlock-alt"></i> Authority</button>
+                                                <button type="button" class="btn btn-danger" ng-click="delete('@item.Id')"><i class="fa fa-trash-o"></i> Delete</button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer" style="padding:0 5px;">
+            <th:pagination data="this.ViewBag.PageData" size="Small"></th:pagination>
+        </div>
+    </div>
+</div>
+@section Head{
+    <style type="text/css">
+        .checkbox-inline + .checkbox-inline { margin-left: 0; }
+        .checkbox-inline { width: 33.3333%; }
+    </style>
+}
+@section Body{
+    <script src="/app/modals/modal-role.js"></script>
+    <script src="/app/app-role.js"></script>
+}

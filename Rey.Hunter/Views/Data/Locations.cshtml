@@ -1,0 +1,50 @@
+﻿@{
+    this.ViewBag.Title = "Location";
+}
+
+@section Breadcrumb{
+    <ol class="breadcrumb">
+        <li><a href="/Data"><i class="fa fa-database"></i> Data</a></li>
+        <li class="active">Location</li>
+    </ol>
+}
+
+<div ng-controller="location-ctrl">
+    <div growl></div>
+    <div class="box">
+        <div class="box-body no-padding">
+            <div class="mailbox-controls">
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-click="data.expand()"><i class="fa fa-expand"></i> Expand</button>
+                    <button type="button" class="btn btn-default" ng-click="data.collapse()"><i class="fa fa-compress"></i> Collapse</button>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-body" style="display: block;">
+                    <div class="row">
+                        <div class="col-sm-5 col-md-4 col-lg-3">
+                            <form name="form_add" class="input-group input-group-sm" ng-submit="data.add()">
+                                <input type="text" class="form-control" ng-model="data.name_add" required>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default" ng-disabled="form_add.$invalid">Add</button>
+                                </span>
+                            </form>
+                            <br />
+                            <form name="form_edit" class="input-group input-group-sm" ng-submit="data.edit()" ng-if="data.current">
+                                <input type="text" class="form-control" ng-model="data.name_edit" required>
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default" ng-disabled="form_edit.$invalid">Edit</button>
+                                    <button type="button" class="btn btn-default" ng-click="data.unselect()">Cancel</button>
+                                </span>
+                            </form>
+                        </div>
+                        <div class="col-sm-7 col-md-8 col-lg-9">
+                            <rey-tree-view tree-items="tree.items" tree-options="tree.options" tree-view="tree.view"></rey-tree-view>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

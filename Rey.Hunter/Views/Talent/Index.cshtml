@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Talent>
+@{
+    this.ViewBag.Title = "Talent";
+}
+
+<div ng-controller="talent-list-ctrl">
+    <div class="filter-list well well-sm clearfix" ng-if="filter.hasItem">
+        <div class="filter-category" ng-repeat="category in filter.categories" ng-if="category.hasItem">
+            <span class="name">{{category.text}}:</span>
+            <span class="values">
+                <span class="label label-primary" ng-repeat="item in category.items">{{item.text}} <i class="fa fa-remove" ng-click="item.remove()"></i></span>
+            </span>
+            <span class="actions btn-group btn-group-xs">
+                <button type="button" class="btn btn-danger btn-xs" ng-click="category.clearItems()"><i class="fa fa-trash"></i> Clear</button>
+            </span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="box-body no-padding">
+            <div class="mailbox-controls">
+                <rey-selector-all rey-class="btn btn-default btn-sm">All</rey-selector-all>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-click="create()"><i class="fa fa-plus"></i> Create</button>
+                    <button type="button" class="btn btn-danger" ng-disabled="selector.data(true).length === 0" ng-click="batchDelete(selector.idList(true))"><i class="fa fa-trash-o"></i> Delete</button>
+                </div>
+                <div class="box-tools pull-right">
+                    <form class="input-group input-group-sm" style="width:460px;" method="get" action="">
+                        @Html.TextBox("search", null, new { @class = "form-control", placeholder = "Name / Mobile/ Phone / EMail" })
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-default" data-toggle="control-sidebar"><i class="fa fa-filter"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                    @foreach (var item in this.Model) {
+                        <tr>
+                            <td width="40">
+                                <rey-selector-item rey-id="@item.Id"></rey-selector-item>
+                            </td>
+                            <td><a href="/Talent/@item.Id">@item.EnglishName</a></td>
+                            <td width="160">@item.CreateAt</td>
+                            <td width="130" align="right">
+                                <div class="btn-group btn-group-xs">
+                                    <button class="btn btn-default" ng-click="update('@item.Id')"><i class="fa fa-edit"></i> Edit</button>
+                                    <button type="button" class="btn btn-danger" ng-click="delete('@item.Id')"><i class="fa fa-trash-o"></i> Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer" style="padding:0 5px;">
+            <th:pagination data="this.ViewBag.PageData" size="Small"></th:pagination>
+        </div>
+    </div>
+
+    <rey-sidebar>
+        <rey-filter-panel>
+            <rey-filter-category rey-name="EnglishName"
+                                 rey-text="English Name">
+                <label>English Name:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="ChineseName"
+                                 rey-text="Chinese Name">
+                <label>Chinese Name:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="CurrentLocation"
+                                 rey-text="Current Location"
+                                 rey-uri="/api/location/"
+                                 rey-structure="tree">
+                <label>Current Location:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/location/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="MobilityLocation"
+                                 rey-text="Mobility Location"
+                                 rey-uri="/api/location/"
+                                 rey-structure="tree">
+                <label>Mobility Location:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/location/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Gender"
+                                 rey-uri="/api/enum/gender">
+                <label>Gender:</label>
+                <form class="input-group" ng-submit="$category.item($value.value, $value.desc);$value=null;">
+                    <rey-enum-select rey-default="Not Selected"
+                                     rey-uri="/api/enum/gender"
+                                     rey-attr-name="desc"
+                                     ng-model="$value"></rey-enum-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+        </rey-filter-panel>
+        <div class="btn-group btn-group-justified" style="position:absolute;bottom:0;left:0;right:0;">
+            <a href="javascript:void(0);" class="btn btn-primary" ng-click="filter.get()">OK</a>
+            <a href="javascript:void(0);" class="btn btn-default" data-toggle="control-sidebar">Cancel</a>
+        </div>
+    </rey-sidebar>
+</div>

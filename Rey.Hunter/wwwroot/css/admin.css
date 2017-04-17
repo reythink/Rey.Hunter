@@ -78,3 +78,5 @@ ul.editable-list { list-style: none; margin: 0; padding: 0; }
 
 .filter-panel { }
     .filter-panel .filter-category { margin: 15px 0; }
+
+.version { font-size: 10px; display: inline-block; }

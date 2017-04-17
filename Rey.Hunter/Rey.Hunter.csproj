@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionSuffix>Build</VersionSuffix>
+  </PropertyGroup>
 
   <ItemGroup>
     <Content Include="wwwroot\app\app-api.js" />

@@ -52,7 +52,6 @@
     <Content Include="wwwroot\app\services\transfer.js" />
     <Content Include="wwwroot\css\admin.css" />
     <Content Include="wwwroot\css\AdminLTE.css" />
-    <Content Include="wwwroot\css\AdminLTE.min.css" />
     <Content Include="wwwroot\css\alt\AdminLTE-bootstrap-social.css" />
     <Content Include="wwwroot\css\alt\AdminLTE-bootstrap-social.min.css" />
     <Content Include="wwwroot\css\alt\AdminLTE-fullcalendar.css" />

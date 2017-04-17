@@ -10,7 +10,7 @@
     "angular-bootstrap-checkbox": "0.5.1",
     "angular-bootstrap-switch": "0.5.1",
     "angular-growl-v2": "0.7.9",
-    "angular-ui-select": "0.19.7",
+    "angular-ui-select": "0.19.6",
     "angular-ui-sortable": "0.17.1",
     "bootstrap": "3.3.7",
     "font-awesome": "4.7.0",
@@ -20,5 +20,8 @@
     "ng-img-crop": "0.3.2",
     "underscore": "1.8.3",
     "Ionicons": "ionicons#^2.0.1"
+  },
+  "resolutions": {
+    "angular": ">1.2.0"
   }
 }

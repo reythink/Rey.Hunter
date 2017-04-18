@@ -45,6 +45,16 @@
     <Content Include="wwwroot\app\modals\candidate\index.js" />
     <Content Include="wwwroot\app\modals\company\index.html" />
     <Content Include="wwwroot\app\modals\company\index.js" />
+    <Content Include="wwwroot\app\modals\export\index.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\modals\export\index.js" />
+    <Content Include="wwwroot\app\modals\import\index.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\modals\import\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\app\modals\portrait\index.html" />
     <Content Include="wwwroot\app\modals\portrait\index.js" />
     <Content Include="wwwroot\app\modals\project\index.html" />

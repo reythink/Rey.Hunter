@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace Microsoft.AspNetCore.Mvc {
     public abstract class ReyTreeController<TNode, TKey> : ReyController
@@ -50,6 +52,34 @@ namespace Microsoft.AspNetCore.Mvc {
         public Task<IActionResult> GetChildren(TKey id) {
             return JsonInvokeManyAsync(() => {
                 return this.GetChildNodes(this.FindNode(id));
+            });
+        }
+
+        [HttpGet("export")]
+        public Task<IActionResult> Export() {
+            return this.InvokeAsync(() => {
+                var root = this.Root;
+                var contentType = "text/json";
+                var fileName = string.Format("{0}_{1}.json",
+                    typeof(TNode).Name.Replace("Node", ""),
+                    DateTime.Now.ToString("yyyyMMddHHmmss"));
+                var buffer = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(root));
+                return File(buffer, contentType, fileName);
+            });
+        }
+
+        [HttpPost("import")]
+        public Task<IActionResult> Import() {
+            return this.JsonInvokeAsync(() => {
+                foreach (var formFile in this.Request.Form.Files) {
+                    using (var input = formFile.OpenReadStream()) {
+                        using(var reader = new System.IO.StreamReader(input)) {
+                            var content = reader.ReadToEnd();
+                            var root = JsonConvert.DeserializeObject<TNode>(content);
+                            this.ReplaceRootNode(root);
+                        }
+                    }
+                }
             });
         }
 

@@ -1,0 +1,9 @@
+﻿import './category.js';
+import './channel.js';
+import './company.js';
+import './function.js';
+import './industry.js';
+import './location.js';
+import './profile.js';
+import './project.js';
+import './talent.js';

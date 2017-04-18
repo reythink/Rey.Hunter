@@ -16,12 +16,31 @@
     <Content Include="wwwroot\app\controllers\channel.js" />
     <Content Include="wwwroot\app\controllers\company.js" />
     <Content Include="wwwroot\app\controllers\function.js" />
+    <Content Include="wwwroot\app\controllers\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\app\controllers\industry.js" />
     <Content Include="wwwroot\app\controllers\location.js" />
     <Content Include="wwwroot\app\controllers\profile.js" />
     <Content Include="wwwroot\app\controllers\project.js" />
     <Content Include="wwwroot\app\controllers\talent.js" />
     <Content Include="wwwroot\app\filters\filters.js" />
+    <Content Include="wwwroot\app\filters\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\lib\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\modals\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\services\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\vendor.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\index.js" />
     <Content Include="wwwroot\app\lib\candidate\index.js" />
     <Content Include="wwwroot\app\lib\candidate\interview-panel.html" />
     <Content Include="wwwroot\app\lib\candidate\status-panel.html" />
@@ -66,40 +85,6 @@
     <Content Include="wwwroot\app\services\transfer.js" />
     <Content Include="wwwroot\css\admin.css" />
     <Content Include="wwwroot\css\AdminLTE.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-bootstrap-social.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-bootstrap-social.min.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-fullcalendar.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-fullcalendar.min.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-select2.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-select2.min.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-without-plugins.css" />
-    <Content Include="wwwroot\css\alt\AdminLTE-without-plugins.min.css" />
-    <Content Include="wwwroot\css\skins\skin-black-light.css" />
-    <Content Include="wwwroot\css\skins\skin-black-light.min.css" />
-    <Content Include="wwwroot\css\skins\skin-black.css" />
-    <Content Include="wwwroot\css\skins\skin-black.min.css" />
-    <Content Include="wwwroot\css\skins\skin-blue-light.css" />
-    <Content Include="wwwroot\css\skins\skin-blue-light.min.css" />
-    <Content Include="wwwroot\css\skins\skin-blue.css" />
-    <Content Include="wwwroot\css\skins\skin-blue.min.css" />
-    <Content Include="wwwroot\css\skins\skin-green-light.css" />
-    <Content Include="wwwroot\css\skins\skin-green-light.min.css" />
-    <Content Include="wwwroot\css\skins\skin-green.css" />
-    <Content Include="wwwroot\css\skins\skin-green.min.css" />
-    <Content Include="wwwroot\css\skins\skin-purple-light.css" />
-    <Content Include="wwwroot\css\skins\skin-purple-light.min.css" />
-    <Content Include="wwwroot\css\skins\skin-purple.css" />
-    <Content Include="wwwroot\css\skins\skin-purple.min.css" />
-    <Content Include="wwwroot\css\skins\skin-red-light.css" />
-    <Content Include="wwwroot\css\skins\skin-red-light.min.css" />
-    <Content Include="wwwroot\css\skins\skin-red.css" />
-    <Content Include="wwwroot\css\skins\skin-red.min.css" />
-    <Content Include="wwwroot\css\skins\skin-yellow-light.css" />
-    <Content Include="wwwroot\css\skins\skin-yellow-light.min.css" />
-    <Content Include="wwwroot\css\skins\skin-yellow.css" />
-    <Content Include="wwwroot\css\skins\skin-yellow.min.css" />
-    <Content Include="wwwroot\css\skins\_all-skins.css" />
-    <Content Include="wwwroot\css\skins\_all-skins.min.css" />
     <Content Include="wwwroot\img\avatar.png" />
     <Content Include="wwwroot\img\avatar04.png" />
     <Content Include="wwwroot\img\avatar2.png" />

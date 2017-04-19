@@ -1,49 +1,45 @@
-﻿@{
-    var ts = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-}
+﻿<environment names="Development">
+    <script src="/app/app.js" hash ></script>
+    <script src="/app/app-api.js" hash ></script>
+    <script src="/app/app-modal.js" hash ></script>
 
-<environment names="Development">
-    <script src="/app/app.js?ts=@ts"></script>
-    <script src="/app/app-api.js?ts=@ts"></script>
-    <script src="/app/app-modal.js?ts=@ts"></script>
+    <script src="/app/modals/talent/index.js" hash ></script>
+    <script src="/app/modals/company/index.js" hash ></script>
+    <script src="/app/modals/project/index.js" hash ></script>
+    <script src="/app/modals/candidate/index.js" hash ></script>
+    <script src="/app/modals/portrait/index.js" hash ></script>
+    <script src="/app/modals/export/index.js" hash ></script>
+    <script src="/app/modals/import/index.js" hash ></script>
 
-    <script src="/app/modals/talent/index.js?ts=@ts"></script>
-    <script src="/app/modals/company/index.js?ts=@ts"></script>
-    <script src="/app/modals/project/index.js?ts=@ts"></script>
-    <script src="/app/modals/candidate/index.js?ts=@ts"></script>
-    <script src="/app/modals/portrait/index.js?ts=@ts"></script>
-    <script src="/app/modals/export/index.js?ts=@ts"></script>
-    <script src="/app/modals/import/index.js?ts=@ts"></script>
+    <script src="/app/services/transfer.js" hash ></script>
+    <script src="/app/services/generator.js" hash ></script>
+    <script src="/app/services/page.js" hash ></script>
 
-    <script src="/app/services/transfer.js?ts=@ts"></script>
-    <script src="/app/services/generator.js?ts=@ts"></script>
-    <script src="/app/services/page.js?ts=@ts"></script>
+    <script src="/app/filters/filters.js" hash ></script>
+    <script src="/app/filters/directives.js" hash ></script>
 
-    <script src="/app/filters/filters.js?ts=@ts"></script>
-    <script src="/app/filters/directives.js?ts=@ts"></script>
+    <script src="/app/directives/candidate/index.js" hash ></script>
+    <script src="/app/directives/datepicker/index.js" hash ></script>
+    <script src="/app/directives/enumselect/index.js" hash ></script>
+    <script src="/app/directives/filter/index.js" hash ></script>
+    <script src="/app/directives/multiselect/index.js" hash ></script>
+    <script src="/app/directives/selector/index.js" hash ></script>
+    <script src="/app/directives/sidebar/index.js" hash ></script>
+    <script src="/app/directives/singleselect/index.js" hash ></script>
+    <script src="/app/directives/treeview/index.js" hash ></script>
 
-    <script src="/app/directives/candidate/index.js?ts=@ts"></script>
-    <script src="/app/directives/datepicker/index.js?ts=@ts"></script>
-    <script src="/app/directives/enumselect/index.js?ts=@ts"></script>
-    <script src="/app/directives/filter/index.js?ts=@ts"></script>
-    <script src="/app/directives/multiselect/index.js?ts=@ts"></script>
-    <script src="/app/directives/selector/index.js?ts=@ts"></script>
-    <script src="/app/directives/sidebar/index.js?ts=@ts"></script>
-    <script src="/app/directives/singleselect/index.js?ts=@ts"></script>
-    <script src="/app/directives/treeview/index.js?ts=@ts"></script>
-
-    <script src="/app/controllers/talent.js?ts=@ts"></script>
-    <script src="/app/controllers/company.js?ts=@ts"></script>
-    <script src="/app/controllers/project.js?ts=@ts"></script>
-    <script src="/app/controllers/industry.js?ts=@ts"></script>
-    <script src="/app/controllers/function.js?ts=@ts"></script>
-    <script src="/app/controllers/location.js?ts=@ts"></script>
-    <script src="/app/controllers/category.js?ts=@ts"></script>
-    <script src="/app/controllers/channel.js?ts=@ts"></script>
-    <script src="/app/controllers/profile.js?ts=@ts"></script>
+    <script src="/app/controllers/talent.js" hash ></script>
+    <script src="/app/controllers/company.js" hash ></script>
+    <script src="/app/controllers/project.js" hash ></script>
+    <script src="/app/controllers/industry.js" hash ></script>
+    <script src="/app/controllers/function.js" hash ></script>
+    <script src="/app/controllers/location.js" hash ></script>
+    <script src="/app/controllers/category.js" hash ></script>
+    <script src="/app/controllers/channel.js" hash ></script>
+    <script src="/app/controllers/profile.js" hash ></script>
 </environment>
 <environment names="Production">
-    <script src="/dist/manifest.bundle.js"></script>
-    <script src="/dist/vendor.bundle.js"></script>
-    <script src="/dist/main.bundle.js"></script>
+    <script src="/dist/manifest.bundle.js" hash ></script>
+    <script src="/dist/vendor.bundle.js" hash ></script>
+    <script src="/dist/main.bundle.js" hash ></script>
 </environment>

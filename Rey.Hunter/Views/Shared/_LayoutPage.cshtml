@@ -5,17 +5,14 @@
 }
 
 @section Head{
-    <link href="/css/skins/_all-skins.min.css" rel="stylesheet" />
-    <link href="/lib/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet" />
-    <link href="/lib/angular-growl-v2/build/angular-growl.min.css" rel="stylesheet" />
-    <link href="/lib/angular-ui-select/dist/select.min.css" rel="stylesheet" />
+    @Html.Partial("Partials/_LayoutPageStyles")
     @RenderSection("Head", false)
 }
 <body class="hold-transition skin-blue sidebar-mini fixed" ng-app="app">
     <div growl></div>
     <div class="wrapper">
         <header class="main-header">
-            @{ 
+            @{
                 var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             }
             <a href="/" class="logo">
@@ -146,29 +143,7 @@
             <strong>Copyright &copy; 2016-2018 <a href="http://www.reythink.com" target="_blank">Reythink</a>.</strong> All rights reserved.
         </footer>
     </div>
-    <script src="/lib/underscore/underscore-min.js"></script>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/lib/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="/js/app.js"></script>
-
-    <script src="/lib/angular/angular.min.js"></script>
-    <script src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="/lib/angular-resource/angular-resource.min.js"></script>
-    <script src="/lib/angular-animate/angular-animate.min.js"></script>
-
-    <script src="/lib/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="/lib/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
-    <script src="/lib/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
-    <script src="/lib/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
-    <script src="/lib/angular-growl-v2/build/angular-growl.min.js"></script>
-    <script src="/lib/bootbox/bootbox.js"></script>
-    <script src="/lib/ngBootbox/dist/ngBootbox.min.js"></script>
-    <script src="/lib/ng-file-upload/ng-file-upload-all.min.js"></script>
-    <script src="/lib/angular-ui-select/dist/select.min.js"></script>
-    <script src="/lib/ng-img-crop/compile/minified/ng-img-crop.js"></script>
-
+    @Html.Partial("Partials/_LayoutPageScripts")
     @Html.Partial("Partials/_LayoutPageScriptsApp")
     @RenderSection("Body", false)
 </body>

@@ -44,7 +44,7 @@ namespace Rey.Hunter.TagHelpers.Pagination {
                     if (key.Equals("page", StringComparison.CurrentCultureIgnoreCase)) {
                         query = query.Add("page", index.ToString());
                     } else {
-                        query = query.Add(key, request.Query[key]);
+                        query += new QueryString($"?{key}={request.Query[key]}");
                     }
                 }
             }

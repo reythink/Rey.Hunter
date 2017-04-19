@@ -49,14 +49,8 @@
     <Content Include="wwwroot\app\directives\singleselect\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\app\directives\treeview\index.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\app\directives\treeview\index.js" />
     <Content Include="wwwroot\app\filters\directives.js" />
-    <Content Include="wwwroot\app\filters\filters - Copy.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\app\filters\filters.js" />
     <Content Include="wwwroot\app\filters\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

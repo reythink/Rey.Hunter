@@ -11,6 +11,8 @@ namespace Rey.Hunter.Controllers {
             string[] industry,
             string[] type,
             string[] status,
+            string orderBy,
+            string orderDirection,
             int page = 1) {
 
             var builder = new QueryBuilder<Company>(this.GetMonCollection<Company>());
@@ -21,7 +23,7 @@ namespace Rey.Hunter.Controllers {
             builder.AddEnumInFilter(x => x.Type, type);
             builder.AddEnumInFilter(x => x.Status, status);
 
-            var query = builder.Build().OrderByDescending(x => x.Id);
+            var query = builder.Build().Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 

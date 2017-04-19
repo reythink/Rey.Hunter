@@ -58,6 +58,7 @@
     <Content Include="wwwroot\app\modals\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\app\services\order.js" />
     <Content Include="wwwroot\app\services\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

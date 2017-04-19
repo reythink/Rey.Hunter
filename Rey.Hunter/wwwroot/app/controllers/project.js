@@ -15,7 +15,8 @@
                    .initCreate()
                    .initUpdate()
                    .initDelete()
-                   .initBatchDelete();
+                   .initBatchDelete()
+                   .initOrder();
 
                $scope.selector = selector;
                $scope.filter = filter;

@@ -1,6 +1,8 @@
 ﻿(function () {
     'use strict';
 
+
+
     angular
         .module('app')
         .controller('talent-list-ctrl', [
@@ -16,7 +18,8 @@
                     .initCreate()
                     .initUpdate()
                     .initDelete()
-                    .initBatchDelete();
+                    .initBatchDelete()
+                    .initOrder();
 
                 $scope.selector = selector;
                 $scope.filter = filter;

@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using Rey.Hunter.Models.Web;
 using Rey.Mon;
+using System.Reflection;
 
 namespace Rey.Hunter.Controllers {
     [Authorize]
@@ -20,6 +21,8 @@ namespace Rey.Hunter.Controllers {
             string[] currentLocation,
             string[] mobilityLocation,
             string[] gender,
+            string orderBy,
+            string orderDirection,
             int page = 1) {
 
             var builder = new QueryBuilder<Talent>(this.GetMonCollection<Talent>());
@@ -31,7 +34,7 @@ namespace Rey.Hunter.Controllers {
             builder.AddStringInFilter(x => x.MobilityLocations, x => x.Id, mobilityLocation);
             builder.AddEnumInFilter(x => x.Gender, gender);
 
-            var query = builder.Build().OrderByDescending(x => x.Id);
+            var query = builder.Build().Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 

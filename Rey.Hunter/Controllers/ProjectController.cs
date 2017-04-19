@@ -9,6 +9,8 @@ namespace Rey.Hunter.Controllers {
     public class ProjectController : ReyController {
         public IActionResult Index(string search,
              string[] name,
+             string orderBy,
+             string orderDirection,
              int page = 1) {
 
             var builder = new QueryBuilder<Project>(this.GetMonCollection<Project>());
@@ -16,7 +18,7 @@ namespace Rey.Hunter.Controllers {
             builder.AddSearchFilter(search, x => x.Name);
             builder.AddStringInFilter(x => x.Name, name, true);
 
-            var query = builder.Build().OrderByDescending(x => x.Id);
+            var query = builder.Build().Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 

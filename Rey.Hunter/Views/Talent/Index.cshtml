@@ -24,8 +24,19 @@
                     <button type="button" class="btn btn-default" ng-click="create()"><i class="fa fa-plus"></i> Create</button>
                     <button type="button" class="btn btn-danger" ng-disabled="selector.data(true).length === 0" ng-click="batchDelete(selector.idList(true))"><i class="fa fa-trash-o"></i> Delete</button>
                 </div>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Order By <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" ng-click="orderBy('EnglishName')">English Name </a></li>
+                        <li><a href="#" ng-click="orderBy('ChineseName')">Chinese Name</a></li>
+                        <li><a href="#" ng-click="orderBy('Birthday')">Date Of Birth</a></li>
+                        <li><a href="#" ng-click="orderBy('Gender')">Gender</a></li>
+                    </ul>
+                </div>
                 <div class="box-tools pull-right">
-                    <form class="input-group input-group-sm" style="width:460px;" method="get" action="">
+                    <form class="input-group input-group-sm search-width" method="get" action="">
                         @Html.TextBox("search", null, new { @class = "form-control", placeholder = "Name / Mobile/ Phone / EMail" })
                         <div class="input-group-btn">
                             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -34,6 +45,7 @@
                     </form>
                 </div>
             </div>
+
             <table class="table table-striped">
                 <tbody>
                     @foreach (var item in this.Model) {

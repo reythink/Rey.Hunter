@@ -8,6 +8,7 @@
         }
 
         get bootbox() { return this._services.bootbox; }
+        get order() { return this._services.order; }
 
         get scope() { return this._options.scope; }
 
@@ -76,9 +77,19 @@
             return this;
         }
 
+        initOrder(options, orderOptions) {
+            options = angular.extend({}, ListPage.defaults.order, options);
+            var order = this.order;
+            order.init(orderOptions);
+            this.scope[options.name] = function (name) {
+                location.href = order.by(name);
+            };
+            return this;
+        }
+
         static get defaults() {
             return {
-                services: { bootbox: null },
+                services: { bootbox: null, order: null },
                 options: { scope: null, Model: null, model: null, modal: null },
                 create: { name: 'create', then: function () { location.reload(); } },
                 update: { name: 'update', then: function () { location.reload(); } },
@@ -110,6 +121,7 @@
                         }
                     }
                 },
+                order: { name: 'orderBy' },
             }
         };
     }
@@ -161,11 +173,12 @@
     angular
         .module('app')
         .service('page', [
-            '$ngBootbox',
-            function ($ngBootbox) {
+            '$ngBootbox', 'order',
+            function ($ngBootbox, order) {
                 this.list = function (options) {
                     var services = {
-                        bootbox: $ngBootbox
+                        bootbox: $ngBootbox,
+                        order: order,
                     };
                     return new ListPage(services, options);
                 };

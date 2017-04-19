@@ -2,7 +2,7 @@
     var ts = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 }
 
-<th:environment names="Development">
+<environment names="Development">
     <script src="/app/app.js?ts=@ts"></script>
     <script src="/app/app-api.js?ts=@ts"></script>
     <script src="/app/app-modal.js?ts=@ts"></script>
@@ -41,9 +41,9 @@
     <script src="/app/controllers/category.js?ts=@ts"></script>
     <script src="/app/controllers/channel.js?ts=@ts"></script>
     <script src="/app/controllers/profile.js?ts=@ts"></script>
-</th:environment>
-<th:environment names="Production">
+</environment>
+<environment names="Production">
     <script src="/dist/manifest.bundle.js"></script>
     <script src="/dist/vendor.bundle.js"></script>
     <script src="/dist/main.bundle.js"></script>
-</th:environment>
+</environment>

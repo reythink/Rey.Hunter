@@ -2,37 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Rey.Hunter.TagHelpers {
-    public class PaginationData {
-        public int Total { get; set; }
-        public int Index { get; set; }
-        public int Size { get; set; }
-        public int PrePages { get; set; }
-        public int PostPages { get; set; }
-
-        public PaginationData(int total, int index, int size = 10, int prePages = 4, int postPages = 4) {
-            this.Total = total;
-            this.Index = index;
-            this.Size = size;
-            this.PrePages = prePages;
-            this.PostPages = postPages;
-        }
-    }
-
-    public enum PaginationSize {
-        Normal,
-        Small,
-        Large
-    }
-
-    public class PaginationText {
-        public string First { get; set; } = "First";
-        public string Last { get; set; } = "Last";
-        public string Previous { get; set; } = "Previous";
-        public string Next { get; set; } = "Next";
-    }
-
+namespace Rey.Hunter.TagHelpers.Pagination {
     [HtmlTargetElement("pagination")]
     public class PaginationTagHelper : TagHelper {
         private IHttpContextAccessor HttpContext { get; }

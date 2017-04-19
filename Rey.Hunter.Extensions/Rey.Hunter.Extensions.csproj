@@ -7,12 +7,12 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus.Core" Version="1.3.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Rey.Hunter.Models\Rey.Hunter.Models.csproj" />
+    <ProjectReference Include="..\Rey.Hunter.TagHelpers\Rey.Hunter.TagHelpers.csproj" />
     <ProjectReference Include="..\Rey.Mon\Rey.Mon.csproj" />
   </ItemGroup>
 

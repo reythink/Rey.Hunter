@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Rey.Hunter.TagHelpers {
+namespace Rey.Hunter.TagHelpers.Alert {
     [HtmlTargetElement("alert")]
     public class AlertTagHelper : TagHelper {
         public string Type { get; set; } = "danger";

@@ -1,5 +1,4 @@
-﻿using Rey.Hunter.Models.Web;
-using Rey.Hunter.TagHelpers;
+﻿using Rey.Hunter.TagHelpers.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;

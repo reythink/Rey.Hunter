@@ -197,7 +197,7 @@
         get value() { return this._value; }
         get color() { return this._color; }
 
-        get class () { return this.selected ? "active" : ''; }
+        get class() { return this.selected ? "active" : ''; }
         get badgeClass() { return 'badge bg-' + (this._color || 'gray'); }
         get count() { return this.panel.getCandidates(this).length; }
         get selected() { return this.panel.getStatusSelected(this); }
@@ -237,7 +237,7 @@
         get value() { return this._value; }
         get match() { return this._match; }
 
-        get class () { return this.selected ? "active" : ''; }
+        get class() { return this.selected ? "active" : ''; }
         get count() { return this.panel.getCandidates(this.panel.status, this).length; }
 
         get selected() { return this.panel.getInterviewSelected(this); }
@@ -276,7 +276,7 @@
         .directive('reyCandidateStatusPanel', [function () {
             return {
                 restrict: 'AE',
-                templateUrl: '/app/lib/candidate/status-panel.html?r=' + Math.random(),
+                templateUrl: '/app/directives/candidate/status-panel.html?r=' + Math.random(),
                 scope: {
                 },
                 link: function (scope, element, attrs, ctrl, transclude) {
@@ -298,7 +298,7 @@
         .directive('reyCandidateInterviewPanel', [function () {
             return {
                 restrict: 'AE',
-                templateUrl: '/app/lib/candidate/interview-panel.html?r=' + Math.random(),
+                templateUrl: '/app/directives/candidate/interview-panel.html?r=' + Math.random(),
                 scope: {
                 },
                 link: function (scope, element, attrs, ctrl, transclude) {
@@ -320,7 +320,7 @@
         .directive('reyCandidateTable', [function () {
             return {
                 restrict: 'AE',
-                templateUrl: '/app/lib/candidate/table.html?r=' + Math.random(),
+                templateUrl: '/app/directives/candidate/table.html?r=' + Math.random(),
                 scope: {
                 },
                 link: function (scope, element, attrs, ctrl, transclude) {

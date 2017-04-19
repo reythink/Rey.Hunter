@@ -1,4 +1,6 @@
 ﻿(function () {
+    'use strict';
+
     class TreeViewNodeCheckbox {
         constructor(node) {
             this._node = node;
@@ -156,7 +158,7 @@
         get isVisible() {
             if (this._visible === false) { return false; }
 
-            for (var p = this._parent ; p ; p = p._parent) {
+            for (var p = this._parent; p; p = p._parent) {
                 if (!p._expanded) { return false; }
             }
 
@@ -438,11 +440,23 @@
         }
     }
 
-    angular.module('reyTreeView', ['ngSanitize'])
-        .directive('reyTreeView', function () {
+    angular.module('app')
+        .directive('reyTreeView', [function () {
             return {
                 restrict: 'E',
-                templateUrl: '/app/lib/treeview/index.html?r=' + Math.random(),
+                template: `
+<ul class="nav nav-pills nav-stacked rey-tree-view">
+    <li ng-repeat="node in treeView.toList()" ng-class="node.classes" ng-if="node.isVisible" class="tree-row">
+        <a>
+            <i ng-class="node.icon.classes" ng-style="node.icon.style" ng-click="node.toggle()" ng-if="treeView.options.show_icon"></i>
+            <i ng-class="node.checkbox.classes" ng-style="row.checkbox.style" class="tree-node-checkbox" ng-click="node.checkbox.toggle()" ng-if="treeView.options.show_checkbox"></i>
+            <span ng-bind="node.name" class="tree-node-name" ng-click="node.select()"></span>
+            <span class="pull-right tree-node-buttons" ng-if="node.buttons.length > 0">
+                <button ng-repeat="button in node.buttons" ng-class="button.classes" ng-style="button.style" ng-bind-html="button.html" ng-click="button.click(node)" ng-if="button.visible(node)"></button>
+            </span>
+        </a>
+    </li>
+</ul>`,
                 scope: {
                     treeItems: '=',
                     treeOptions: '=',
@@ -466,5 +480,5 @@
                     });
                 }
             };
-        });
+        }]);
 })();

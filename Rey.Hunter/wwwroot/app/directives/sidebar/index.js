@@ -35,12 +35,14 @@
         }
     }
 
-    angular
-        .module('rey-sidebar', [])
+    angular.module('app')
         .directive('reySidebar', function () {
             return {
                 restrict: 'AE',
-                templateUrl: '/app/lib/sidebar/index.html?r=' + Math.random(),
+                template: `
+<aside class="control-sidebar control-sidebar-dark" style="height:100%;">
+    <div class="tab-content" style="height:100%;" ng-transclude></div>
+</aside>`,
                 transclude: true,
                 scope: {
                 },

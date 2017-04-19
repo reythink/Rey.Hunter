@@ -83,19 +83,19 @@
         }
     }
 
-    angular.module('rey-selector', [])
+    angular.module('app')
         .factory('selector', function () {
             return new Selector();
         })
-        .directive('reySelectorAll', function ($http, selector) {
+        .directive('reySelectorAll', ['selector', function (selector) {
             return {
                 restrict: 'E',
                 transclude: true,
                 template: `
-                <button type="button" ng-class ="reyClass" ng-click="toggle()">
-                    <i ng-class ="icon_cls()"></i>
-                    <span ng-transclude></span>
-                </button>`,
+<button type="button" ng-class ="reyClass" ng-click="toggle()">
+    <i ng-class ="icon_cls()"></i>
+    <span ng-transclude></span>
+</button>`,
                 scope: {
                     reyClass: '@'
                 },
@@ -111,8 +111,8 @@
                     };
                 }
             };
-        })
-        .directive('reySelectorItem', function ($http, selector) {
+        }])
+        .directive('reySelectorItem', ['selector', function (selector) {
             return {
                 restrict: 'E',
                 template: `<checkbox ng-model="checked" ng-change="changed()" class="select-item"></checkbox>`,
@@ -130,5 +130,5 @@
                     };
                 }
             };
-        });
+        }]);
 })();

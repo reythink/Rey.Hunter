@@ -24,11 +24,41 @@
     <Content Include="wwwroot\app\controllers\profile.js" />
     <Content Include="wwwroot\app\controllers\project.js" />
     <Content Include="wwwroot\app\controllers\talent.js" />
-    <Content Include="wwwroot\app\filters\filters.js" />
-    <Content Include="wwwroot\app\filters\index.js">
+    <Content Include="wwwroot\app\directives\candidate\index.js" />
+    <Content Include="wwwroot\app\directives\candidate\interview-panel.html" />
+    <Content Include="wwwroot\app\directives\candidate\status-panel.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\app\lib\index.js">
+    <Content Include="wwwroot\app\directives\candidate\table.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\directives\datepicker\index.js" />
+    <Content Include="wwwroot\app\directives\enumselect\index.js" />
+    <Content Include="wwwroot\app\directives\filter\index.js" />
+    <Content Include="wwwroot\app\directives\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\directives\multiselect\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\directives\selector\index.js" />
+    <Content Include="wwwroot\app\directives\sidebar\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\directives\singleselect\index.html" />
+    <Content Include="wwwroot\app\directives\singleselect\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\directives\treeview\index.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\directives\treeview\index.js" />
+    <Content Include="wwwroot\app\filters\directives.js" />
+    <Content Include="wwwroot\app\filters\filters - Copy.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\filters\filters.js" />
+    <Content Include="wwwroot\app\filters\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\app\modals\index.js">
@@ -41,25 +71,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\app\index.js" />
-    <Content Include="wwwroot\app\lib\candidate\index.js" />
-    <Content Include="wwwroot\app\lib\candidate\interview-panel.html" />
-    <Content Include="wwwroot\app\lib\candidate\status-panel.html" />
-    <Content Include="wwwroot\app\lib\candidate\table.html" />
-    <Content Include="wwwroot\app\lib\datepicker\index.html" />
-    <Content Include="wwwroot\app\lib\datepicker\index.js" />
-    <Content Include="wwwroot\app\lib\enumselect\index.html" />
-    <Content Include="wwwroot\app\lib\enumselect\index.js" />
-    <Content Include="wwwroot\app\lib\filter\index.js" />
-    <Content Include="wwwroot\app\lib\multiselect\index.html" />
-    <Content Include="wwwroot\app\lib\multiselect\index.js" />
-    <Content Include="wwwroot\app\lib\selector\index.js" />
-    <Content Include="wwwroot\app\lib\sidebar\index.html" />
-    <Content Include="wwwroot\app\lib\sidebar\index.js" />
-    <Content Include="wwwroot\app\lib\singleselect\index.html" />
-    <Content Include="wwwroot\app\lib\singleselect\index.js" />
-    <Content Include="wwwroot\app\lib\treeview\index.css" />
-    <Content Include="wwwroot\app\lib\treeview\index.html" />
-    <Content Include="wwwroot\app\lib\treeview\index.js" />
     <Content Include="wwwroot\app\modals\candidate\index.html" />
     <Content Include="wwwroot\app\modals\candidate\index.js" />
     <Content Include="wwwroot\app\modals\company\index.html" />
@@ -138,7 +149,7 @@
     <ProjectReference Include="..\Rey.Mon\Rey.Mon.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\app\directives\transform\" />
+    <Folder Include="wwwroot\app\directives\multiselect\" />
   </ItemGroup>
 
 </Project>

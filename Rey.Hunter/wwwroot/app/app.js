@@ -6,24 +6,16 @@
             //! angular
             'ngResource',
             'ngAnimate',
+            'ngSanitize',
 
             //! third party.
             'angular-growl',
             'ui.bootstrap',
             'ui.checkbox',
+            'ui.select',
             'ngBootbox',
             'ngFileUpload',
             'ngImgCrop',
-
-            //! directives
-            'reyTreeView',
-            'rey-sidebar',
-            'rey-date-picker',
-            'rey-enum-select',
-            'rey-single-select',
-            'rey-multi-select',
-            'rey-selector',
-            'rey-filter'
         ])
         .constant('options', {
             api: {

@@ -328,7 +328,7 @@
         }
     }
 
-    angular.module('rey-filter', [])
+    angular.module('app')
         .factory('filter', [function () {
             return new Filter().init();
         }])

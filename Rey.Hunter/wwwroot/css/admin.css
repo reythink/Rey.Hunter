@@ -80,3 +80,28 @@ ul.editable-list { list-style: none; margin: 0; padding: 0; }
     .filter-panel .filter-category { margin: 15px 0; }
 
 .version { font-size: 10px; display: inline-block; }
+
+ul.rey-tree-view { }
+    ul.rey-tree-view > li.tree-row { padding: 0px; margin: 0px; }
+        ul.rey-tree-view > li.tree-row.level-1 { padding-left: 0; }
+        ul.rey-tree-view > li.tree-row.level-2 { padding-left: 20px; }
+        ul.rey-tree-view > li.tree-row.level-3 { padding-left: 40px; }
+        ul.rey-tree-view > li.tree-row.level-4 { padding-left: 60px; }
+        ul.rey-tree-view > li.tree-row.level-5 { padding-left: 80px; }
+        ul.rey-tree-view > li.tree-row.level-6 { padding-left: 100px; }
+        ul.rey-tree-view > li.tree-row.level-7 { padding-left: 120px; }
+        ul.rey-tree-view > li.tree-row.level-8 { padding-left: 140px; }
+        ul.rey-tree-view > li.tree-row.level-9 { padding-left: 160px; }
+
+        ul.rey-tree-view > li.tree-row > a > .tree-node-name { padding: 10px 0; margin: -10px 0; display: inline-block; }
+        ul.rey-tree-view > li.tree-row.selectable > a > .tree-node-name { cursor: pointer; }
+
+        ul.rey-tree-view > li.tree-row .tree-node-checkbox { cursor: pointer; }
+
+        ul.rey-tree-view > li.tree-row .tree-node-buttons { display: none; }
+        ul.rey-tree-view > li.tree-row:hover .tree-node-buttons { display: block; }
+
+        ul.rey-tree-view > li.tree-row.ng-enter { transition: 200ms linear all; position: relative; display: block; opacity: 0; max-height: 0px; }
+        ul.rey-tree-view > li.tree-row.ng-enter-active { opacity: 1; max-height: 60px; }
+        ul.rey-tree-view > li.tree-row.ng-leave { transition: 200ms linear all; position: relative; display: block; height: 60px; max-height: 30px; opacity: 1; }
+        ul.rey-tree-view > li.tree-row.ng-leave-active { height: 0px; max-height: 0px; opacity: 0; }

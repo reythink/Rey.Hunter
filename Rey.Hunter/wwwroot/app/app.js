@@ -16,6 +16,7 @@
             'ngBootbox',
             'ngFileUpload',
             'ngImgCrop',
+            'frapontillo.bootstrap-switch',
         ])
         .constant('options', {
             api: {

@@ -5,3 +5,4 @@ import './import';
 import './portrait';
 import './project';
 import './talent';
+import './role';

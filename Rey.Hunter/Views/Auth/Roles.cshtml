@@ -2,25 +2,42 @@
 @{
     this.ViewBag.Title = "Role";
 }
-<div ng-app="app-role" ng-controller="app-role-ctrl">
-    <div growl></div>
+<div ng-controller="role-list-ctrl">
+    <div class="filter-list well well-sm clearfix" ng-if="filter.hasItem">
+        <div class="filter-category" ng-repeat="category in filter.categories" ng-if="category.hasItem">
+            <span class="name">{{category.text}}:</span>
+            <span class="values">
+                <span class="label label-primary" ng-repeat="item in category.items">{{item.text}} <i class="fa fa-remove" ng-click="item.remove()"></i></span>
+            </span>
+            <span class="actions btn-group btn-group-xs">
+                <button type="button" class="btn btn-danger btn-xs" ng-click="category.clearItems()"><i class="fa fa-trash"></i> Clear</button>
+            </span>
+        </div>
+    </div>
+
     <div class="box">
         <div class="box-body no-padding">
             <div class="mailbox-controls">
-                <button type="button" class="btn btn-default btn-sm" ng-click="selector.toggle_all()">
-                    <i ng-if="!selector.all_selected()" class="fa fa-fw fa-square-o"></i>
-                    <i ng-if="selector.all_selected()" class="fa fa-fw fa-check-square-o"></i>
-                    All
-                </button>
+                <rey-selector-all rey-class="btn btn-default btn-sm">All</rey-selector-all>
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default" ng-click="create()"><i class="fa fa-plus"></i> Create</button>
-                    <button type="button" class="btn btn-danger" ng-disabled="selector.selected_count() === 0" ng-click="batch_delete(selector.selected_id_list())"><i class="fa fa-trash-o"></i> Delete</button>
+                    <button type="button" class="btn btn-danger" ng-disabled="selector.data(true).length === 0" ng-click="batchDelete(selector.idList(true))"><i class="fa fa-trash-o"></i> Delete</button>
+                </div>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Order By {{order.current.text}} {{order.current.direction}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" ng-click="order.by('Name')">Name </a></li>
+                        <li><a href="#" ng-click="order.by('CreateAt','Create At')">Create At</a></li>
+                    </ul>
                 </div>
                 <div class="box-tools pull-right">
-                    <form action="">
-                        <div class="has-feedback">
-                            @Html.TextBox("search", null, new { @class = "form-control input-sm", placeholder = "Search" })
-                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    <form class="input-group input-group-sm search-width" method="get" action="">
+                        @Html.TextBox("search", null, new { @class = "form-control", placeholder = "Name" })
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-default" data-toggle="control-sidebar"><i class="fa fa-filter"></i></button>
                         </div>
                     </form>
                 </div>
@@ -28,31 +45,28 @@
             <table class="table table-striped">
                 <tbody>
                     @foreach (var item in this.Model) {
-                        <tr>
-                            <td width="40">
-                                @if (!item.IsSuper) {
-                                    <checkbox ng-model="selector.models['@item.Id']" class="select-item"></checkbox>
-                                }
-                            </td>
-                            <td width="220">@item.Id</td>
-                            <td>@item.Name</td>
-                            <td width="70" align="center">
-                                @if (item.Enabled) {
-                                    <span class="label label-primary">Enabled</span>
+                    <tr>
+                        <td width="40">
+                            <rey-selector-item rey-id="@item.Id"></rey-selector-item>
+                        </td>
+                        <td>@item.Name</td>
+                        <td width="70" align="center">
+                            @if (item.Enabled) {
+                                <span class="label label-primary">Enabled</span>
                                 } else {
-                                    <span class="label label-default">Disabled</span>
+                                <span class="label label-default">Disabled</span>
                                 }
-                            </td>
-                            <td width="210" align="right">
-                                <div class="btn-group btn-group-xs">
-                                    <button class="btn btn-default" ng-click="update('@item.Id')"><i class="fa fa-edit"></i> Edit</button>
-                                    @if (!item.IsSuper) {
-                                        <button class="btn btn-default" ng-click="config_role_auth('@item.Id')"><i class="fa fa-unlock-alt"></i> Authority</button>
-                                                <button type="button" class="btn btn-danger" ng-click="delete('@item.Id')"><i class="fa fa-trash-o"></i> Delete</button>
+                        </td>
+                        <td width="210" align="right">
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-default" ng-click="update('@item.Id')"><i class="fa fa-edit"></i> Edit</button>
+                                @if (!item.IsSuper) {
+                                    <button class="btn btn-default" ng-click="auth('@item.Id')"><i class="fa fa-unlock-alt"></i> Authority</button>
+                                    <button type="button" class="btn btn-danger" ng-click="delete('@item.Id')"><i class="fa fa-trash-o"></i> Delete</button>
                                     }
-                                </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -61,14 +75,28 @@
             <pagination data="this.ViewBag.PageData" size="Small"></pagination>
         </div>
     </div>
+
+    <rey-sidebar>
+        <rey-filter-panel>
+            <rey-filter-category rey-name="Name">
+                <label>English Name:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+        </rey-filter-panel>
+        <div class="btn-group btn-group-justified" style="position:absolute;bottom:0;left:0;right:0;">
+            <a href="javascript:void(0);" class="btn btn-primary" ng-click="filter.get()">OK</a>
+            <a href="javascript:void(0);" class="btn btn-default" data-toggle="control-sidebar">Cancel</a>
+        </div>
+    </rey-sidebar>
 </div>
 @section Head{
     <style type="text/css">
         .checkbox-inline + .checkbox-inline { margin-left: 0; }
         .checkbox-inline { width: 33.3333%; }
     </style>
-}
-@section Body{
-    <script src="/app/modals/modal-role.js"></script>
-    <script src="/app/app-role.js"></script>
 }

@@ -7,34 +7,33 @@ using System.Linq;
 namespace Rey.Hunter.Controllers {
     [Authorize]
     public class AuthController : ReyController {
-        private ILoginContext<User> LoginCtx { get; }
+        public IActionResult Roles(string search,
+            string[] name,
+            string orderBy,
+            string orderDirection,
+            int page = 1) {
 
-        public AuthController(ILoginContext<User> loginCtx) {
-            this.LoginCtx = loginCtx;
-        }
+            var builder = new QueryBuilder<Role>(this.GetMonCollection<Role>());
+            builder.AddAccountFilter(this.CurrentAccount().Id);
+            builder.AddSearchFilter(search, x => x.Name);
+            builder.AddStringInFilter(x => x.Name, name, true);
 
-        public IActionResult Roles(string search, int page = 1) {
-            var query = this.GetMonCollection<Role>().Query()
-                .Where(x => x.Account.Id.Equals(this.CurrentAccount().Id));
-
-            if (!string.IsNullOrEmpty(search)) {
-                query = query.Where(x => x.Name.ToLower().Contains(search.ToLower()));
-            }
-
-            query = query.OrderByDescending(x => x.Id);
+            var query = builder.Build().Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 
-        public IActionResult Users(string search, int page = 1) {
-            var query = this.GetMonCollection<User>().Query()
-                .Where(x => x.Account.Id.Equals(this.CurrentAccount().Id));
+        public IActionResult Users(string search,
+            string[] name,
+            string orderBy,
+            string orderDirection,
+            int page = 1) {
 
-            if (!string.IsNullOrEmpty(search)) {
-                query = query.Where(x => x.Name.ToLower().Contains(search.ToLower())
-                || x.Email.ToLower().Contains(search.ToLower()));
-            }
+            var builder = new QueryBuilder<User>(this.GetMonCollection<User>());
+            builder.AddAccountFilter(this.CurrentAccount().Id);
+            builder.AddSearchFilter(search, x => x.Name);
+            builder.AddStringInFilter(x => x.Name, name, true);
 
-            query = query.OrderByDescending(x => x.Id);
+            var query = builder.Build().Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
     }

@@ -1,0 +1,53 @@
+﻿<div class="modal-header clearfix">
+    <h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body">
+    <div class="box">
+        <div class="box-body no-padding">
+            <div class="mailbox-controls">
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-click="toggle_select_all('all')">
+                        <i ng-if="!selected_all('all')" class="fa fa-fw fa-square-o"></i>
+                        <i ng-if="selected_all('all')" class="fa fa-fw fa-check-square-o"></i>
+                        All
+                    </button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-repeat="activity in activities">
+                            <a href="javascript:void(0);" ng-click="toggle_select_all(activity.name)">
+                                <i ng-if="!selected_all(activity.name)" class="fa fa-fw fa-square-o"></i>
+                                <i ng-if="selected_all(activity.name)" class="fa fa-fw fa-check-square-o"></i>
+                                {{activity.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <table class="table table-condensed table-striped">
+                <tbody>
+                    <tr ng-repeat="item in items">
+                        <td width="120">
+                            <button type="button" class="btn btn-sm btn-default" ng-click="toggle_select_item(item)">
+                                <i ng-if="!selected_item(item)" class="fa fa-fw fa-square-o"></i>
+                                <i ng-if="selected_item(item)" class="fa fa-fw fa-check-square-o"></i>
+                                {{item.target.name}}
+                            </button>
+                        </td>
+                        <td>
+                            <div ng-repeat="activity in item.activities" class="checkbox-inline">
+                                <label><checkbox ng-model="activity.selected"></checkbox> {{activity.name}}</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-click="ok()"><i class="fa fa-save"></i> Save</button>
+</div>

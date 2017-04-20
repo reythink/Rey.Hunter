@@ -11,6 +11,8 @@
             'modal_portrait',
             'modal_export',
             'modal_import',
+            'modal_role',
+            'modal_role_auth',
             function (
                 modal_talent,
                 modal_company,
@@ -18,7 +20,9 @@
                 modal_candidate,
                 modal_portrait,
                 modal_export,
-                modal_import
+                modal_import,
+                modal_role,
+                modal_role_auth
             ) {
                 this.talent = modal_talent;
                 this.company = modal_company;
@@ -27,5 +31,7 @@
                 this.portrait = modal_portrait;
                 this.export = modal_export;
                 this.import = modal_import;
+                this.role = modal_role;
+                this.role_auth = modal_role_auth;
             }]);
 })();

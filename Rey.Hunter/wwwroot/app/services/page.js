@@ -85,6 +85,17 @@
             return this;
         }
 
+        initAuth(options) {
+            options = angular.extend({}, ListPage.defaults.auth, options);
+            var Model = this.Model;
+            this.scope[options.name] = function (id) {
+                Model.get({ id: id }, function (model) {
+                    options.modal.open(model).result.then(options.then);
+                });
+            };
+            return this;
+        }
+
         static get defaults() {
             return {
                 services: { bootbox: null, order: null },
@@ -120,6 +131,7 @@
                     }
                 },
                 order: { name: 'order' },
+                auth: { name: 'auth', modal: null, then: function () { location.reload(); } },
             }
         };
     }

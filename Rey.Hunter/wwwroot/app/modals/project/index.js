@@ -4,9 +4,10 @@
     angular
         .module('app')
         .service('modal_project', [
-            '$uibModal', 'modal_options',
-            function ($uibModal, modal_options) {
+            '$uibModal', 'modal_options', 'api',
+            function ($uibModal, modal_options, api) {
                 this.open = function (model) {
+                    model = model || new api.Project();
                     var options = {
                         templateUrl: '/app/modals/project/index.html?r=' + Math.random(),
                         controller: [
@@ -21,7 +22,7 @@
                                 $scope.ok = function () {
                                     $scope.model.$save(function (resp) {
                                         if (resp.err.code === 0) {
-                                            $uibModalInstance.close('save');
+                                            $uibModalInstance.close($scope.model);
                                         }
                                     });
                                 };

@@ -49,7 +49,7 @@
                                     $scope.model.$save(function (resp) {
                                         if (resp.err.code === 0) {
                                             candidates = $scope.model.candidates;
-                                            $uibModalInstance.close('save');
+                                            $uibModalInstance.close($scope.model);
                                         }
                                     });
                                 };

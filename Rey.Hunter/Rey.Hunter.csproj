@@ -15,6 +15,7 @@
     <Content Include="wwwroot\app\controllers\category.js" />
     <Content Include="wwwroot\app\controllers\channel.js" />
     <Content Include="wwwroot\app\controllers\company.js" />
+    <Content Include="wwwroot\app\controllers\dashboard.js" />
     <Content Include="wwwroot\app\controllers\function.js" />
     <Content Include="wwwroot\app\controllers\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

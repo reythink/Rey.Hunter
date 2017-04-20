@@ -14,7 +14,12 @@
                 }
 
                 for (var name in config) {
-                    model[name] = config[name](model[name]);
+                    var value = model[name];
+                    if (typeof (value) === 'undefined') {
+                        continue;
+                    }
+
+                    model[name] = config[name](value);
                 }
                 return model;
             };

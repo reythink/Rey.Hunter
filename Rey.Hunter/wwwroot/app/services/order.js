@@ -118,11 +118,23 @@
         get search() { return location.search || this._options.search; }
         get nameBy() { return this._options.nameBy; }
         get nameDirection() { return this._options.nameDirection; }
+        get nameText() { return this._options.nameText; }
         get query() {
             if (typeof (this._query) === 'undefined' || this._query === null) {
                 this._query = QueryString.parse(this.search);
             }
             return this._query;
+        }
+        get current() {
+            var by = this.query.get(this.nameBy);
+            if (by === null) { return null; }
+            var text = this.query.get(this.nameText);
+            var direction = this.query.get(this.nameDirection);
+            return {
+                by: by.value,
+                text: text === null ? by.value : text.value,
+                direction: direction === null ? '' : direction.value === 'asc' ? 'Ascending' : direction.value === 'desc' ? 'Descending' : ''
+            };
         }
 
         init(options) {
@@ -130,7 +142,7 @@
             this._query = null;
         }
 
-        by(name) {
+        by(name, text) {
             var by = this.query.get(this.nameBy);
             var direction = this.query.get(this.nameDirection);
 
@@ -144,12 +156,20 @@
                 this.query.parameter(this.nameBy, name);
                 this.query.remove(this.nameDirection);
             }
-            return location.origin + location.pathname + this.query.search;
+
+            if (text) {
+                this.query.parameter(this.nameText, text);
+            }
+            else {
+                this.query.remove(this.nameText);
+            }
+
+            location.href = location.origin + location.pathname + this.query.search;
         }
 
         static get defaults() {
             return {
-                options: { search: null, nameBy: 'orderBy', nameDirection: 'orderDirection' },
+                options: { search: null, nameBy: 'orderBy', nameDirection: 'orderDirection', nameText: 'orderText' },
             }
         };
     }

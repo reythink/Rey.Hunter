@@ -81,9 +81,7 @@
             options = angular.extend({}, ListPage.defaults.order, options);
             var order = this.order;
             order.init(orderOptions);
-            this.scope[options.name] = function (name) {
-                location.href = order.by(name);
-            };
+            this.scope[options.name] = order;
             return this;
         }
 
@@ -121,7 +119,7 @@
                         }
                     }
                 },
-                order: { name: 'orderBy' },
+                order: { name: 'order' },
             }
         };
     }

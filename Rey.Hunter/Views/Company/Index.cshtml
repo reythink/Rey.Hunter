@@ -26,12 +26,12 @@
                 </div>
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Order By <span class="caret"></span>
+                        Order By {{order.current.text}} {{order.current.direction}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" ng-click="orderBy('Name')">Name </a></li>
-                        <li><a href="#" ng-click="orderBy('Type')">Type</a></li>
-                        <li><a href="#" ng-click="orderBy('Status')">Status</a></li>
+                        <li><a href="#" ng-click="order.by('Name')">Name </a></li>
+                        <li><a href="#" ng-click="order.by('Type')">Type</a></li>
+                        <li><a href="#" ng-click="order.by('Status')">Status</a></li>
                     </ul>
                 </div>
                 <div class="box-tools pull-right">

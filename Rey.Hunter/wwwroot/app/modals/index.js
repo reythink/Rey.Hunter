@@ -6,3 +6,4 @@ import './portrait';
 import './project';
 import './talent';
 import './role';
+import './user';

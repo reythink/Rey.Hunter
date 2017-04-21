@@ -24,8 +24,10 @@
     <Content Include="wwwroot\app\controllers\location.js" />
     <Content Include="wwwroot\app\controllers\profile.js" />
     <Content Include="wwwroot\app\controllers\project.js" />
+    <Content Include="wwwroot\app\controllers\role - Copy.js" />
     <Content Include="wwwroot\app\controllers\role.js" />
     <Content Include="wwwroot\app\controllers\talent.js" />
+    <Content Include="wwwroot\app\controllers\user.js" />
     <Content Include="wwwroot\app\directives\candidate\index.js" />
     <Content Include="wwwroot\app\directives\candidate\interview-panel.html" />
     <Content Include="wwwroot\app\directives\candidate\status-panel.html">
@@ -65,6 +67,10 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\app\modals\role\index.js" />
+    <Content Include="wwwroot\app\modals\user\index.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\modals\user\index.js" />
     <Content Include="wwwroot\app\services\order.js" />
     <Content Include="wwwroot\app\services\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

@@ -1,0 +1,52 @@
+﻿<form name="form" class="form-horizontal" ng-submit="ok()">
+    <div class="modal-header clearfix">
+        <span class="pull-right">
+            <input bs-switch ng-if="!model.isSuper" ng-model="model.enabled" type="checkbox" switch-on-text="Enabled" switch-off-text="Disabled" switch-size="small">
+        </span>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Name" ng-model="model.name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">EMail</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" placeholder="EMail" ng-model="model.email" required>
+            </div>
+        </div>
+        <div class="form-group" ng-if="!model.id">
+            <label class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="Password" ng-model="model.data.password" required>
+            </div>
+        </div>
+        <div class="form-group" style="padding-right:15px;">
+            <label class="col-sm-2 control-label">Roles</label>
+            <div class="col-sm-10" style="padding-right:0;overflow-x:visible;">
+                <div class="mailbox-controls">
+                    <rey-selector-all rey-class="btn btn-default btn-sm">All</rey-selector-all>
+                </div>
+                <div style="max-height:300px;overflow-y:auto;">
+                    <table class="table table-condensed table-striped">
+                        <tbody>
+                            <tr ng-repeat="role in roles">
+                                <td width="36">
+                                    <rey-selector-item rey-id="role.id"></rey-selector-item>
+                                </td>
+                                <td>{{role.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid"><i class="fa fa-save"></i> Save</button>
+    </div>
+</form>

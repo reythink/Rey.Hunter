@@ -7,10 +7,11 @@
     <VersionPrefix>1.0.1</VersionPrefix>
     <VersionSuffix>Build</VersionSuffix>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot/app\directives\singleselect\index.js" />
+  </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\app\app-api.js" />
-    <Content Include="wwwroot\app\app-modal.js" />
     <Content Include="wwwroot\app\app.js" />
     <Content Include="wwwroot\app\controllers\category.js" />
     <Content Include="wwwroot\app\controllers\channel.js" />
@@ -24,7 +25,6 @@
     <Content Include="wwwroot\app\controllers\location.js" />
     <Content Include="wwwroot\app\controllers\profile.js" />
     <Content Include="wwwroot\app\controllers\project.js" />
-    <Content Include="wwwroot\app\controllers\role - Copy.js" />
     <Content Include="wwwroot\app\controllers\role.js" />
     <Content Include="wwwroot\app\controllers\talent.js" />
     <Content Include="wwwroot\app\controllers\user.js" />
@@ -49,7 +49,6 @@
     <Content Include="wwwroot\app\directives\sidebar\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\app\directives\singleselect\index.html" />
     <Content Include="wwwroot\app\directives\singleselect\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -72,8 +71,6 @@
     </Content>
     <Content Include="wwwroot\app\modals\user\index.js" />
     <Content Include="wwwroot\app\services\api.js" />
-    <Content Include="wwwroot\app\services\app-api.js" />
-    <Content Include="wwwroot\app\services\app-modal.js" />
     <Content Include="wwwroot\app\services\modal.js" />
     <Content Include="wwwroot\app\services\order.js" />
     <Content Include="wwwroot\app\services\index.js">

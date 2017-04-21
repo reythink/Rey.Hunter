@@ -9,3 +9,4 @@ import './project.js';
 import './talent.js';
 import './dashboard.js';
 import './role.js';
+import './user.js';

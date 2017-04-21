@@ -71,6 +71,10 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\app\modals\user\index.js" />
+    <Content Include="wwwroot\app\services\api.js" />
+    <Content Include="wwwroot\app\services\app-api.js" />
+    <Content Include="wwwroot\app\services\app-modal.js" />
+    <Content Include="wwwroot\app\services\modal.js" />
     <Content Include="wwwroot\app\services\order.js" />
     <Content Include="wwwroot\app\services\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

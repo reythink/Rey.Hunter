@@ -21,7 +21,7 @@
                     .initBatchDelete()
                     .initOrder();
 
-                $scope.selector = selector;
+                $scope.selector = selector.create();
                 $scope.filter = filter;
             }])
         .controller('talent-item-ctrl', [

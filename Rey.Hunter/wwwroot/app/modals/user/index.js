@@ -14,12 +14,14 @@
                             '$scope', '$uibModalInstance', 'selector',
                             function ($scope, $uibModalInstance, selector) {
                                 $scope.model = model;
-                                $scope.selector = selector;
+                                $scope.selector = selector.create();
 
                                 api.Role.query(function (resp) {
                                     $scope.roles = resp;
-                                    if (model) {
-                                        //$scope.selector.select_many(_.map(model.roles, function (role) { return role.id }));
+                                    if (model.roles) {
+                                        _.map(model.roles, (role) => {
+                                            $scope.selector.register(role.id, true);
+                                        });
                                     }
                                 });
 
@@ -28,6 +30,8 @@
                                 };
 
                                 $scope.ok = function () {
+                                    $scope.model.roles = _.map($scope.selector.items(true), (item) => { return { id: item.value } });
+
                                     $scope.model.$save(function (resp) {
                                         if (resp.err.code === 0) {
                                             $uibModalInstance.close($scope.model);

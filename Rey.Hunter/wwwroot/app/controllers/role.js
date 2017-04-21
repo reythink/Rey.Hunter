@@ -20,7 +20,7 @@
                     .initOrder()
                     .initAuth({ modal: modal.role_auth });
 
-                $scope.selector = selector;
+                $scope.selector = selector.create();
                 $scope.filter = filter;
             }])
         .controller('role-item-ctrl', [

@@ -18,7 +18,7 @@
                     .initBatchDelete()
                     .initOrder();
 
-                $scope.selector = selector;
+                $scope.selector = selector.create();
                 $scope.filter = filter;
             }])
         .controller('company-item-ctrl', [

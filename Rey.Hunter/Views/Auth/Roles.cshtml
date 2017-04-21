@@ -18,10 +18,10 @@
     <div class="box">
         <div class="box-body no-padding">
             <div class="mailbox-controls">
-                <rey-selector-all rey-class="btn btn-default btn-sm">All</rey-selector-all>
+                <rey-selector-all rey-selector="selector" rey-class="btn btn-default btn-sm">All</rey-selector-all>
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default" ng-click="create()"><i class="fa fa-plus"></i> Create</button>
-                    <button type="button" class="btn btn-danger" ng-disabled="selector.data(true).length === 0" ng-click="batchDelete(selector.idList(true))"><i class="fa fa-trash-o"></i> Delete</button>
+                    <button type="button" class="btn btn-danger" ng-disabled="selector.items(true).length === 0" ng-click="batchDelete(selector.values(true))"><i class="fa fa-trash-o"></i> Delete</button>
                 </div>
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -47,7 +47,7 @@
                     @foreach (var item in this.Model) {
                     <tr>
                         <td width="40">
-                            <rey-selector-item rey-id="@item.Id"></rey-selector-item>
+                            <rey-selector-item rey-selector="selector" rey-value="@item.Id"></rey-selector-item>
                         </td>
                         <td>@item.Name</td>
                         <td width="70" align="center">
@@ -79,7 +79,7 @@
     <rey-sidebar>
         <rey-filter-panel>
             <rey-filter-category rey-name="Name">
-                <label>English Name:</label>
+                <label>Name:</label>
                 <form class="input-group" ng-submit="$category.item($value);$value=null;">
                     <input type="text" class="form-control" ng-model="$value">
                     <div class="input-group-btn">

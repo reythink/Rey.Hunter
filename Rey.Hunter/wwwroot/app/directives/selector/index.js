@@ -3,91 +3,117 @@
 
     class Selector {
         constructor() {
-            this._list = [];
+            this._items = [];
+
         }
 
-        register(id, changed, checked) {
-            this._list.push({ id: id, changed: changed, checked: checked || false });
-        }
-
-        find(id) {
-            for (var i = 0, len = this._list.length; i < len; ++i) {
-                if (this._list[i].id === id) {
-                    return { index: i, item: this._list[i] };
-                }
+        register(value, checked) {
+            var item = this.find(value);
+            if (item !== null) {
+                return item;
             }
-            return null;
+
+            item = new SelectorItem(this, value, checked);
+            this._items.push(item);
+            return item;
         }
 
-        checked(id) {
-            if (typeof (id) === 'undefined') {
-                for (var i = 0, len = this._list.length; i < len; ++i) {
-                    if (this._list[i].checked === false) {
+        check(checked, value) {
+            if (typeof (value) === 'undefined') {
+                for (var i = 0, len = this._items.length; i < len; ++i) {
+                    this.check(checked, this._items[i].value);
+                }
+                return;
+            }
+
+            this.find(value).check(checked);
+        }
+
+        checked(value) {
+            if (typeof (value) === 'undefined') {
+                for (var i = 0, len = this._items.length; i < len; ++i) {
+                    if (this._items[i].checked === false) {
                         return false;
                     }
                 }
                 return true;
             }
 
-            return this.find(id).item.checked;
+            return this.find(value).checked;
         }
 
-        notify(checked, id) {
-            this.find(id).item.checked = checked;
+        toggle(value) {
+            this.check(!this.checked(value), value);
         }
 
-        checkItem(item, checked) {
-            if (item.checked !== checked) {
-                item.checked = checked;
-                item.changed(checked);
-            }
-        }
-
-        check(checked, id) {
-            if (typeof (id) === 'undefined') {
-                for (var i = 0, len = this._list.length; i < len; ++i) {
-                    this.checkItem(this._list[i], checked);
+        find(value) {
+            for (var i = 0, len = this._items.length; i < len; ++i) {
+                if (this._items[i].value === value) {
+                    return this._items[i];
                 }
-            } else {
-                this.checkItem(this.find(id), checked);
             }
+            return null;
         }
 
-        toggle(id) {
-            this.check(!this.checked(id), id);
-        }
-
-        data(checked) {
+        items(checked) {
             if (typeof (checked) === 'undefined') {
-                return this._list;
+                return this._items;
             }
 
             var temp = [];
-            for (var i = 0, len = this._list.length; i < len; ++i) {
-                if (this._list[i].checked === checked) {
-                    temp.push(this._list[i]);
+            for (var i = 0, len = this._items.length; i < len; ++i) {
+                if (this._items[i].checked === checked) {
+                    temp.push(this._items[i]);
                 }
             }
             return temp;
         }
 
-        idList(checked) {
+        values(checked) {
             var temp = [];
-            for (var i = 0, len = this._list.length; i < len; ++i) {
+            for (var i = 0, len = this._items.length; i < len; ++i) {
                 if (typeof (checked) === 'undefined'
-                    || this._list[i].checked === checked) {
-                    temp.push(this._list[i].id);
+                    || this._items[i].checked === checked) {
+                    temp.push(this._items[i].value);
                 }
             }
             return temp;
         }
     }
 
+    class SelectorItem {
+        constructor(selector, value, checked) {
+            this._selector = selector;
+            this._value = value;
+            this._checked = checked || false;
+            this._onChanged = [];
+        }
+
+        get selector() { return this._selector; }
+        get value() { return this._value; }
+        get checked() { return this._checked; }
+
+        onChanged(func) {
+            this._onChanged.push(func);
+            return this;
+        }
+
+        check(checked) {
+            if (this._checked === checked) { return; }
+            this._checked = checked;
+            for (var i = 0, len = this._onChanged.length; i < len; ++i) {
+                this._onChanged[i].call(this, checked);
+            }
+        }
+    }
+
     angular.module('app')
-        .factory('selector', function () {
-            return new Selector();
+        .service('selector', function () {
+            this.create = function () {
+                return new Selector();
+            };
         })
-        .directive('reySelectorAll', ['selector', function (selector) {
+        .directive('reySelectorAll', [function () {
             return {
                 restrict: 'E',
                 transclude: true,
@@ -97,9 +123,11 @@
     <span ng-transclude></span>
 </button>`,
                 scope: {
+                    reySelector: '=',
                     reyClass: '@'
                 },
                 link: function (scope, element, attrs) {
+                    var selector = scope.reySelector;
                     scope.toggle = function () {
                         selector.toggle();
                     };
@@ -112,21 +140,25 @@
                 }
             };
         }])
-        .directive('reySelectorItem', ['selector', function (selector) {
+        .directive('reySelectorItem', [function () {
             return {
                 restrict: 'E',
-                template: `<checkbox ng-model="checked" ng-change="changed()" class="select-item"></checkbox>`,
+                template: `<checkbox ng-model="checked" ng-change="change()" class="select-item"></checkbox>`,
                 scope: {
-                    reyId: '@'
+                    reySelector: '=',
+                    reyValue: '@'
                 },
                 link: function (scope, element, attrs) {
-                    scope.checked = false;
-                    selector.register(scope.reyId, function (checked) {
+                    var selector = scope.reySelector;
+                    var value = scope.reyValue;
+
+                    var item = selector.register(value).onChanged(function (checked) {
                         scope.checked = checked;
                     });
+                    scope.checked = item.checked;
 
-                    scope.changed = function () {
-                        selector.notify(scope.checked, scope.reyId);
+                    scope.change = function () {
+                        item.check(scope.checked);
                     };
                 }
             };

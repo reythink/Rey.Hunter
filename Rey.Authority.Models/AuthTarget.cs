@@ -22,37 +22,23 @@ namespace Rey.Authority.Models {
             : this(null, null) {
         }
 
+        public static TalentTarget Talent { get; } = new TalentTarget();
         public static CompanyTarget Company { get; } = new CompanyTarget();
-        public static ClientTarget Client { get; } = new ClientTarget();
-        public static CandidateTarget Candidate { get; } = new CandidateTarget();
-        public static CandidateGroupTarget CandidateGroup { get; } = new CandidateGroupTarget();
         public static ProjectTarget Project { get; } = new ProjectTarget();
 
         public static RoleAuthTarget Role { get; } = new RoleAuthTarget();
         public static UserAuthTarget User { get; } = new UserAuthTarget();
     }
 
+    public class TalentTarget : AuthTarget {
+        public TalentTarget()
+            : base("Talent", "人才") {
+        }
+    }
+
     public class CompanyTarget : AuthTarget {
         public CompanyTarget()
             : base("Company", "公司") {
-        }
-    }
-
-    public class ClientTarget : AuthTarget {
-        public ClientTarget()
-            : base("Client", "客户") {
-        }
-    }
-
-    public class CandidateTarget : AuthTarget {
-        public CandidateTarget()
-            : base("Candidate", "候选人") {
-        }
-    }
-
-    public class CandidateGroupTarget : AuthTarget {
-        public CandidateGroupTarget()
-            : base("CandidateGroup", "候选人组") {
         }
     }
 

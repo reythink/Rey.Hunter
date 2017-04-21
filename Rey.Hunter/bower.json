@@ -18,8 +18,8 @@
     "ngBootbox": "0.1.4",
     "ng-file-upload": "12.2.13",
     "ng-img-crop": "0.3.2",
-    "underscore": "1.8.3",
-    "Ionicons": "ionicons#^2.0.1"
+    "Ionicons": "ionicons#^2.0.1",
+    "lodash": "^4.17.4"
   },
   "resolutions": {
     "angular": ">1.2.0"

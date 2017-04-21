@@ -32,13 +32,11 @@ namespace Rey.Hunter {
 
             services.AddReyAuthority(authority => {
                 authority.AddMemoryAuthStore(options => {
+                    options.Add(AuthTarget.Talent, AuthActivity.DataActivities);
+                    options.Add(AuthTarget.Company, AuthActivity.DataActivities);
+                    options.Add(AuthTarget.Project, AuthActivity.DataActivities);
                     options.Add(AuthTarget.Role, AuthActivity.DataActivities);
                     options.Add(AuthTarget.User, AuthActivity.DataActivities);
-                    options.Add(AuthTarget.Company, AuthActivity.DataActivities);
-                    options.Add(AuthTarget.Client, AuthActivity.DataActivities);
-                    options.Add(AuthTarget.Candidate, AuthActivity.DataActivities);
-                    options.Add(AuthTarget.CandidateGroup, AuthActivity.DataActivities);
-                    options.Add(AuthTarget.Project, AuthActivity.DataActivities);
                 });
             });
 

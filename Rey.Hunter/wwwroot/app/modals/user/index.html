@@ -28,14 +28,14 @@
             <label class="col-sm-2 control-label">Roles</label>
             <div class="col-sm-10" style="padding-right:0;overflow-x:visible;">
                 <div class="mailbox-controls">
-                    <rey-selector-all rey-class="btn btn-default btn-sm">All</rey-selector-all>
+                    <rey-selector-all rey-selector="selector" rey-class="btn btn-default btn-sm">All</rey-selector-all>
                 </div>
                 <div style="max-height:300px;overflow-y:auto;">
                     <table class="table table-condensed table-striped">
                         <tbody>
                             <tr ng-repeat="role in roles">
                                 <td width="36">
-                                    <rey-selector-item rey-id="role.id"></rey-selector-item>
+                                    <rey-selector-item rey-selector="selector" rey-value="{{role.id}}"></rey-selector-item>
                                 </td>
                                 <td>{{role.name}}</td>
                             </tr>

@@ -19,7 +19,7 @@
                     .initBatchDelete()
                     .initOrder();
 
-                $scope.selector = selector;
+                $scope.selector = selector.create();
                 $scope.filter = filter;
             }])
         .controller('user-item-ctrl', [

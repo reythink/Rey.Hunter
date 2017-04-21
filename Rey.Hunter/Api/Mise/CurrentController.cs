@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using Rey.Hunter.Models.Web.Identity;
+using Rey.Hunter.Models.Identity;
 using System.Threading.Tasks;
 
 namespace Rey.Hunter.Api {

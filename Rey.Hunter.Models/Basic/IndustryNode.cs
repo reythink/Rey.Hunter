@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.Hunter.Models.Web.Basic {
-    [MonCollection("bus.channels")]
-    public class ChannelNode : AccountNodeModel<ChannelNode> {
+namespace Rey.Hunter.Models.Basic {
+    [MonCollection("bus.industries")]
+    public class IndustryNode : AccountNodeModel<IndustryNode> {
         public string Name { get; set; }
     }
 }

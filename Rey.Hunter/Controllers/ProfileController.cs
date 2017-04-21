@@ -1,7 +1,7 @@
 ﻿using Rey.Identity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Rey.Hunter.Models.Web.Identity;
+using Rey.Hunter.Models.Identity;
 
 namespace Rey.Hunter.Controllers {
     [Authorize]

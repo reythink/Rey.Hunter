@@ -1,10 +1,10 @@
-﻿using Rey.Hunter.Models.Web.Identity;
+﻿using Rey.Hunter.Models.Identity;
 using Rey.Identity.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Rey.Hunter.Models.Web;
+using Rey.Hunter.Models;
 
 namespace Microsoft.AspNetCore.Mvc {
     public static class LoginControllerExtensions {

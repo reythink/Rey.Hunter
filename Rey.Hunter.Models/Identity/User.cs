@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System;
 
-namespace Rey.Hunter.Models.Web.Identity {
+namespace Rey.Hunter.Models.Identity {
     [MonCollection("ide.users")]
     public class User : AccountModel, IUser {
         public string Email { get; set; }

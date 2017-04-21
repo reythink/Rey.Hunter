@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Rey.Hunter.Models.Web.Identity;
+using Rey.Hunter.Models.Identity;
 using Rey.Mon.Models;
 using System;
 using System.Collections.Generic;

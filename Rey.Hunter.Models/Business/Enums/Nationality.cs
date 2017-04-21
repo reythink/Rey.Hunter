@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.Hunter.Models.Web.Business {
+namespace Rey.Hunter.Models.Business {
     public enum Nationality {
         [EnglishDescription("Chinese(Mainland)")]
         [ChineseDescription("中国（大陆）")]

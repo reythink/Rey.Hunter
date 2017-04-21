@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver.Linq;
-using Rey.Hunter.Models.Web.Business;
+using Rey.Hunter.Models.Business;
 using System.Linq;
 
 namespace Rey.Hunter.Controllers {

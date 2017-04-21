@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.Hunter.Models.Web.Business {
+namespace Rey.Hunter.Models.Business {
     public enum CompanyStatus {
         [EnglishDescription("Normal")]
         [ChineseDescription("普通")]

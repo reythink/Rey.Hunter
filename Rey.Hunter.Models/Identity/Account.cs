@@ -2,7 +2,7 @@
 using Rey.Mon.Attributes;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Rey.Hunter.Models.Web.Identity {
+namespace Rey.Hunter.Models.Identity {
     [MonCollection("ide.accounts")]
     public class Account : Model, IAccount {
         public string Company { get; set; }

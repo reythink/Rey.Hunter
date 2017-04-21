@@ -1,5 +1,5 @@
 ﻿using Rey.Hunter.Models.Attributes;
-using Rey.Hunter.Models.Web.Business;
+using Rey.Hunter.Models.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using Rey.Hunter.Models.Web.Basic;
+using Rey.Hunter.Models.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

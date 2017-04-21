@@ -2,11 +2,11 @@
 using Rey.Mon.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
-using Rey.Hunter.Models.Web.Basic;
+using Rey.Hunter.Models.Basic;
 using System;
 using System.Collections.Generic;
 
-namespace Rey.Hunter.Models.Web.Business {
+namespace Rey.Hunter.Models.Business {
     [MonCollection("bus.projects")]
     public class Project : AccountModel {
         public string Name { get; set; }

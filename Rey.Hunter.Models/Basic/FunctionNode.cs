@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.Hunter.Models.Web.Basic {
+namespace Rey.Hunter.Models.Basic {
     [MonCollection("bas.functions")]
     public class FunctionNode : AccountNodeModel<FunctionNode> {
         public string Name { get; set; }

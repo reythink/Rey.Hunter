@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using Rey.Hunter.Models.Web;
+using Rey.Hunter.Models;
 using Rey.Mon;
 using System;
 using System.Collections.Generic;

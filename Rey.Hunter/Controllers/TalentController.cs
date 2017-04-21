@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver.Linq;
-using Rey.Hunter.Models.Web.Business;
+using Rey.Hunter.Models.Business;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Linq.Expressions;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using Rey.Hunter.Models.Web;
+using Rey.Hunter.Models;
 using Rey.Mon;
 using System.Reflection;
 

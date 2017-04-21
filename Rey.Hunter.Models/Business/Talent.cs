@@ -1,11 +1,11 @@
 ﻿using Rey.Mon.Attributes;
 using Rey.Mon.Models;
 using MongoDB.Bson.Serialization.Attributes;
-using Rey.Hunter.Models.Web.Basic;
+using Rey.Hunter.Models.Basic;
 using System;
 using System.Collections.Generic;
 
-namespace Rey.Hunter.Models.Web.Business {
+namespace Rey.Hunter.Models.Business {
     [MonCollection("bus.talents")]
     public class Talent : AccountModel {
         #region Basic Info

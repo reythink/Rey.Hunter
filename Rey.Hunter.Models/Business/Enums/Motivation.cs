@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rey.Hunter.Models.Web.Business {
+namespace Rey.Hunter.Models.Business {
     public enum Motivation {
         WillingToApply = 1,
         NotConsiderWrongTiming = 2,

@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Rey.Hunter.Models.Web.Identity;
+using Rey.Hunter.Models.Identity;
 using Rey.Identity.Services;
 using Rey.Authority.Models;
-using Rey.Hunter.Models.Web.Business;
-using Rey.Hunter.Models.Web.Basic;
+using Rey.Hunter.Models.Business;
+using Rey.Hunter.Models.Basic;
 
 namespace Rey.Hunter {
     public partial class Startup {

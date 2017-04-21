@@ -3,7 +3,7 @@ using Rey.Mon.Attributes;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
-namespace Rey.Hunter.Models.Web.Identity {
+namespace Rey.Hunter.Models.Identity {
     [MonCollection("ide.roles")]
     public class Role : AccountModel, IRole {
         public string Name { get; set; }

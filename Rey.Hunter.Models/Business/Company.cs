@@ -29,9 +29,4 @@ namespace Rey.Hunter.Models.Business {
 
         public string BasicRecruitmentPrinciple { get; set; }
     }
-
-    [MonCollection("bus.companies.groups")]
-    public class CompanyGroup : AccountModel {
-        public string Name { get; set; }
-    }
 }

@@ -17,6 +17,8 @@ namespace Rey.Mon {
         void ReplaceOne(Expression<Func<TModel, bool>> filter, TModel model);
 
         void UpdateOne(Expression<Func<TModel, bool>> filter, Func<UpdateDefinitionBuilder<TModel>, UpdateDefinition<TModel>> update);
+        void UpdateOne(Expression<Func<TModel, bool>> filter, TModel model, IEnumerable<Expression<Func<TModel, object>>> ignores);
+
         void UpdateMany(Expression<Func<TModel, bool>> filter, Func<UpdateDefinitionBuilder<TModel>, UpdateDefinition<TModel>> update);
 
         void DeleteOne(Expression<Func<TModel, bool>> filter);

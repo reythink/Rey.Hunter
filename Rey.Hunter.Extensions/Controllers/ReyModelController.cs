@@ -9,70 +9,47 @@ using System.Threading.Tasks;
 namespace Microsoft.AspNetCore.Mvc {
     public abstract class ReyModelController<TModel, TKey> : ReyController
         where TModel : class, IMonModel<TKey> {
+        public event Func<IQueryable<TModel>, IQueryable<TModel>> BeforeQuery;
+
+        public event Action<TKey> BeforeGet;
+        public event Action<TModel> AfterGet;
+
+        public event Action<TModel> BeforeCreate;
+        public event Action<TModel> AfterCreate;
+
+        public event Action<BeforeUpdateEventArgs<TModel, TKey>> BeforeUpdate;
+        public event Action<TKey, TModel> AfterUpdate;
+
+        public event Action<TModel> BeforeDelete;
+        public event Action<TModel> AfterDelete;
+
+        public event Action<IEnumerable<TKey>> BeforeBatchDelete;
+        public event Action<IEnumerable<TKey>> AfterBatchDelete;
+
         protected IMonCollection<TModel> Collection {
             get { return this.GetMonCollection<TModel>(); }
         }
 
-        protected List<Func<IQueryable<TModel>, IQueryable<TModel>>> QueryChain { get; } = new List<Func<IQueryable<TModel>, IQueryable<TModel>>>();
-        protected Func<IQueryable<TModel>, IQueryable<TModel>> Query {
-            set { this.QueryChain.Add(value); }
-        }
-
-        protected List<Func<IQueryable<TModel>, string, IQueryable<TModel>>> SearchQueryChain { get; } = new List<Func<IQueryable<TModel>, string, IQueryable<TModel>>>();
-        protected Func<IQueryable<TModel>, string, IQueryable<TModel>> SearchQuery {
-            set { this.SearchQueryChain.Add(value); }
-        }
-
-        protected List<Func<TKey, TModel>> GetChain { get; } = new List<Func<TKey, TModel>>();
-        protected Func<TKey, TModel> Get {
-            set { this.GetChain.Add(value); }
-        }
-
-        protected List<Action<TModel>> CreateChain { get; } = new List<Action<TModel>>();
-        protected Action<TModel> Create {
-            set { this.CreateChain.Add(value); }
-        }
-
-        protected List<Func<TModel, UpdateDefinitionBuilder<TModel>, UpdateDefinition<TModel>>> UpdateChain { get; } = new List<Func<TModel, UpdateDefinitionBuilder<TModel>, UpdateDefinition<TModel>>>();
-        protected Func<TModel, UpdateDefinitionBuilder<TModel>, UpdateDefinition<TModel>> Update {
-            set { this.UpdateChain.Add(value); }
-        }
-
-        protected List<Action<TModel>> DeleteChain { get; } = new List<Action<TModel>>();
-        protected Action<TModel> Delete {
-            set { this.DeleteChain.Add(value); }
-        }
-
-        protected List<Action<List<TKey>>> BatchDeleteChain { get; } = new List<Action<List<TKey>>>();
-        protected Action<List<TKey>> BatchDelete {
-            set { this.BatchDeleteChain.Add(value); }
-        }
-
         [HttpGet]
-        public Task<IActionResult> QueryAction(string search) {
+        public Task<IActionResult> QueryAction() {
             return this.JsonInvokeManyAsync(() => {
                 IQueryable<TModel> query = this.Collection.Query();
-                foreach (var action in this.QueryChain) {
-                    query = action?.Invoke(query);
-                }
-                foreach (var action in this.SearchQueryChain) {
-                    query = action?.Invoke(query, search);
-                }
-                return query;
+                return this.BeforeQuery?.Invoke(query) ?? query;
             });
         }
 
         [HttpGet("{id}")]
         public virtual Task<IActionResult> GetAction(TKey id) {
             return this.JsonInvokeOneAsync(() => {
-                TModel model = null;
-                foreach (var action in this.GetChain) {
-                    model = action?.Invoke(id);
-                }
+                if (id == null)
+                    throw new ArgumentNullException($"{nameof(id)} is null");
 
+                this.BeforeGet?.Invoke(id);
+                var model = this.Collection.FindOne(x => x.Id.Equals(id));
                 if (model == null)
-                    model = this.Collection.FindOne(x => x.Id.Equals(id));
+                    throw new InvalidOperationException($"Cannot find model by id. ${id}");
 
+                this.AfterGet?.Invoke(model);
                 return model;
             });
         }
@@ -81,12 +58,11 @@ namespace Microsoft.AspNetCore.Mvc {
         public virtual Task<IActionResult> CreateAction([FromBody]TModel model) {
             return this.JsonInvokeOneAsync(() => {
                 if (model == null)
-                    throw new ArgumentNullException("model is null");
+                    throw new ArgumentNullException($"{nameof(model)} is null");
 
-                foreach (var action in this.CreateChain) {
-                    action?.Invoke(model);
-                }
+                this.BeforeCreate?.Invoke(model);
                 this.Collection.InsertOne(model);
+                this.AfterCreate?.Invoke(model);
                 return model;
             });
         }
@@ -95,39 +71,34 @@ namespace Microsoft.AspNetCore.Mvc {
         [HttpPut("{id}")]
         public Task<IActionResult> UpdateAction(TKey id, [FromBody]TModel model) {
             return this.JsonInvokeOneAsync(() => {
+                if (id == null)
+                    throw new ArgumentNullException($"{nameof(id)} is null");
+
                 if (model == null)
-                    throw new ArgumentNullException("model is null");
+                    throw new ArgumentNullException($"{nameof(model)} is null");
 
-                var defs = new List<UpdateDefinition<TModel>>();
-                foreach (var action in this.UpdateChain) {
-                    defs.Add(action.Invoke(model, Builders<TModel>.Update));
-                }
-
-                if (defs.Count == 0)
-                    return this.Collection.FindOne(x => x.Id.Equals(id));
-
-                var update = defs.FirstOrDefault();
-                if (defs.Count > 1) {
-                    update = Builders<TModel>.Update.Combine(defs);
-                }
-
-                this.Collection.MongoCollection.UpdateOne(x => x.Id.Equals(id), update);
-                return this.Collection.FindOne(x => x.Id.Equals(id));
+                var args = new BeforeUpdateEventArgs<TModel, TKey>(id, model);
+                this.BeforeUpdate?.Invoke(args);
+                this.Collection.UpdateOne(x => x.Id.Equals(id), model, args.Ignores);
+                model = this.Collection.FindOne(x => x.Id.Equals(id));
+                this.AfterUpdate?.Invoke(id, model);
+                return model;
             });
         }
 
         [HttpDelete("{id}")]
         public Task<IActionResult> DeleteAction(TKey id) {
             return this.JsonInvokeAsync(() => {
+                if (id == null)
+                    throw new ArgumentNullException($"{nameof(id)} is null");
+
                 var model = this.Collection.FindOne(x => x.Id.Equals(id));
                 if (model == null)
-                    throw new InvalidOperationException("Invalid Id");
+                    throw new InvalidOperationException($"Cannot find model by id. ${id}");
 
-                foreach (var action in this.DeleteChain) {
-                    action?.Invoke(model);
-                }
-
+                this.BeforeDelete?.Invoke(model);
                 this.Collection.DeleteOne(x => x.Id.Equals(id));
+                this.AfterDelete?.Invoke(model);
             });
         }
 
@@ -141,11 +112,9 @@ namespace Microsoft.AspNetCore.Mvc {
                     return;
 
                 var list = id_list.ToList();
-                foreach (var action in this.BatchDeleteChain) {
-                    action?.Invoke(list);
-                }
-
+                this.BeforeBatchDelete?.Invoke(list);
                 this.Collection.DeleteMany(x => list.Contains(x.Id));
+                this.AfterBatchDelete?.Invoke(list);
             });
         }
     }

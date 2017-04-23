@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace Microsoft.AspNetCore.Mvc {
-    public class ReyAccountModelController<TModel> : ReyModelController<TModel, string>
+    public class ReyAccountModelController<TModel> : ReyStringModelController<TModel>
         where TModel : AccountModel {
         public ReyAccountModelController() {
             this.BeforeQuery += query => query.Where(x => x.Account.Id == this.CurrentAccount().Id);

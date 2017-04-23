@@ -14,6 +14,10 @@ namespace Rey.Mon.Models {
             : base(model) {
         }
 
+        public MonGuidModelRef(Guid id)
+            : base(id) {
+        }
+
         public static implicit operator MonGuidModelRef<TModel>(TModel model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));

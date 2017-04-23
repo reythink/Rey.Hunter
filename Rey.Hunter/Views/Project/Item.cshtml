@@ -21,19 +21,17 @@
                 </div>
             </div>
         </div>
-        @*<div class="box box-primary">
+        <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Actives</h3>
             </div>
             <div class="box-body">
-                <div>Add candidate By <strong>Kevin</strong></div>
-                <div class="text-muted text-right">@DateTime.Now</div>
-                <hr>
-                <div>Update status to <strong>Closed</strong> By Kevin</div>
-                <div class="text-muted text-right">@DateTime.Now</div>
-                <hr>
+                @foreach (var log in this.ViewBag.Logs) {
+                    @Html.Raw(log)
+                    <hr>
+                }
             </div>
-        </div>*@
+        </div>
     </div>
     <div class="col-md-9">
         <div class="nav-tabs-custom">

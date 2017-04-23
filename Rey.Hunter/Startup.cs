@@ -29,6 +29,7 @@ namespace Rey.Hunter {
             });
 
             services.AddMon(this.Configuration.GetSection("Mon"));
+            services.AddModelLogging();
 
             services.AddReyAuthority(authority => {
                 authority.AddMemoryAuthStore(options => {

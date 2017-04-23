@@ -12,15 +12,7 @@ namespace Rey.Hunter.Models {
         public dynamic Data { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime? CreateAt {
-            get {
-                if (string.IsNullOrEmpty(this.Id)) { return null; }
-                try {
-                    return new ObjectId(this.Id).CreationTime;
-                } catch (Exception) {
-                    return null;
-                }
-            }
-        }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime? CreateAt { get; set; } = DateTime.Now;
     }
 }

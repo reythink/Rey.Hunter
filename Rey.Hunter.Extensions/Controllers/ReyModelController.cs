@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Rey.Hunter.ModelLogging;
 
 namespace Microsoft.AspNetCore.Mvc {
     public abstract class ReyModelController<TModel, TKey> : ReyController
@@ -63,6 +64,9 @@ namespace Microsoft.AspNetCore.Mvc {
                 this.BeforeCreate?.Invoke(model);
                 this.Collection.InsertOne(model);
                 this.AfterCreate?.Invoke(model);
+
+                this.Log<TModel, TKey>(LogAction.Create, model);
+
                 return model;
             });
         }
@@ -82,6 +86,9 @@ namespace Microsoft.AspNetCore.Mvc {
                 this.Collection.UpdateOne(x => x.Id.Equals(id), model, args.Ignores);
                 model = this.Collection.FindOne(x => x.Id.Equals(id));
                 this.AfterUpdate?.Invoke(id, model);
+
+                this.Log<TModel, TKey>(LogAction.Update, id);
+
                 return model;
             });
         }
@@ -99,6 +106,8 @@ namespace Microsoft.AspNetCore.Mvc {
                 this.BeforeDelete?.Invoke(model);
                 this.Collection.DeleteOne(x => x.Id.Equals(id));
                 this.AfterDelete?.Invoke(model);
+
+                this.Log<TModel, TKey>(LogAction.Delete, id);
             });
         }
 
@@ -115,6 +124,8 @@ namespace Microsoft.AspNetCore.Mvc {
                 this.BeforeBatchDelete?.Invoke(list);
                 this.Collection.DeleteMany(x => list.Contains(x.Id));
                 this.AfterBatchDelete?.Invoke(list);
+
+                list.ForEach(id => this.Log<TModel, TKey>(LogAction.Delete, id));
             });
         }
     }

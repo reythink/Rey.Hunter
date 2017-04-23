@@ -40,5 +40,9 @@ namespace Rey.Hunter.Models.Identity {
         public void SetPassword(string password) {
             this.Password = password;
         }
+
+        public override string ToString() {
+            return this.Name ?? this.Email;
+        }
     }
 }

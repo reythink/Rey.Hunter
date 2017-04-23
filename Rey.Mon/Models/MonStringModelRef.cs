@@ -14,6 +14,10 @@ namespace Rey.Mon.Models {
             : base(model) {
         }
 
+        public MonStringModelRef(string id)
+            : base(id) {
+        }
+
         public static implicit operator MonStringModelRef<TModel>(TModel model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));

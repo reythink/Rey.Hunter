@@ -40,6 +40,11 @@ namespace Rey.Hunter.Controllers {
 
         [HttpGet("/[controller]/{id}")]
         public IActionResult Item(string id) {
+            var db = this.GetMonDatabase();
+            this.ViewBag.Logs = this.Logs<Talent, string>(x => x.Model.Id.Equals(id))
+                .OrderByDescending(x => x.Id)
+                .Take(5)
+                .Select(x => $"<div>{x.Action} By <strong>{x.User.Concrete(db)}</strong></div><div class=\"text-muted text-right\">{x.CreateAt}</div>");
             var model = this.GetMonCollection<Talent>().FindOne(x => x.Id.Equals(id));
             return View(model);
         }

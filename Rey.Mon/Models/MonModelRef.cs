@@ -13,6 +13,10 @@ namespace Rey.Mon.Models {
             this.Id = model.Id;
         }
 
+        public MonModelRef(TKey id) {
+            this.Id = id;
+        }
+
         public TModel Concrete(IMonCollection<TModel> collection) {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
@@ -36,6 +40,10 @@ namespace Rey.Mon.Models {
 
             return new MonModelRef<TModel, TKey>(model);
         }
+
+        public override string ToString() {
+            return $"[{typeof(TModel).Name}: {this.Id}]";
+        }
     }
 
     public class MonModelRef<TModel> : MonModelRef<TModel, ObjectId>
@@ -46,6 +54,9 @@ namespace Rey.Mon.Models {
 
         public MonModelRef(TModel model)
             : base(model) {
+        }
+
+        public MonModelRef(ObjectId id) : base(id) {
         }
 
         public static implicit operator MonModelRef<TModel>(TModel model) {

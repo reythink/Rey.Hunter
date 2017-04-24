@@ -108,12 +108,12 @@
                                 <div class="box-header">Client Information</div>
                                 <div class="box-body">
                                     @{
-                                        Company client = this.Model.Client.Concrete(this.ViewBag.DB);
+                                        Company client = this.Model.Client?.Concrete(this.ViewBag.DB);
                                     }
                                     <table class="table table-striped table-details">
                                         <tr>
                                             <td>Name:</td>
-                                            <td><a href="/Company/@client.Id" target="_blank">@client.Name</a></td>
+                                            <td><a href="/Company/@client?.Id" target="_blank">@client?.Name</a></td>
                                         </tr>
                                         <tr>
                                             <td>Industry:</td>
@@ -125,11 +125,11 @@
                                         </tr>
                                         <tr>
                                             <td>Type:</td>
-                                            <td>@client.Type.EnumDesc()</td>
+                                            <td>@client?.Type?.EnumDesc()</td>
                                         </tr>
                                         <tr>
                                             <td>Status:</td>
-                                            <td>@client.Status.EnumDesc()</td>
+                                            <td>@client?.Status?.EnumDesc()</td>
                                         </tr>
                                     </table>
                                 </div>

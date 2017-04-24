@@ -20,6 +20,7 @@
 
                 $scope.selector = selector.create();
                 $scope.filter = filter;
+                $scope.modal = modal;
             }])
         .controller('company-item-ctrl', [
             'page', '$scope', 'api', 'modal',

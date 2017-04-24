@@ -17,7 +17,7 @@ namespace Rey.Mon {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            if (model.IsIdEmpty()) {
+            if (model.IsIdEmpty() || this.Count(x => x.Id.Equals(model.Id)) == 0) {
                 this.InsertOne(model);
             } else {
                 this.ReplaceOne(x => x.Id.Equals(model.Id), model);

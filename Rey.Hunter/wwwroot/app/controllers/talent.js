@@ -23,6 +23,7 @@
 
                 $scope.selector = selector.create();
                 $scope.filter = filter;
+                $scope.modal = modal;
             }])
         .controller('talent-item-ctrl', [
             'page', '$scope', 'api', 'modal',

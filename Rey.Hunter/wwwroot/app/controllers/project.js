@@ -20,6 +20,7 @@
 
                $scope.selector = selector.create();
                $scope.filter = filter;
+               $scope.modal = modal;
            }])
         .controller('project-item-ctrl', [
             'page', '$scope', 'api', 'modal',

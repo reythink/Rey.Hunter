@@ -25,6 +25,10 @@
                     <button type="button" class="btn btn-danger" ng-disabled="selector.items(true).length === 0" ng-click="batchDelete(selector.values(true))"><i class="fa fa-trash-o"></i> Delete</button>
                 </div>
                 <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-click="modal.import.open('/api/project')"><i class="fa fa-upload"></i> Import</button>
+                    <button type="button" class="btn btn-default" ng-click="modal.export.open('/api/project')"><i class="fa fa-download"></i> Export</button>
+                </div>
+                <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Order By {{order.current.text}} {{order.current.direction}} <span class="caret"></span>
                     </button>

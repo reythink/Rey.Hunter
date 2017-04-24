@@ -31,6 +31,10 @@ namespace Microsoft.AspNetCore.Mvc {
             get { return this.GetMonCollection<TModel>(); }
         }
 
+        protected IMonRepository<TModel, TKey> Repository {
+            get { return this.GetMonRepository<TModel, TKey>(); }
+        }
+
         [HttpGet]
         public Task<IActionResult> QueryAction() {
             return this.JsonInvokeManyAsync(() => {

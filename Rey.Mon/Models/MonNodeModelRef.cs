@@ -16,6 +16,10 @@ namespace Rey.Mon.Models {
             this.Id = model.Id;
         }
 
+        public MonNodeModelRef(TKey id) {
+            this.Id = id;
+        }
+
         public TModel Concrete(IMonNodeRepository<TModel, TKey> repository) {
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
@@ -51,6 +55,10 @@ namespace Rey.Mon.Models {
             : base(model) {
         }
 
+        public MonNodeModelRef(ObjectId id)
+            : base(id) {
+        }
+
         public static implicit operator MonNodeModelRef<TModel>(TModel model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
@@ -72,6 +80,10 @@ namespace Rey.Mon.Models {
             : base(model) {
         }
 
+        public MonStringNodeModelRef(string id)
+            : base(id) {
+        }
+
         public static implicit operator MonStringNodeModelRef<TModel>(TModel model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
@@ -91,6 +103,10 @@ namespace Rey.Mon.Models {
 
         public MonGuidNodeModelRef(TModel model)
             : base(model) {
+        }
+
+        public MonGuidNodeModelRef(Guid id)
+            : base(id) {
         }
 
         public static implicit operator MonGuidNodeModelRef<TModel>(TModel model) {

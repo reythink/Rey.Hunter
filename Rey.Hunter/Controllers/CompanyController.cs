@@ -16,14 +16,19 @@ namespace Rey.Hunter.Controllers {
             int page = 1) {
 
             var builder = new QueryBuilder<Company>(this.GetMonCollection<Company>());
-            builder.AddAccountFilter(this.CurrentAccount().Id);
-            builder.AddSearchFilter(search, x => x.Name);
-            builder.AddStringInFilter(x => x.Name, name, true);
-            builder.AddStringInFilter(x => x.Industries, x => x.Id, industry);
-            builder.AddEnumInFilter(x => x.Type, type);
-            builder.AddEnumInFilter(x => x.Status, status);
+            builder.FilterAccount(this.CurrentAccount().Id);
+            builder.FilterSearch(search, x => x.Name);
+            builder.FilterStringIn(x => x.Name, name, true);
+            builder.FilterEnumIn(x => x.Type, type);
+            builder.FilterEnumIn(x => x.Status, status);
 
-            var query = builder.Build().Order(orderBy, orderDirection);
+            var query = builder.Build();
+
+            if (industry != null && industry.Length > 0) {
+                query = query.Where(x => x.Industries.Any(y => industry.Contains(y.Id)));
+            }
+
+            query = query.Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 

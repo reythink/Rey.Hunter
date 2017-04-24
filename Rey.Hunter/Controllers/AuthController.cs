@@ -14,9 +14,9 @@ namespace Rey.Hunter.Controllers {
             int page = 1) {
 
             var builder = new QueryBuilder<Role>(this.GetMonCollection<Role>());
-            builder.AddAccountFilter(this.CurrentAccount().Id);
-            builder.AddSearchFilter(search, x => x.Name);
-            builder.AddStringInFilter(x => x.Name, name, true);
+            builder.FilterAccount(this.CurrentAccount().Id);
+            builder.FilterSearch(search, x => x.Name);
+            builder.FilterStringIn(x => x.Name, name, true);
 
             var query = builder.Build().Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
@@ -29,9 +29,9 @@ namespace Rey.Hunter.Controllers {
             int page = 1) {
 
             var builder = new QueryBuilder<User>(this.GetMonCollection<User>());
-            builder.AddAccountFilter(this.CurrentAccount().Id);
-            builder.AddSearchFilter(search, x => x.Name);
-            builder.AddStringInFilter(x => x.Name, name, true);
+            builder.FilterAccount(this.CurrentAccount().Id);
+            builder.FilterSearch(search, x => x.Name);
+            builder.FilterStringIn(x => x.Name, name, true);
 
             var query = builder.Build().Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));

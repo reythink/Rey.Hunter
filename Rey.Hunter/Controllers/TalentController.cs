@@ -11,6 +11,8 @@ using MongoDB.Bson;
 using Rey.Hunter.Models;
 using Rey.Mon;
 using System.Reflection;
+using Rey.Mon.Models;
+using Rey.Hunter.Models.Basic;
 
 namespace Rey.Hunter.Controllers {
     [Authorize]
@@ -26,15 +28,23 @@ namespace Rey.Hunter.Controllers {
             int page = 1) {
 
             var builder = new QueryBuilder<Talent>(this.GetMonCollection<Talent>());
-            builder.AddAccountFilter(this.CurrentAccount().Id);
-            builder.AddSearchFilter(search, x => x.EnglishName, x => x.ChineseName, x => x.Mobile, x => x.Phone, x => x.Email);
-            builder.AddStringInFilter(x => x.EnglishName, englishName, true);
-            builder.AddStringInFilter(x => x.ChineseName, chineseName, true);
-            builder.AddStringInFilter(x => x.CurrentLocations, x => x.Id, currentLocation);
-            builder.AddStringInFilter(x => x.MobilityLocations, x => x.Id, mobilityLocation);
-            builder.AddEnumInFilter(x => x.Gender, gender);
+            builder.FilterAccount(this.CurrentAccount().Id);
+            builder.FilterSearch(search, x => x.EnglishName, x => x.ChineseName, x => x.Mobile, x => x.Phone, x => x.Email);
+            builder.FilterStringIn(x => x.EnglishName, englishName, true);
+            builder.FilterStringIn(x => x.ChineseName, chineseName, true);
+            builder.FilterEnumIn(x => x.Gender, gender);
 
-            var query = builder.Build().Order(orderBy, orderDirection);
+            var query = builder.Build();
+
+            if (currentLocation != null && currentLocation.Length > 0) {
+                query = query.Where(x => x.CurrentLocations.Any(y => currentLocation.Contains(y.Id)));
+            }
+
+            if (mobilityLocation != null && mobilityLocation.Length > 0) {
+                query = query.Where(x => x.MobilityLocations.Any(y => mobilityLocation.Contains(y.Id)));
+            }
+
+            query = query.Order(orderBy, orderDirection);
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 

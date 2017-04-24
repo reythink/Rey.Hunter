@@ -13,18 +13,18 @@ namespace Rey.Hunter {
     public class QueryBuilder<TModel> {
         public IMonCollection<TModel> Collection { get; }
 
-        private List<FilterDefinition<TModel>> Filters { get; } = new List<FilterDefinition<TModel>>();
+        private List<FilterDefinition<TModel>> Filters { get; } = new List<FilterDefinition<TModel>>() { Builders<TModel>.Filter.Empty };
 
         public QueryBuilder(IMonCollection<TModel> collection) {
             this.Collection = collection;
         }
 
-        public QueryBuilder<TModel> AddFilter(FilterDefinition<TModel> filter) {
+        public QueryBuilder<TModel> Filter(FilterDefinition<TModel> filter) {
             this.Filters.Add(filter);
             return this;
         }
 
-        public QueryBuilder<TModel> AddInFilter<TItem>(Expression<Func<TModel, TItem>> field, IEnumerable<TItem> values) {
+        public QueryBuilder<TModel> FilterIn<TItem>(Expression<Func<TModel, TItem>> field, IEnumerable<TItem> values) {
             var filters = new List<FilterDefinition<TModel>>();
 
             foreach (var value in values) {
@@ -38,7 +38,7 @@ namespace Rey.Hunter {
             return this;
         }
 
-        public QueryBuilder<TModel> AddEnumInFilter<TItem>(Expression<Func<TModel, TItem>> field, IEnumerable<string> values) {
+        public QueryBuilder<TModel> FilterEnumIn<TItem>(Expression<Func<TModel, TItem>> field, IEnumerable<string> values) {
             var type = typeof(TItem);
             if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)) {
                 type = type.GetGenericArguments()[0];
@@ -47,10 +47,10 @@ namespace Rey.Hunter {
             if (!type.GetTypeInfo().IsEnum)
                 throw new InvalidCastException("TItem isn't a type of enum!");
 
-            return AddInFilter(field, values.Select(x => (TItem)Enum.Parse(type, x)));
+            return FilterIn(field, values.Select(x => (TItem)Enum.Parse(type, x)));
         }
 
-        public QueryBuilder<TModel> AddStringInFilter(Expression<Func<TModel, object>> field, IEnumerable<string> values, bool ignoreCase = false) {
+        public QueryBuilder<TModel> FilterStringIn(Expression<Func<TModel, object>> field, IEnumerable<string> values, bool ignoreCase = false) {
             var filters = new List<FilterDefinition<TModel>>();
 
             foreach (var value in values) {
@@ -64,7 +64,7 @@ namespace Rey.Hunter {
             return this;
         }
 
-        public QueryBuilder<TModel> AddStringInFilter<TItem>(Expression<Func<TModel, IEnumerable<TItem>>> field, Expression<Func<TItem, object>> item, IEnumerable<string> values, bool ignoreCase = false) {
+        public QueryBuilder<TModel> FilterStringIn<TItem>(Expression<Func<TModel, IEnumerable<TItem>>> field, Expression<Func<TItem, object>> item, IEnumerable<string> values, bool ignoreCase = false) {
             var filters = new List<FilterDefinition<TModel>>();
 
             foreach (var value in values) {
@@ -78,7 +78,7 @@ namespace Rey.Hunter {
             return this;
         }
 
-        public QueryBuilder<TModel> AddSearchFilter(string search, params Expression<Func<TModel, object>>[] fields) {
+        public QueryBuilder<TModel> FilterSearch(string search, params Expression<Func<TModel, object>>[] fields) {
             if (string.IsNullOrEmpty(search))
                 return this;
 
@@ -106,9 +106,9 @@ namespace Rey.Hunter {
     }
 
     public static class QueryBuilderExtensions {
-        public static QueryBuilder<TModel> AddAccountFilter<TModel>(this QueryBuilder<TModel> builder, string id)
+        public static QueryBuilder<TModel> FilterAccount<TModel>(this QueryBuilder<TModel> builder, string id)
             where TModel : AccountModel {
-            return builder.AddFilter(Builders<TModel>.Filter.Eq(x => x.Account.Id, id));
+            return builder.Filter(Builders<TModel>.Filter.Eq(x => x.Account.Id, id));
         }
     }
 }

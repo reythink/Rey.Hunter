@@ -31,6 +31,10 @@
 
         checked(value) {
             if (typeof (value) === 'undefined') {
+                if (this._items.length === 0) {
+                    return false;
+                }
+
                 for (var i = 0, len = this._items.length; i < len; ++i) {
                     if (this._items[i].checked === false) {
                         return false;

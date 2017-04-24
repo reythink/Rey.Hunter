@@ -7,7 +7,7 @@
         <div class="box box-primary">
             <div class="box-body box-profile">
                 <h3 class="profile-username text-center">@this.Model.Name</h3>
-                <p class="text-muted text-center">@this.Model.StartDate?.ToString("yyyy/MM/dd")</p>
+                <p class="text-muted text-center">@this.Model.CreateAt?.ToString("yyyy/MM/dd") by @this.Model.CreateBy?.Concrete(this.ViewBag.DB)</p>
                 <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
                         <b>Headcount</b> <a class="pull-right">@this.Model.Headcount</a>

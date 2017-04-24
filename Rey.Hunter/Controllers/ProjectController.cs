@@ -24,7 +24,7 @@ namespace Rey.Hunter.Controllers {
 
         [HttpGet("/Project/{id}")]
         public IActionResult Item(string id) {
-            var db = this.GetMonDatabase();
+            var db = this.ViewBag.DB = this.GetMonDatabase();
             this.ViewBag.Logs = this.Logs<Project, string>(x => x.Model.Id.Equals(id))
                 .OrderByDescending(x => x.Id)
                 .Take(5)

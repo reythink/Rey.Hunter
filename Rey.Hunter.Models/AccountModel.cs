@@ -8,5 +8,9 @@ namespace Rey.Hunter.Models {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [BsonIgnoreIfNull]
         public MonStringModelRef<Account> Account { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [BsonIgnoreIfNull]
+        public MonStringModelRef<User> CreateBy { get; set; }
     }
 }

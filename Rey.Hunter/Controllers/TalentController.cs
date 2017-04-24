@@ -40,7 +40,7 @@ namespace Rey.Hunter.Controllers {
 
         [HttpGet("/[controller]/{id}")]
         public IActionResult Item(string id) {
-            var db = this.GetMonDatabase();
+            var db = this.ViewBag.DB = this.GetMonDatabase();
             this.ViewBag.Logs = this.Logs<Talent, string>(x => x.Model.Id.Equals(id))
                 .OrderByDescending(x => x.Id)
                 .Take(5)

@@ -12,6 +12,7 @@ namespace Microsoft.AspNetCore.Mvc {
 
             this.BeforeCreate += model => {
                 this.AttachCurrentAccount(model);
+                this.AttachCurrentUser(model);
             };
         }
     }

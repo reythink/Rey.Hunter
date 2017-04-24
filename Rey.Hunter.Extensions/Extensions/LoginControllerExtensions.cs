@@ -29,5 +29,11 @@ namespace Microsoft.AspNetCore.Mvc {
             model.Account = controller.CurrentAccount();
             return model;
         }
+
+        public static TModel AttachCurrentUser<TModel>(this Controller controller, TModel model)
+            where TModel : AccountModel {
+            model.CreateBy = controller.CurrentUser();
+            return model;
+        }
     }
 }

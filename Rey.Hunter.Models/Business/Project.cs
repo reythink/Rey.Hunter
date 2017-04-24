@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Rey.Hunter.Models.Basic;
 using System;
 using System.Collections.Generic;
+using Rey.Hunter.Models.Identity;
 
 namespace Rey.Hunter.Models.Business {
     [MonCollection("bus.projects")]
@@ -14,6 +15,9 @@ namespace Rey.Hunter.Models.Business {
         public int? Headcount { get; set; }
 
         public MonStringModelRef<Company> Client { get; set; }
+
+        public MonStringModelRef<User> Manager { get; set; }
+        public List<MonStringModelRef<User>> Consultants { get; set; } = new List<MonStringModelRef<User>>();
 
         public List<MonStringNodeModelRef<FunctionNode>> Functions { get; set; } = new List<MonStringNodeModelRef<FunctionNode>>();
 

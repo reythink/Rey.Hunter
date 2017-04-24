@@ -52,6 +52,18 @@
                                             <td>@this.Model.Name</td>
                                         </tr>
                                         <tr>
+                                            <td>Manager:</td>
+                                            <td ng-bind="model.manager.name"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Consultant:</td>
+                                            <td>
+                                                <span class="label label-info"
+                                                      ng-repeat="item in model.consultants"
+                                                      ng-bind="item.name"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>Headcount:</td>
                                             <td>@this.Model.Headcount</td>
                                         </tr>

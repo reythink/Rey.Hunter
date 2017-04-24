@@ -31,9 +31,21 @@ namespace Microsoft.Extensions.DependencyInjection {
                 return this;
             }
 
+            public JsonModelRefOptions AddRef<TModel>()
+                where TModel : class, IMonModel<string> {
+                this.Services.AddSingleton<IConfigureOptions<MvcJsonOptions>, MvcJsonModelRefConfiguration<TModel, string>>();
+                return this;
+            }
+
             public JsonModelRefOptions AddNodeRef<TModel, TKey>()
                 where TModel : class, IMonNodeModel<TModel, TKey> {
                 this.Services.AddSingleton<IConfigureOptions<MvcJsonOptions>, MvcJsonNodeModelRefConfiguration<TModel, TKey>>();
+                return this;
+            }
+
+            public JsonModelRefOptions AddNodeRef<TModel>()
+               where TModel : class, IMonNodeModel<TModel, string> {
+                this.Services.AddSingleton<IConfigureOptions<MvcJsonOptions>, MvcJsonNodeModelRefConfiguration<TModel, string>>();
                 return this;
             }
         }

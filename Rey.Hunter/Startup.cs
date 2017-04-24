@@ -19,13 +19,16 @@ namespace Rey.Hunter {
             services.AddMvc();
 
             services.AddMvcJsonModelRef(options => {
-                options.AddRef<Talent, string>();
-                options.AddRef<Company, string>();
-                options.AddNodeRef<LocationNode, string>();
-                options.AddNodeRef<CategoryNode, string>();
-                options.AddNodeRef<ChannelNode, string>();
-                options.AddNodeRef<FunctionNode, string>();
-                options.AddNodeRef<IndustryNode, string>();
+                options.AddRef<Role>();
+                options.AddRef<User>();
+                options.AddRef<Talent>();
+                options.AddRef<Company>();
+                options.AddRef<Project>();
+                options.AddNodeRef<LocationNode>();
+                options.AddNodeRef<CategoryNode>();
+                options.AddNodeRef<ChannelNode>();
+                options.AddNodeRef<FunctionNode>();
+                options.AddNodeRef<IndustryNode>();
             });
 
             services.AddMon(this.Configuration.GetSection("Mon"));

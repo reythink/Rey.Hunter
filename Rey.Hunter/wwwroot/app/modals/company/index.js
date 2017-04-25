@@ -53,40 +53,6 @@
                                     }
                                     $scope.current_contact = null;
                                 };
-
-                                //! Department Structure.
-                                $scope.department_add = function ($files) {
-                                    Upload.upload({
-                                        url: '/api/upload/file',
-                                        data: { file: $files },
-                                    }).then(function (resp) {
-                                        for (var i = 0; i < resp.data.models.length; ++i) {
-                                            $scope.model.departmentStructures.push(resp.data.models[i]);
-                                        }
-                                    });
-                                };
-
-                                $scope.department_remove = function (item) {
-                                    var index = $scope.model.departmentStructures.indexOf(item);
-                                    $scope.model.departmentStructures.splice(index, 1);
-                                };
-
-                                //! NameList
-                                $scope.namelist_add = function ($files) {
-                                    Upload.upload({
-                                        url: '/api/upload/file',
-                                        data: { file: $files },
-                                    }).then(function (resp) {
-                                        for (var i = 0; i < resp.data.models.length; ++i) {
-                                            $scope.model.nameList.push(resp.data.models[i]);
-                                        }
-                                    });
-                                };
-
-                                $scope.namelist_remove = function (item) {
-                                    var index = $scope.model.nameList.indexOf(item);
-                                    $scope.model.nameList.splice(index, 1);
-                                };
                             }]
                     };
 

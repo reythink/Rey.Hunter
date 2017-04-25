@@ -27,12 +27,12 @@ textarea { resize: none; }
 .empty { border: 1px dashed #ccc; text-align: center; padding: 40px 10px; color: #999; border-radius: 4px; }
 .search-width { width: 400px; }
 
-ul.file-list { list-style: none; margin: 0; padding: 0; }
-    ul.file-list > li { margin: 10px 15px; margin-left: 0; padding: 10px 15px; position: relative; display: inline-block; border: 1px solid #ccc; border-radius: 6px; }
-        ul.file-list > li > .remove { position: absolute; right: -10px; top: -12px; font-size: 22px; cursor: pointer; background-color: white; color: #ddd; line-height: 22px; }
-            ul.file-list > li > .remove:hover { color: #bbb !important; }
-        ul.file-list > li.add { text-align: center; cursor: pointer; border: 1px dashed #ccc; width: 60px; }
-            ul.file-list > li.add:hover { color: #00c0ef !important; border-color: #00c0ef !important; }
+ul.attachment-list { list-style: none; margin: 0; padding: 0; }
+    ul.attachment-list > li { margin: 10px 15px; margin-left: 0; padding: 10px 15px; position: relative; display: inline-block; border: 1px solid #ccc; border-radius: 6px; }
+        ul.attachment-list > li > .remove { position: absolute; right: -10px; top: -12px; font-size: 22px; cursor: pointer; background-color: white; color: #ddd; line-height: 22px; }
+            ul.attachment-list > li > .remove:hover { color: #bbb !important; }
+        ul.attachment-list > li.add { text-align: center; cursor: pointer; border: 1px dashed #ccc; width: 60px; }
+            ul.attachment-list > li.add:hover { color: #00c0ef !important; border-color: #00c0ef !important; }
 
 ul.contact-list { list-style: none; margin: 0; padding: 0; }
     ul.contact-list > li { margin: 10px 15px; margin-left: 0; padding: 10px 15px; position: relative; display: inline-block; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; width: 100%; }

@@ -64,6 +64,8 @@ namespace Rey.Hunter.Models.Business {
         public TalentProfileLabel ProfileLabel { get; set; }
 
         public List<TalentExperience> Experiences { get; set; } = new List<TalentExperience>();
+
+        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
     }
 
     public class TalentProfileLabel {

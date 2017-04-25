@@ -37,6 +37,8 @@ namespace Rey.Hunter.Models.Business {
         public List<Candidate> Candidates { get; set; } = new List<Candidate>();
 
         public ProjectJobUnderstanding JobUnderstanding { get; set; }
+
+        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
     }
 
     public enum CandidateStatus {

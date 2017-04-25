@@ -28,6 +28,7 @@
     <Content Include="wwwroot\app\controllers\role.js" />
     <Content Include="wwwroot\app\controllers\talent.js" />
     <Content Include="wwwroot\app\controllers\user.js" />
+    <Content Include="wwwroot\app\directives\attachmentlist\index.js" />
     <Content Include="wwwroot\app\directives\candidate\index.js" />
     <Content Include="wwwroot\app\directives\candidate\interview-panel.html" />
     <Content Include="wwwroot\app\directives\candidate\status-panel.html">

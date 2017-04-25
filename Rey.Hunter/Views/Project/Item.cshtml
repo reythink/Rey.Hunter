@@ -37,6 +37,7 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#details" data-toggle="tab" aria-expanded="true">Details</a></li>
+                <li class=""><a href="#attachments" data-toggle="tab" aria-expanded="false">Attachments</a></li>
                 <li class=""><a href="#candidates" data-toggle="tab" aria-expanded="false">Candidates</a></li>
             </ul>
             <div class="tab-content">
@@ -157,6 +158,19 @@
                     </div>
 
 
+                </div>
+                <div class="tab-pane" id="attachments">
+                    <div class="box box-info">
+                        <div class="box-body no-padding">
+                            <ul class="attachment-list">
+                                @foreach (var item in this.Model.Attachments) {
+                                    <li>
+                                        <a class="text" href="@item.Url">@item.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane" id="candidates">
                     <rey-candidate-panel ng-if="model" ng-model="model">

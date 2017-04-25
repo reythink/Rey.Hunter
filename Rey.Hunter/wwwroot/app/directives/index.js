@@ -1,4 +1,5 @@
-﻿import './candidate';
+﻿import './attachmentlist';
+import './candidate';
 import './datepicker';
 import './enumselect';
 import './filter';

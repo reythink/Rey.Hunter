@@ -17,18 +17,21 @@
                                 $scope.talents = [];
                                 $scope.candidates = candidates;
 
-                                api.Talent.query(function (resp) {
-                                    $scope.talents = resp;
-                                    for (var i = 0, len = model.candidates.length; i < len; ++i) {
-                                        var id = model.candidates[i].talent.id;
-                                        for (var j = $scope.talents.length - 1; j >= 0; --j) {
-                                            if ($scope.talents[j].id === id) {
-                                                $scope.talents.splice(j, 1);
-                                                break;
+                                $scope.query = function (search) {
+                                    api.Talent.query({ search: search }, function (resp) {
+                                        $scope.talents = resp;
+                                        for (var i = 0, len = model.candidates.length; i < len; ++i) {
+                                            var id = model.candidates[i].talent.id;
+                                            for (var j = $scope.talents.length - 1; j >= 0; --j) {
+                                                if ($scope.talents[j].id === id) {
+                                                    $scope.talents.splice(j, 1);
+                                                    break;
+                                                }
                                             }
                                         }
-                                    }
-                                });
+                                    });
+                                };
+                                $scope.query();
 
                                 $scope.select = function (talent, index) {
                                     $scope.candidates.push({ talent: talent, status: 1 });

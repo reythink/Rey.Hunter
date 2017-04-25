@@ -11,6 +11,7 @@ namespace Microsoft.AspNetCore.Mvc {
     public abstract class ReyModelController<TModel, TKey> : ReyController
         where TModel : class, IMonModel<TKey> {
         public event Func<IQueryable<TModel>, IQueryable<TModel>> BeforeQuery;
+        public event Func<IQueryable<TModel>, string, IQueryable<TModel>> BeforeSearch;
 
         public event Action<TKey> BeforeGet;
         public event Action<TModel> AfterGet;
@@ -36,10 +37,16 @@ namespace Microsoft.AspNetCore.Mvc {
         }
 
         [HttpGet]
-        public Task<IActionResult> QueryAction() {
+        public Task<IActionResult> QueryAction(string search) {
             return this.JsonInvokeManyAsync(() => {
                 IQueryable<TModel> query = this.Collection.Query();
-                return this.BeforeQuery?.Invoke(query) ?? query;
+                query = this.BeforeQuery?.Invoke(query) ?? query;
+
+                if (!string.IsNullOrEmpty(search)) {
+                    query = this.BeforeSearch?.Invoke(query, search) ?? query;
+                }
+
+                return query;
             });
         }
 

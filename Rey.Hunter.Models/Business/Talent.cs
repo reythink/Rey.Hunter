@@ -30,6 +30,8 @@ namespace Rey.Hunter.Models.Business {
 
         public string Linkedin { get; set; }
 
+        public string CV { get; set; }
+
         public string Notes { get; set; }
 
         #endregion Basic Info

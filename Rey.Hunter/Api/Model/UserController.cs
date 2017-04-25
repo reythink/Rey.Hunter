@@ -15,6 +15,10 @@ namespace Rey.Hunter.Api {
                 x.Email.Contains(search)
                 );
             };
+
+            this.BeforeCreate += (user) => {
+                this.LoginManager().SetPassword(user, user.Password);
+            };
         }
     }
 }

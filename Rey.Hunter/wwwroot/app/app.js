@@ -37,6 +37,7 @@
         })
         .value('', {})
         .config(['growlProvider', function (growlProvider) {
-            growlProvider.globalTimeToLive(5000);
+            growlProvider.globalTimeToLive(3000);
+            growlProvider.onlyUniqueMessages(false);
         }]);
 })();

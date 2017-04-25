@@ -2,7 +2,7 @@
 @{
     this.ViewBag.Title = "Profile";
 }
-<div ng-controller="profile-ctrl">
+<div ng-controller="profile-ctrl" ng-init="init('@this.Model.Id')">
     <div class="row">
         <div class="col-md-3">
             <div class="box box-primary">
@@ -28,14 +28,14 @@
                 <div class="box-body no-pad-top">
                     <ul class="list-group list-group-unbordered">
                         @for (var i = 0; i < 5; ++i) {
-                            <li class="list-group-item">
-                                <div class="clearfix">
-                                    <strong><i class="fa fa-tasks margin-r-5"></i> Project Name @(i + 1)</strong> <a class="pull-right">30%</a>
-                                </div>
-                                <div class="progress progress-xs progress-striped margin-bottom-none" style="margin-top:10px;">
-                                    <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                                </div>
-                            </li>
+                        <li class="list-group-item">
+                            <div class="clearfix">
+                                <strong><i class="fa fa-tasks margin-r-5"></i> Project Name @(i + 1)</strong> <a class="pull-right">30%</a>
+                            </div>
+                            <div class="progress progress-xs progress-striped margin-bottom-none" style="margin-top:10px;">
+                                <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                            </div>
+                        </li>
                         }
                     </ul>
                 </div>
@@ -49,55 +49,55 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="settings">
-                        <form class="form-horizontal">
-                            <div class="form-group">
+                        <form name="settingForm" class="form-horizontal" ng-submit="saveSetting()">
+                            <div class="form-group has-feedback" ng-class="settingForm.name.$invalid?'has-error':''">
                                 <label for="inputName" class="col-sm-2 control-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Name">
+                                    <input type="text" name="name" class="form-control" placeholder="Name" ng-model="model.name" ng-required="true">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback" ng-class="settingForm.email.$invalid?'has-error':''">
                                 <label for="inputEmail" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" placeholder="Email">
+                                    <input type="email" name="email" class="form-control" placeholder="Email" ng-model="model.email" ng-required="true">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail" class="col-sm-2 control-label">Position</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Position">
+                                    <input type="text" class="form-control" placeholder="Position" ng-model="model.position">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                                    <button type="submit" class="btn btn-primary" ng-disabled="settingForm.$invalid"><i class="fa fa-save"></i> Save</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="tab-pane" id="security">
-                        <form class="form-horizontal">
-                            <div class="form-group">
+                        <form name="passwordForm" class="form-horizontal" ng-submit="savePassword()">
+                            <div class="form-group has-feedback" ng-class="passwordForm.old.$invalid?'has-error':''">
                                 <label for="inputName" class="col-sm-2 control-label">Old</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" placeholder="Old password">
+                                    <input type="password" name="old" class="form-control" placeholder="Old password" ng-model="password.old" ng-required="true">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback" ng-class="passwordForm.new.$invalid?'has-error':''">
                                 <label for="inputEmail" class="col-sm-2 control-label">New</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" placeholder="New password">
+                                    <input type="password" name="new" class="form-control" placeholder="New password" ng-model="password.new" ng-required="true">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback" ng-class="passwordForm.confirm.$invalid?'has-error':''">
                                 <label for="inputEmail" class="col-sm-2 control-label">Confirm</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" placeholder="Confirm new password">
+                                    <input type="password" name="confirm" class="form-control" placeholder="Confirm new password" ng-model="password.confirm" ng-required="true" ng-pattern="{{passwordForm.new.$modelValue}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                                    <button type="submit" class="btn btn-primary" ng-disabled="passwordForm.$invalid"><i class="fa fa-save"></i> Save</button>
                                 </div>
                             </div>
                         </form>

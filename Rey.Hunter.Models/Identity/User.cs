@@ -16,6 +16,7 @@ namespace Rey.Hunter.Models.Identity {
         public bool Enabled { get; set; } = true;
         public List<MonStringModelRef<Role>> Roles { get; set; } = new List<MonStringModelRef<Role>>();
         public string PortraitUrl { get; set; } = "/img/avatar.png";
+        public string Position { get; set; }
 
         public IEnumerable<Claim> GetLoginClaims() {
             return new Claim[] {

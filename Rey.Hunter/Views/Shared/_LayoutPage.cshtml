@@ -39,8 +39,8 @@
                                 <li class="user-header">
                                     <img src="@LoginUser.PortraitUrl" class="img-circle" alt="User Image">
                                     <p>
-                                        @LoginUser.Name - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        @LoginUser.Name - @LoginUser.Position
+                                        <small>Member since @LoginUser.CreateAt?.ToString("yyyy")</small>
                                     </p>
                                 </li>
                                 <li class="user-footer">

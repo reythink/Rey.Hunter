@@ -33,8 +33,10 @@
                         Order By {{order.current.text}} {{order.current.direction}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" ng-click="order.by('Name')">Name </a></li>
-                        <li><a href="#" ng-click="order.by('Headcount')">Headcount</a></li>
+                        <li><a href="#" ng-click="order.by('Client')">Client</a></li>
+                        <li><a href="#" ng-click="order.by('Function')">Function</a></li>
+                        <li><a href="#" ng-click="order.by('Manager')">Manager</a></li>
+                        <li><a href="#" ng-click="order.by('AssignmentDate','Assignment Date')">Assignment Date</a></li>
                     </ul>
                 </div>
                 <div class="box-tools pull-right">
@@ -65,15 +67,15 @@
                                 <rey-selector-item rey-selector="selector" rey-value="@item.Id"></rey-selector-item>
                             </td>
                             <td><a href="/Project/@item.Id">@item.Name</a></td>
-                            <td>@item.Client.Concrete(this.ViewBag.DB)?.Name</td>
+                            <td>@item.Client?.Concrete(this.ViewBag.DB)?.Name</td>
                             <td>
-                                @foreach(var item2 in item.Functions) { 
+                                @foreach (var item2 in item.Functions) {
                                     <span class="label label-info">@item2.Concrete(this.ViewBag.DB)?.Name</span>
                                 }
                             </td>
-                            <td>@item.Manager.Concrete(this.ViewBag.DB)?.Name</td>
+                            <td>@item.Manager?.Concrete(this.ViewBag.DB)?.Name</td>
                             <td>
-                                @foreach(var item2 in item.Consultants) { 
+                                @foreach (var item2 in item.Consultants) {
                                     <span class="label label-info">@item2.Concrete(this.ViewBag.DB)?.Name</span>
                                 }
                             </td>

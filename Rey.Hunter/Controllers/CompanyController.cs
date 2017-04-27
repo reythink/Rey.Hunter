@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rey.Hunter.Models.Business;
+using Rey.Mon;
+using System;
 using System.Linq;
 
 namespace Rey.Hunter.Controllers {
@@ -15,7 +17,7 @@ namespace Rey.Hunter.Controllers {
             string orderDirection,
             int page = 1) {
 
-            this.ViewBag.DB = this.GetMonDatabase();
+            IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
 
             var builder = new QueryBuilder<Company>(this.GetMonCollection<Company>());
             builder.FilterAccount(this.CurrentAccount().Id);
@@ -30,7 +32,16 @@ namespace Rey.Hunter.Controllers {
                 query = query.Where(x => x.Industries.Any(y => industry.Contains(y.Id)));
             }
 
-            query = query.Order(orderBy, orderDirection);
+            if (!string.IsNullOrEmpty(orderBy)) {
+                if (orderBy.Equals("Industry", StringComparison.CurrentCultureIgnoreCase)) {
+                    query = query.Order(x => x.Industries.FirstOrDefault(), x => x.Name, db, orderDirection);
+                } else {
+                    query = query.Order(orderBy, orderDirection);
+                }
+            } else {
+                query = query.OrderByDescending(x => x.Id);
+            }
+
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver.Linq;
 using Rey.Hunter.Models.Business;
+using Rey.Mon;
+using System;
 using System.Linq;
 
 namespace Rey.Hunter.Controllers {
@@ -13,14 +15,28 @@ namespace Rey.Hunter.Controllers {
              string orderDirection,
              int page = 1) {
 
-            this.ViewBag.DB = this.GetMonDatabase();
+            IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
 
             var builder = new QueryBuilder<Project>(this.GetMonCollection<Project>());
             builder.FilterAccount(this.CurrentAccount().Id);
             builder.FilterSearch(search, x => x.Name);
             builder.FilterStringIn(x => x.Name, name, true);
 
-            var query = builder.Build().Order(orderBy, orderDirection);
+            var query = builder.Build();
+
+            if (!string.IsNullOrEmpty(orderBy)) {
+                if (orderBy.Equals("Client", StringComparison.CurrentCultureIgnoreCase)) {
+                    query = query.Order(x => x.Client, x => x.Name, db, orderDirection);
+                } else if (orderBy.Equals("Function", StringComparison.CurrentCultureIgnoreCase)) {
+                    query = query.Order(x => x.Functions.FirstOrDefault(), x => x.Name, db, orderDirection);
+                } else if (orderBy.Equals("Manager", StringComparison.CurrentCultureIgnoreCase)) {
+                    query = query.Order(x => x.Manager, x => x.Name, db, orderDirection);
+                } else {
+                    query = query.Order(orderBy, orderDirection);
+                }
+            } else {
+                query = query.OrderByDescending(x => x.Id);
+            }
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 

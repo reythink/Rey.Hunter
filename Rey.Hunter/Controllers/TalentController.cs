@@ -27,7 +27,7 @@ namespace Rey.Hunter.Controllers {
             string orderDirection,
             int page = 1) {
 
-            this.ViewBag.DB = this.GetMonDatabase();
+            IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
 
             var builder = new QueryBuilder<Talent>(this.GetMonCollection<Talent>());
             builder.FilterAccount(this.CurrentAccount().Id);
@@ -46,13 +46,26 @@ namespace Rey.Hunter.Controllers {
                 query = query.Where(x => x.MobilityLocations.Any(y => mobilityLocation.Contains(y.Id)));
             }
 
-            query = query.Order(orderBy, orderDirection);
+            if (!string.IsNullOrEmpty(orderBy)) {
+                if (orderBy.Equals("Company", StringComparison.CurrentCultureIgnoreCase)) {
+                    query = query.Order(x => x.Experiences.Find(y => y.CurrentJob == true)?.Company, x => x.Name, db, orderDirection);
+                } else if (orderBy.Equals("Title", StringComparison.CurrentCultureIgnoreCase)) {
+                    query = query.Order(x => x.Experiences.Find(y => y.CurrentJob == true).Title, orderDirection);
+                } else if (orderBy.Equals("CurrentLocation", StringComparison.CurrentCultureIgnoreCase)) {
+                    query = query.Order(x => x.CurrentLocations.FirstOrDefault(), x => x.Name, db, orderDirection);
+                } else {
+                    query = query.Order(orderBy, orderDirection);
+                }
+            } else {
+                query = query.OrderByDescending(x => x.Id);
+            }
+
             return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
         }
 
         [HttpGet("/[controller]/{id}")]
         public IActionResult Item(string id) {
-            var db = this.ViewBag.DB = this.GetMonDatabase();
+            IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
             this.ViewBag.Logs = this.Logs<Talent, string>(x => x.Model.Id.Equals(id))
                 .OrderByDescending(x => x.Id)
                 .Take(5)

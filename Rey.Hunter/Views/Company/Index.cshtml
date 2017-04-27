@@ -34,6 +34,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="#" ng-click="order.by('Name')">Name </a></li>
+                        <li><a href="#" ng-click="order.by('Industry')">Industry</a></li>
                         <li><a href="#" ng-click="order.by('Type')">Type</a></li>
                         <li><a href="#" ng-click="order.by('Status')">Status</a></li>
                     </ul>
@@ -52,10 +53,10 @@
                 <tbody>
                     <tr>
                         <th></th>
-                        <th>Company Name</th>
+                        <th>Name</th>
                         <th>Industry</th>
-                        <th>Company Type</th>
-                        <th>Company Status</th>
+                        <th>Type</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                     @foreach (var item in this.Model) {

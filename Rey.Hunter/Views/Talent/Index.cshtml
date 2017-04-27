@@ -33,10 +33,10 @@
                         Order By {{order.current.text}} {{order.current.direction}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" ng-click="order.by('EnglishName', 'English Name')">English Name </a></li>
-                        <li><a href="#" ng-click="order.by('ChineseName','Chinese Name')">Chinese Name</a></li>
-                        <li><a href="#" ng-click="order.by('Birthday', 'Date Of Birth')">Date Of Birth</a></li>
-                        <li><a href="#" ng-click="order.by('Gender')">Gender</a></li>
+                        <li><a href="#" ng-click="order.by('Company')">Company</a></li>
+                        <li><a href="#" ng-click="order.by('Title')">Title</a></li>
+                        <li><a href="#" ng-click="order.by('Birthday', 'DOB')">DOB</a></li>
+                        <li><a href="#" ng-click="order.by('CurrentLocation', 'Current Location')">Current Location</a></li>
                     </ul>
                 </div>
                 <div class="box-tools pull-right">
@@ -62,8 +62,9 @@
                         <th>Chinese Name</th>
                         <th>DOB</th>
                         <th>Gender</th>
-                        <th>Current Locations</th>
-                        <th>Mobility Locations</th>
+                        <th>Current Location</th>
+                        <th>Mobility</th>
+                        <th>Working Background</th>
                         <th>Actions</th>
                     </tr>
                     @foreach (var item in this.Model) {
@@ -72,12 +73,12 @@
                                 <rey-selector-item rey-selector="selector" rey-value="@item.Id"></rey-selector-item>
                             </td>
                             @{
-                                var experience = item.Experiences.FirstOrDefault();
+                                var current = item.Experiences.Find(x=>x.CurrentJob == true);
                             }
-                            <td><a href="/Company/@experience?.Company?.Id">@experience?.Company?.Concrete(this.ViewBag.DB)?.Name</a></td>
-                            <td>@experience?.Title</td>
-                            <td>@experience?.Responsibility</td>
-                            <td>@experience?.Grade</td>
+                            <td><a href="/Company/@current?.Company?.Id">@current?.Company?.Concrete(this.ViewBag.DB)?.Name</a></td>
+                            <td>@current?.Title</td>
+                            <td>@current?.Responsibility</td>
+                            <td>@current?.Grade</td>
                             <td><a href="/Talent/@item.Id">@item.EnglishName</a></td>
                             <td><a href="/Talent/@item.Id">@item.ChineseName</a></td>
                             <td>@item.Birthday?.ToString("yyyy/MM/dd")</td>
@@ -90,6 +91,11 @@
                             <td>
                                 @foreach (var item2 in item.MobilityLocations) {
                                     <span class="label label-info">@item2.Concrete(this.ViewBag.DB).Name</span>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var item2 in item.Experiences.FindAll(x => x.CurrentJob != true)) {
+                                    <span class="label label-info">@item2.Company.Concrete(this.ViewBag.DB).Name</span>
                                 }
                             </td>
                             <td width="130" align="right">

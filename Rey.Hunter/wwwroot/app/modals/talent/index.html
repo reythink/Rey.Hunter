@@ -213,6 +213,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">Cross Category Experience</label>
+                    <div class="col-sm-4">
+                        <rey-multi-select rey-placeholder="Not Selected"
+                                          rey-uri="/api/category/"
+                                          rey-tree
+                                          ng-model="model.profileLabel.crossCategories"></rey-multi-select>
+                    </div>
                     <label class="col-sm-2 control-label">Cross Channel Experience</label>
                     <div class="col-sm-4">
                         <rey-multi-select rey-placeholder="Not Selected"
@@ -220,13 +227,6 @@
                                           rey-tree
                                           rey-multiple
                                           ng-model="model.profileLabel.crossChannels"></rey-multi-select>
-                    </div>
-                    <label class="col-sm-2 control-label">Cross Category Experience</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/category/"
-                                          rey-tree
-                                          ng-model="model.profileLabel.crossCategories"></rey-multi-select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -237,6 +237,12 @@
                     <label class="col-sm-2 control-label">Key Account Had Managed</label>
                     <div class="col-sm-4">
                         <textarea class="form-control" ng-model="model.profileLabel.keyAccountExp"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Others</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" ng-model="model.profileLabel.others"></textarea>
                     </div>
                 </div>
             </div>

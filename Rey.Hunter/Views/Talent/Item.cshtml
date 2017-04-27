@@ -93,19 +93,9 @@
                                             <td>Linkedin Profile:</td>
                                             <td>@this.Model.Linkedin</td>
                                         </tr>
-                                        <tr>
-                                            <td>CV:</td>
-                                            <td>@this.Model.CV</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Notes:</td>
-                                            <td>@this.Model.Notes</td>
-                                        </tr>
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="box box-info">
                                 <div class="box-header">Location</div>
                                 <div class="box-body">
@@ -129,6 +119,8 @@
                                     </table>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="box box-info">
                                 <div class="box-header">Contact</div>
                                 <div class="box-body">
@@ -177,14 +169,6 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Cross Channel Experience:</td>
-                                            <td>
-                                                <span class="label label-info"
-                                                      ng-repeat="location in model.profileLabel.crossChannels"
-                                                      ng-bind="location.name"></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <td>Cross Category  Experience:</td>
                                             <td>
                                                 <span class="label label-info"
@@ -197,10 +181,32 @@
                                             <td>@this.Model.ProfileLabel.BrandExp</td>
                                         </tr>
                                         <tr>
+                                            <td>Cross Channel Experience:</td>
+                                            <td>
+                                                <span class="label label-info"
+                                                      ng-repeat="location in model.profileLabel.crossChannels"
+                                                      ng-bind="location.name"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>Key Account Had Managed:</td>
                                             <td>@this.Model.ProfileLabel.KeyAccountExp</td>
                                         </tr>
+                                        <tr>
+                                            <td>Others:</td>
+                                            <td>@this.Model.ProfileLabel.Others</td>
+                                        </tr>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-info">
+                                <div class="box-header">Notes</div>
+                                <div class="box-body">
+                                    <p>@this.Model.Notes</p>
                                 </div>
                             </div>
                         </div>

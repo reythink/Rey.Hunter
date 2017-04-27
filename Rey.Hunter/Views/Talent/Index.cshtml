@@ -95,7 +95,7 @@
                             </td>
                             <td>
                                 @foreach (var item2 in item.Experiences.FindAll(x => x.CurrentJob != true)) {
-                                    <span class="label label-info">@item2.Company.Concrete(this.ViewBag.DB).Name</span>
+                                    <span class="label label-info">@item2.Company?.Concrete(this.ViewBag.DB)?.Name</span>
                                 }
                             </td>
                             <td width="130" align="right">

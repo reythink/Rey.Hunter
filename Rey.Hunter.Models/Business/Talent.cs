@@ -104,6 +104,8 @@ namespace Rey.Hunter.Models.Business {
         /// KA经验
         /// </summary>
         public string KeyAccountExp { get; set; }
+
+        public string Others { get; set; }
     }
 
     public class TalentExperience {

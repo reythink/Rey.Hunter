@@ -37,8 +37,8 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#details" data-toggle="tab" aria-expanded="true">Details</a></li>
-                <li class=""><a href="#attachments" data-toggle="tab" aria-expanded="false">Attachments</a></li>
                 <li class=""><a href="#candidates" data-toggle="tab" aria-expanded="false">Candidates</a></li>
+                <li class=""><a href="#attachments" data-toggle="tab" aria-expanded="false">Attachments</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="details">
@@ -69,12 +69,12 @@
                                             <td>@this.Model.Headcount</td>
                                         </tr>
                                         <tr>
-                                            <td>Start Date:</td>
-                                            <td>@this.Model.StartDate?.ToString("yyyy/MM/dd")</td>
-                                        </tr>
-                                        <tr>
                                             <td>Assignment Date:</td>
                                             <td>@this.Model.AssignmentDate?.ToString("yyyy/MM/dd")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Offer Signed Date:</td>
+                                            <td>@this.Model.OfferSignedDate?.ToString("yyyy/MM/dd")</td>
                                         </tr>
                                         <tr>
                                             <td>On Board Date:</td>
@@ -159,19 +159,6 @@
 
 
                 </div>
-                <div class="tab-pane" id="attachments">
-                    <div class="box box-info">
-                        <div class="box-body no-padding">
-                            <ul class="attachment-list">
-                                @foreach (var item in this.Model.Attachments) {
-                                    <li>
-                                        <a class="text" href="@item.Url">@item.Name</a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 <div class="tab-pane" id="candidates">
                     <rey-candidate-panel ng-if="model" ng-model="model">
                         <rey-candidate-status-panel>
@@ -189,6 +176,19 @@
                         <rey-candidate-table></rey-candidate-table>
                     </rey-candidate-panel>
                     <button type="button" class="btn btn-success btn-block" ng-click="openCandidate(model)"><i class="fa fa-plus"></i> Select</button>
+                </div>
+                <div class="tab-pane" id="attachments">
+                    <div class="box box-info">
+                        <div class="box-body no-padding">
+                            <ul class="attachment-list">
+                                @foreach (var item in this.Model.Attachments) {
+                                    <li>
+                                        <a class="text" href="@item.Url">@item.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

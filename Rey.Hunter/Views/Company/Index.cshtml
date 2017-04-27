@@ -50,13 +50,27 @@
             </div>
             <table class="table table-striped">
                 <tbody>
+                    <tr>
+                        <th></th>
+                        <th>Company Name</th>
+                        <th>Industry</th>
+                        <th>Company Type</th>
+                        <th>Company Status</th>
+                        <th>Actions</th>
+                    </tr>
                     @foreach (var item in this.Model) {
                         <tr>
                             <td width="40">
                                 <rey-selector-item rey-selector="selector" rey-value="@item.Id"></rey-selector-item>
                             </td>
                             <td><a href="/Company/@item.Id">@item.Name</a></td>
-                            <td width="160">@item.CreateAt</td>
+                            <td>
+                                @foreach(var item2 in item.Industries) {
+                                    <span class="label label-info">@item2.Concrete(this.ViewBag.DB)?.Name</span>
+                                }
+                            </td>
+                            <td>@item.Type.EnumDesc()</td>
+                            <td>@item.Status.EnumDesc()</td>
                             <td width="130" align="right">
                                 <div class="btn-group btn-group-xs">
                                     <button class="btn btn-default" ng-click="update('@item.Id')"><i class="fa fa-edit"></i> Edit</button>

@@ -15,6 +15,8 @@ namespace Rey.Hunter.Controllers {
             string orderDirection,
             int page = 1) {
 
+            this.ViewBag.DB = this.GetMonDatabase();
+
             var builder = new QueryBuilder<Company>(this.GetMonCollection<Company>());
             builder.FilterAccount(this.CurrentAccount().Id);
             builder.FilterSearch(search, x => x.Name);

@@ -10,6 +10,10 @@ namespace Rey.Hunter.Models.Business {
     public class Talent : AccountModel {
         #region Basic Info
 
+        public List<MonStringNodeModelRef<IndustryNode>> Industries { get; set; } = new List<MonStringNodeModelRef<IndustryNode>>();
+
+        public List<MonStringNodeModelRef<FunctionNode>> Functions { get; set; } = new List<MonStringNodeModelRef<FunctionNode>>();
+
         public string EnglishName { get; set; }
 
         public string ChineseName { get; set; }
@@ -71,6 +75,11 @@ namespace Rey.Hunter.Models.Business {
     }
 
     public class TalentProfileLabel {
+        /// <summary>
+        /// 跨行业经验
+        /// </summary>
+        public List<MonStringNodeModelRef<IndustryNode>> CrossIndustries { get; set; } = new List<MonStringNodeModelRef<IndustryNode>>();
+
         /// <summary>
         /// 跨职能经验
         /// </summary>

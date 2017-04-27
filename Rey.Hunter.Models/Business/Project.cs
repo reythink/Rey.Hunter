@@ -24,10 +24,10 @@ namespace Rey.Hunter.Models.Business {
         public List<MonStringNodeModelRef<LocationNode>> Locations { get; set; } = new List<MonStringNodeModelRef<LocationNode>>();
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime? StartDate { get; set; }
+        public DateTime? AssignmentDate { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime? AssignmentDate { get; set; }
+        public DateTime? OfferSignedDate { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? OnBoardDate { get; set; }

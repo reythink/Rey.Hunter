@@ -65,7 +65,7 @@ namespace Rey.Hunter.Controllers {
                 if (orderBy.Equals("Company", StringComparison.CurrentCultureIgnoreCase)) {
                     query = query.Order(x => x.Experiences.Find(y => y.CurrentJob == true)?.Company, x => x.Name, db, orderDirection);
                 } else if (orderBy.Equals("Title", StringComparison.CurrentCultureIgnoreCase)) {
-                    query = query.Order(x => x.Experiences.Find(y => y.CurrentJob == true).Title, orderDirection);
+                    query = query.Order(x => x.Experiences.Find(y => y.CurrentJob == true)?.Title, orderDirection);
                 } else if (orderBy.Equals("CurrentLocation", StringComparison.CurrentCultureIgnoreCase)) {
                     query = query.Order(x => x.CurrentLocations.FirstOrDefault(), x => x.Name, db, orderDirection);
                 } else {

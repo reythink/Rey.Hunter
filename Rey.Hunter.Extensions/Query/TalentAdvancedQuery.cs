@@ -137,7 +137,7 @@ namespace Rey.Hunter.Query {
 
             this.Query = this.Query.Where(
                 model => model.Functions.Any(
-                    industry => values.Contains(industry.Id)
+                    function => values.Contains(function.Id)
                     )
                 );
             return this;
@@ -149,7 +149,7 @@ namespace Rey.Hunter.Query {
 
             this.Query = this.Query.Where(
                 model => model.ProfileLabel.CrossFunctions.Any(
-                    industry => values.Contains(industry.Id)
+                    function => values.Contains(function.Id)
                     )
                 );
             return this;
@@ -161,7 +161,7 @@ namespace Rey.Hunter.Query {
 
             this.Query = this.Query.Where(
                 model => model.ProfileLabel.CrossCategories.Any(
-                    industry => values.Contains(industry.Id)
+                    category => values.Contains(category.Id)
                     )
                 );
             return this;
@@ -173,7 +173,7 @@ namespace Rey.Hunter.Query {
 
             this.Query = this.Query.Where(
                 model => model.ProfileLabel.CrossChannels.Any(
-                    industry => values.Contains(industry.Id)
+                    channel => values.Contains(channel.Id)
                     )
                 );
             return this;

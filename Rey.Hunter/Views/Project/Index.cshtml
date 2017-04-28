@@ -35,7 +35,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#" ng-click="order.by('Client')">Client</a></li>
                         <li><a href="#" ng-click="order.by('Function')">Function</a></li>
-                        <li><a href="#" ng-click="order.by('Manager')">Manager</a></li>
+                        <li><a href="#" ng-click="order.by('Manager', 'Project Leader')">Project Leader</a></li>
                         <li><a href="#" ng-click="order.by('AssignmentDate','Assignment Date')">Assignment Date</a></li>
                     </ul>
                 </div>
@@ -56,7 +56,7 @@
                         <th>Name</th>
                         <th>Client</th>
                         <th>Function</th>
-                        <th>Manager</th>
+                        <th>Project Leader</th>
                         <th>Consultant</th>
                         <th>Assignment Date</th>
                         <th>Actions</th>
@@ -98,8 +98,51 @@
 
     <rey-sidebar>
         <rey-filter-panel>
-            <rey-filter-category rey-name="Name">
-                <label>Name:</label>
+            <rey-filter-category rey-name="Name"
+                                 rey-text="Position">
+                <label>Position:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Client">
+                <label>Client:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Function"
+                                 rey-uri="/api/function/"
+                                 rey-structure="tree">
+                <label>Function:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/function/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Manager"
+                                 rey-text="Project Leader">
+                <label>Project Leader:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Consultant">
+                <label>Consultant:</label>
                 <form class="input-group" ng-submit="$category.item($value);$value=null;">
                     <input type="text" class="form-control" ng-model="$value">
                     <div class="input-group-btn">

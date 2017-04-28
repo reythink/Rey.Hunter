@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver.Linq;
 using Rey.Hunter.Models.Business;
+using Rey.Hunter.Query;
 using Rey.Mon;
 using System;
 using System.Linq;
@@ -11,18 +12,23 @@ namespace Rey.Hunter.Controllers {
     public class ProjectController : ReyController {
         public IActionResult Index(string search,
              string[] name,
+             string[] client,
+             string[] function,
+             string[] manager,
+             string[] consultant,
              string orderBy,
              string orderDirection,
              int page = 1) {
 
             IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
-
-            var builder = new QueryBuilder<Project>(this.GetMonCollection<Project>());
-            builder.FilterAccount(this.CurrentAccount().Id);
-            builder.FilterSearch(search, x => x.Name);
-            builder.FilterStringIn(x => x.Name, name, true);
-
-            var query = builder.Build();
+            var query = new ProjectAdvancedQuery(db, this.CurrentAccount().Id)
+                .Search(search)
+                .Name(name)
+                .Client(client)
+                .Function(function)
+                .Manager(manager)
+                .Consultant(consultant)
+                .Query;
 
             if (!string.IsNullOrEmpty(orderBy)) {
                 if (orderBy.Equals("Client", StringComparison.CurrentCultureIgnoreCase)) {

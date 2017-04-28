@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rey.Hunter.Models.Business;
+using Rey.Hunter.Query;
 using Rey.Mon;
 using System;
 using System.Linq;
@@ -18,19 +19,13 @@ namespace Rey.Hunter.Controllers {
             int page = 1) {
 
             IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
-
-            var builder = new QueryBuilder<Company>(this.GetMonCollection<Company>());
-            builder.FilterAccount(this.CurrentAccount().Id);
-            builder.FilterSearch(search, x => x.Name);
-            builder.FilterStringIn(x => x.Name, name, true);
-            builder.FilterEnumIn(x => x.Type, type);
-            builder.FilterEnumIn(x => x.Status, status);
-
-            var query = builder.Build();
-
-            if (industry != null && industry.Length > 0) {
-                query = query.Where(x => x.Industries.Any(y => industry.Contains(y.Id)));
-            }
+            var query = new CompanyAdvancedQuery(db, this.CurrentAccount().Id)
+                .Search(search)
+                .Name(name)
+                .Industry(industry)
+                .Type(type)
+                .Status(status)
+                .Query;
 
             if (!string.IsNullOrEmpty(orderBy)) {
                 if (orderBy.Equals("Industry", StringComparison.CurrentCultureIgnoreCase)) {

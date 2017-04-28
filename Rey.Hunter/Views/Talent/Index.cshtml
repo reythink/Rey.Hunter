@@ -73,7 +73,7 @@
                                 <rey-selector-item rey-selector="selector" rey-value="@item.Id"></rey-selector-item>
                             </td>
                             @{
-                                var current = item.Experiences.Find(x=>x.CurrentJob == true);
+                                var current = item.Experiences.Find(x => x.CurrentJob == true);
                             }
                             <td><a href="/Company/@current?.Company?.Id">@current?.Company?.Concrete(this.ViewBag.DB)?.Name</a></td>
                             <td>@current?.Title</td>
@@ -116,9 +116,8 @@
 
     <rey-sidebar>
         <rey-filter-panel>
-            <rey-filter-category rey-name="EnglishName"
-                                 rey-text="English Name">
-                <label>English Name:</label>
+            <rey-filter-category rey-name="Title">
+                <label>Title:</label>
                 <form class="input-group" ng-submit="$category.item($value);$value=null;">
                     <input type="text" class="form-control" ng-model="$value">
                     <div class="input-group-btn">
@@ -126,9 +125,126 @@
                     </div>
                 </form>
             </rey-filter-category>
-            <rey-filter-category rey-name="ChineseName"
-                                 rey-text="Chinese Name">
-                <label>Chinese Name:</label>
+            <rey-filter-category rey-name="InChargeOf"
+                                 rey-text="In Charge Of">
+                <label>In Charge Of:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Grade">
+                <label>Grade:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Industry"
+                                 rey-uri="/api/industry/"
+                                 rey-structure="tree">
+                <label>Industry:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/industry/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="CrossIndustry"
+                                 rey-text="Cross Industry Experience"
+                                 rey-uri="/api/industry/"
+                                 rey-structure="tree">
+                <label>Cross Industry Experience:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/industry/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Function"
+                                 rey-uri="/api/function/"
+                                 rey-structure="tree">
+                <label>Function:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/function/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="CrossFunction"
+                                 rey-text="Cross Function Experience"
+                                 rey-uri="/api/function/"
+                                 rey-structure="tree">
+                <label>Cross Function Experience:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/function/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="CrossCategory"
+                                 rey-text="Cross Category Experience"
+                                 rey-uri="/api/category/"
+                                 rey-structure="tree">
+                <label>Cross Category Experience:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/category/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="CrossChannel"
+                                 rey-text="Cross Channel Experience"
+                                 rey-uri="/api/channel/"
+                                 rey-structure="tree">
+                <label>Cross Channel Experience:</label>
+                <form class="input-group" ng-submit="$category.item($value.id, $value.name);$value=null;">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/channel/"
+                                       rey-tree
+                                       ng-model="$value"></rey-single-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="BrandsHadManaged"
+                                 rey-text="Brands Had Managed">
+                <label>Brands Had Managed:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="KAHadManaged"
+                                 rey-text="KA Had Managed">
+                <label>KA Had Managed:</label>
                 <form class="input-group" ng-submit="$category.item($value);$value=null;">
                     <input type="text" class="form-control" ng-model="$value">
                     <div class="input-group-btn">
@@ -174,6 +290,77 @@
                                      rey-uri="/api/enum/gender"
                                      rey-attr-name="desc"
                                      ng-model="$value"></rey-enum-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Education"
+                                 rey-uri="/api/enum/educationLevel">
+                <label>Education:</label>
+                <form class="input-group" ng-submit="$category.item($value.value, $value.desc);$value=null;">
+                    <rey-enum-select rey-default="Not Selected"
+                                     rey-uri="/api/enum/educationLevel"
+                                     rey-attr-name="desc"
+                                     ng-model="$value"></rey-enum-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Language"
+                                 rey-uri="/api/enum/language">
+                <label>Language:</label>
+                <form class="input-group" ng-submit="$category.item($value.value, $value.desc);$value=null;">
+                    <rey-enum-select rey-default="Not Selected"
+                                     rey-uri="/api/enum/language"
+                                     rey-attr-name="desc"
+                                     ng-model="$value"></rey-enum-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Nationality"
+                                 rey-uri="/api/enum/nationality">
+                <label>Nationality:</label>
+                <form class="input-group" ng-submit="$category.item($value.value, $value.desc);$value=null;">
+                    <rey-enum-select rey-default="Not Selected"
+                                     rey-uri="/api/enum/nationality"
+                                     rey-attr-name="desc"
+                                     ng-model="$value"></rey-enum-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="JobIntension"
+                                 rey-text="Job Intension"
+                                 rey-uri="/api/enum/JobIntension">
+                <label>Job Intension:</label>
+                <form class="input-group" ng-submit="$category.item($value.value, $value.desc);$value=null;">
+                    <rey-enum-select rey-default="Not Selected"
+                                     rey-uri="/api/enum/JobIntension"
+                                     rey-attr-name="desc"
+                                     ng-model="$value"></rey-enum-select>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="CV">
+                <label>CV:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="Notes">
+                <label>Notes:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
                     <div class="input-group-btn">
                         <button type="submit" class="btn btn-default">Add</button>
                     </div>

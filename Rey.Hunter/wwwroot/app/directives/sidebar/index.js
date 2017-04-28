@@ -40,8 +40,8 @@
             return {
                 restrict: 'AE',
                 template: `
-<aside class="control-sidebar control-sidebar-dark" style="height:100%;">
-    <div class="tab-content" style="height:100%;" ng-transclude></div>
+<aside class="control-sidebar control-sidebar-dark">
+    <div class="tab-content" ng-transclude></div>
 </aside>`,
                 transclude: true,
                 scope: {

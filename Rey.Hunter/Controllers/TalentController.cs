@@ -1,50 +1,65 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Rey.Hunter.Models.Business;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Linq.Expressions;
-using MongoDB.Driver;
-using MongoDB.Bson;
-using Rey.Hunter.Models;
+using Rey.Hunter.Query;
 using Rey.Mon;
-using System.Reflection;
-using Rey.Mon.Models;
-using Rey.Hunter.Models.Basic;
+using System;
+using System.Linq;
 
 namespace Rey.Hunter.Controllers {
     [Authorize]
     public class TalentController : ReyController {
         public IActionResult Index(string search,
-            string[] englishName,
-            string[] chineseName,
+            string[] title,
+            string[] inChargeOf,
+            string[] grade,
+            string[] industry,
+            string[] crossIndustry,
+            string[] function,
+            string[] crossFunction,
+            string[] crossCategory,
+            string[] crossChannel,
+            string[] brandsHadManaged,
+            string[] KAHadManaged,
             string[] currentLocation,
             string[] mobilityLocation,
             string[] gender,
+            string[] education,
+            string[] language,
+            string[] nationality,
+            string[] jobIntension,
+            string[] cv,
+            string[] notes,
             string orderBy,
             string orderDirection,
             int page = 1) {
 
             IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
-
-            var builder = new QueryBuilder<Talent>(this.GetMonCollection<Talent>());
-            builder.FilterAccount(this.CurrentAccount().Id);
-            builder.FilterSearch(search, x => x.EnglishName, x => x.ChineseName, x => x.Mobile, x => x.Phone, x => x.Email);
-            builder.FilterStringIn(x => x.EnglishName, englishName, true);
-            builder.FilterStringIn(x => x.ChineseName, chineseName, true);
-            builder.FilterEnumIn(x => x.Gender, gender);
-
-            var query = builder.Build();
-
-            if (currentLocation != null && currentLocation.Length > 0) {
-                query = query.Where(x => x.CurrentLocations.Any(y => currentLocation.Contains(y.Id)));
-            }
-
-            if (mobilityLocation != null && mobilityLocation.Length > 0) {
-                query = query.Where(x => x.MobilityLocations.Any(y => mobilityLocation.Contains(y.Id)));
-            }
+            var query = new TalentAdvancedQuery(db, this.CurrentAccount().Id)
+                .Search(search)
+                .Title(title)
+                .InChargeOf(inChargeOf)
+                .Grade(grade)
+                .Industry(industry)
+                .CrossIndustry(crossIndustry)
+                .Function(function)
+                .CrossFunction(crossFunction)
+                .CrossCategory(crossCategory)
+                .CrossChannel(crossChannel)
+                .BrandsHadManaged(brandsHadManaged)
+                .KAHadManaged(KAHadManaged)
+                .CurrentLocation(currentLocation)
+                .MobilityLocation(mobilityLocation)
+                .Gender(gender)
+                .Education(education)
+                .Language(language)
+                .Nationality(nationality)
+                .JobIntension(jobIntension)
+                .CV(cv)
+                .Notes(notes)
+                .Query;
 
             if (!string.IsNullOrEmpty(orderBy)) {
                 if (orderBy.Equals("Company", StringComparison.CurrentCultureIgnoreCase)) {

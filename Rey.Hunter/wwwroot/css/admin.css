@@ -70,8 +70,8 @@ ul.editable-list { list-style: none; margin: 0; padding: 0; }
 
 
 .filter-list { }
-    .filter-list > .filter-category { position: relative; padding-left: 160px; padding-right: 60px; margin: 8px 0; }
-        .filter-list > .filter-category > .name { position: absolute; left: 0; top: 0; min-width: 150px; text-align: right; font-weight: bold; }
+    .filter-list > .filter-category { position: relative; padding-left: 200px; padding-right: 60px; margin: 8px 0; }
+        .filter-list > .filter-category > .name { position: absolute; left: 0; top: 0; min-width: 190px; text-align: right; font-weight: bold; }
         .filter-list > .filter-category > .values { }
             .filter-list > .filter-category > .values > .label { font-weight: normal; display: inline-block; margin: 0 2px; }
                 .filter-list > .filter-category > .values > .label > .fa-remove { cursor: pointer; }
@@ -79,6 +79,9 @@ ul.editable-list { list-style: none; margin: 0; padding: 0; }
 
 .filter-panel { }
     .filter-panel .filter-category { margin: 15px 0; }
+
+.control-sidebar { height: 100%; padding-bottom: 40px; }
+    .control-sidebar > .tab-content { height: 100%; overflow-y: auto; }
 
 .version { font-size: 10px; display: inline-block; }
 

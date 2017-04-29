@@ -42,7 +42,7 @@ namespace Rey.Hunter.Controllers {
             var buildItems = JsonConvert.DeserializeObject<dynamic>(content);
 
             foreach (var buildRef in buildItems.build) {
-                if (result.Count > 20) { break; }
+                if (result.Count > 100) { break; }
 
                 content = await this.GetStringAsync($"{host}{buildRef.href}");
                 var buildItem = JsonConvert.DeserializeObject<dynamic>(content);

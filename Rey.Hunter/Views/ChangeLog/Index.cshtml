@@ -1,0 +1,25 @@
+﻿@model List<Build>
+@{
+    this.ViewBag.Title = "ChangeLog";
+}
+<div>
+    <ul class="timeline">
+        @foreach (var build in this.Model) {
+            <li class="time-label">
+                <span class="bg-aqua-active">
+                    Version: 1.0.1-@build.Number @build.Date
+                </span>
+            </li>
+            @foreach (var change in build.Changes) {
+                <li>
+                    <i class="fa fa-envelope bg-gray"></i>
+                    <div class="timeline-item">
+                        <div class="timeline-body">
+                            @change.Comment
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
+</div>

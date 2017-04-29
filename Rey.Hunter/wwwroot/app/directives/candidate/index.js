@@ -362,6 +362,20 @@
                         }
                         table.panel.saveModel();
                     };
+
+                    $scope.currentExperience = function (talent) {
+                        for (var i = 0, len = talent.experiences.length; i < len; ++i) {
+                            var item = talent.experiences[i];
+                            if (item.currentJob === true) {
+                                return item;
+                            }
+                        }
+                        return null;
+                    };
+
+                    $scope.companyName = function (talent) {
+
+                    };
                 }]
             };
         }]);

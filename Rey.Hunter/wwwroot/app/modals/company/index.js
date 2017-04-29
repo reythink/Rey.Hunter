@@ -7,7 +7,7 @@
             '$uibModal', 'modal_options', 'api',
             function ($uibModal, modal_options, api) {
                 this.open = function (model) {
-                    model = model || new api.Company();
+                    model = model || new api.Company({ status: 1 });
                     var options = {
                         templateUrl: '/app/modals/company/index.html?r=' + Math.random(),
                         controller: [
@@ -52,6 +52,15 @@
                                         $scope.model.contacts.push($scope.current_contact);
                                     }
                                     $scope.current_contact = null;
+                                };
+
+                                $scope.verifyIndustry = function (model) {
+                                    return model.industries && model.industries.length > 0;
+                                };
+
+                                $scope.disabled = function (form, model) {
+                                    return form.$invalid
+                                        || !$scope.verifyIndustry(model);
                                 };
                             }]
                     };

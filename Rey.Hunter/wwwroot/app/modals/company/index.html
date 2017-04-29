@@ -3,7 +3,7 @@
         <span type="button" class="close" ng-click="cancel()">
             <span aria-hidden="true">×</span>
         </span>
-        <h4 class="modal-title">{{title}}</h4>
+        <h4 class="modal-title">Company</h4>
     </div>
     <div class="modal-body">
         <!--Basic Information-->
@@ -11,34 +11,51 @@
             <div class="box-header with-border">Basic Information</div>
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Name</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="Name" ng-model="model.name" required>
+                    <div class="has-feedback" ng-class="form.name.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-4">
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   placeholder="Name"
+                                   ng-model="model.name"
+                                   ng-required="true">
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Industry</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/industry/"
-                                          rey-tree
-                                          ng-model="model.industries"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyIndustry(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Industry</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected"
+                                              rey-uri="/api/industry/"
+                                              rey-tree
+                                              ng-model="model.industries"></rey-multi-select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Type</label>
-                    <div class="col-sm-4">
-                        <rey-enum-select rey-default="Not Selected"
-                                         rey-uri="/api/enum/companyType"
-                                         rey-attr-name="desc"
-                                         rey-attr-value="value"
-                                         ng-model="model.type"></rey-enum-select>
+                    <div class="has-feedback" ng-class="form.type.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">Type</label>
+                        <div class="col-sm-4">
+                            <rey-enum-select rey-default="Not Selected"
+                                             rey-uri="/api/enum/companyType"
+                                             rey-attr-name="desc"
+                                             rey-attr-value="value"
+                                             rey-name="type"
+                                             ng-model="model.type"
+                                             ng-required="true"></rey-enum-select>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Status</label>
-                    <div class="col-sm-4">
-                        <rey-enum-select rey-default="Not Selected"
-                                         rey-uri="/api/enum/companyStatus"
-                                         rey-attr-name="desc"
-                                         rey-attr-value="value"
-                                         ng-model="model.status"></rey-enum-select>
+                    <div class="has-feedback" ng-class="form.status.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">Status</label>
+                        <div class="col-sm-4">
+                            <rey-enum-select rey-default="Not Selected"
+                                             rey-uri="/api/enum/companyStatus"
+                                             rey-attr-name="desc"
+                                             rey-attr-value="value"
+                                             rey-name="status"
+                                             ng-model="model.status"
+                                             ng-required="true"></rey-enum-select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,6 +188,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid"><i class="fa fa-save"></i> Save</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="disabled(form, model)"><i class="fa fa-save"></i> Save</button>
     </div>
 </form>

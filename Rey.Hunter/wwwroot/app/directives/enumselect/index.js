@@ -6,7 +6,7 @@
             return {
                 restrict: 'E',
                 template: `
-<select class="form-control" ng-model="ngModel">
+<select class="form-control" ng-model="ngModel" name="{{reyName}}" ng-required="{{ngRequired}}">
     <option ng-if="reyDefault" value="" ng-bind="reyDefault"></option>
     <option ng-repeat="model in models" ng-value="getValue(model)" ng-bind="getName(model)"></option>
 </select>`,
@@ -15,7 +15,9 @@
                     reyUri: '@',
                     reyAttrName: '@',
                     reyAttrValue: '@',
-                    ngModel: '='
+                    reyName: '@',
+                    ngModel: '=',
+                    ngRequired: '='
                 },
                 link: function (scope, element, attrs) {
                     $http.get(scope.reyUri).then(function (resp) {

@@ -7,7 +7,7 @@
             '$uibModal', 'modal_options', 'api',
             function ($uibModal, modal_options, api) {
                 this.open = function (model) {
-                    model = model || new api.Talent();
+                    model = model || new api.Talent({ experiences: [], language: 1, nationality: 1 });
                     var options = {
                         templateUrl: '/app/modals/talent/index.html?r=' + Math.random(),
                         controller: [
@@ -37,6 +37,15 @@
                                             $uibModalInstance.close($scope.model);
                                         }
                                     });
+                                };
+
+                                $scope.verifyCurrentLocation = function (model) {
+                                    return model.currentLocations && model.currentLocations.length > 0;
+                                };
+
+                                $scope.disabled = function (form, model) {
+                                    return form.$invalid
+                                        || !$scope.verifyCurrentLocation(model);
                                 };
                             }]
                     };

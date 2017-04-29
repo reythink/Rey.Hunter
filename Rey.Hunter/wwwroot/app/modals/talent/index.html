@@ -3,7 +3,7 @@
         <span type="button" class="close" ng-click="cancel()">
             <span aria-hidden="true">×</span>
         </span>
-        <h4 class="modal-title">{{title}}</h4>
+        <h4 class="modal-title">Talent</h4>
     </div>
     <div class="modal-body">
         <!--Basic Information-->
@@ -27,9 +27,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">English Name</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="English Name" ng-model="model.englishName">
+                    <div class="has-feedback" ng-class="form.englishName.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">English Name</label>
+                        <div class="col-sm-4">
+                            <input type="text"
+                                   class="form-control"
+                                   name="englishName"
+                                   placeholder="English Name"
+                                   ng-model="model.englishName"
+                                   ng-required="true">
+                        </div>
                     </div>
                     <label class="col-sm-2 control-label">Chinese Name</label>
                     <div class="col-sm-4">
@@ -41,13 +48,17 @@
                     <div class="col-sm-4">
                         <rey-date-picker ng-model="model.birthday" rey-end-today></rey-date-picker>
                     </div>
-                    <label class="col-sm-2 control-label">Gender</label>
-                    <div class="col-sm-4">
-                        <rey-enum-select rey-default="Not Selected"
-                                         rey-uri="/api/enum/gender"
-                                         rey-attr-name="desc"
-                                         rey-attr-value="value"
-                                         ng-model="model.gender"></rey-enum-select>
+                    <div class="has-feedback" ng-class="form.gender.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">Gender</label>
+                        <div class="col-sm-4">
+                            <rey-enum-select rey-default="Not Selected"
+                                             rey-uri="/api/enum/gender"
+                                             rey-attr-name="desc"
+                                             rey-attr-value="value"
+                                             rey-name="gender"
+                                             ng-model="model.gender"
+                                             ng-required="true"></rey-enum-select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -127,12 +138,14 @@
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Current</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/location/"
-                                          rey-tree
-                                          ng-model="model.currentLocations"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyCurrentLocation(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Current</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected"
+                                              rey-uri="/api/location/"
+                                              rey-tree
+                                              ng-model="model.currentLocations"></rey-multi-select>
+                        </div>
                     </div>
                     <label class="col-sm-2 control-label">Mobility</label>
                     <div class="col-sm-4">
@@ -391,7 +404,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Basic Salary</label>
                             <div class="col-sm-2">
-                                <input type="number" class="form-control" placeholder="per month" ng-model="item.basicSalary"/>
+                                <input type="number" class="form-control" placeholder="per month" ng-model="item.basicSalary" />
                             </div>
                             <div class="col-sm-2">
                                 <select class="form-control" ng-model="item.basicSalaryMonths">
@@ -401,10 +414,10 @@
                                 </select>
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" placeholder="Bonus" ng-model="item.bonus"/>
+                                <input type="text" class="form-control" placeholder="Bonus" ng-model="item.bonus" />
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" placeholder="Allowance" ng-model="item.allowance"/>
+                                <input type="text" class="form-control" placeholder="Allowance" ng-model="item.allowance" />
                             </div>
                         </div>
                         <span class="btn-remove" ng-click="experience_remove(item)"><i class="fa fa-times-circle-o"></i></span>
@@ -419,6 +432,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid"><i class="fa fa-save"></i> Save</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="disabled(form, model)"><i class="fa fa-save"></i> Save</button>
     </div>
 </form>

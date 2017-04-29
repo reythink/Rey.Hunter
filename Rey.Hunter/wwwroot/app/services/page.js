@@ -15,18 +15,14 @@
         //! angular resource of model.
         get Model() { return this._options.Model; }
 
-        //! default model value.
-        get model() { return this._options.model || new this.Model(); }
-
         //! dialog box.
         get modal() { return this._options.modal; }
 
         initCreate(options) {
             options = angular.extend({}, ListPage.defaults.create, options);
             var modal = this.modal;
-            var model = this.model;
             this.scope[options.name] = function () {
-                modal.open(model).result.then(options.then);
+                modal.open().result.then(options.then);
             };
             return this;
         }
@@ -99,7 +95,7 @@
         static get defaults() {
             return {
                 services: { bootbox: null, order: null },
-                options: { scope: null, Model: null, model: null, modal: null },
+                options: { scope: null, Model: null, modal: null },
                 create: { name: 'create', then: function () { location.reload(); } },
                 update: { name: 'update', then: function () { location.reload(); } },
                 delete: {

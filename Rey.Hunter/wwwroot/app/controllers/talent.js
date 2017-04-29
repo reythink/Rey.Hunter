@@ -11,7 +11,6 @@
                 var options = {
                     scope: $scope,
                     Model: api.Talent,
-                    model: new api.Talent({ experiences: [] }),
                     modal: modal.talent
                 };
                 page.list(options)

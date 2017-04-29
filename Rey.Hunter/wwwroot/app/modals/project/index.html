@@ -3,7 +3,7 @@
         <span type="button" class="close" ng-click="cancel()">
             <span aria-hidden="true">×</span>
         </span>
-        <h4 class="modal-title">{{title}}</h4>
+        <h4 class="modal-title">Project</h4>
     </div>
     <div class="modal-body">
         <!--Basic Information-->
@@ -11,41 +11,63 @@
             <div class="box-header with-border">Basic Information</div>
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Position</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="Position" ng-model="model.name">
+                    <div class="has-feedback" ng-class="form.name.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">Position</label>
+                        <div class="col-sm-4">
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   placeholder="Position"
+                                   ng-model="model.name"
+                                   ng-required="true">
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Client</label>
-                    <div class="col-sm-4">
-                        <rey-single-select rey-placeholder="Not Selected"
-                                           rey-uri="/api/company/"
-                                           ng-model="model.client"></rey-single-select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Function</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/function/"
-                                          rey-tree
-                                          ng-model="model.functions"></rey-multi-select>
-                    </div>
-                    <label class="col-sm-2 control-label">Location</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/location/"
-                                          rey-tree
-                                          ng-model="model.locations"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyClient(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Client</label>
+                        <div class="col-sm-4">
+                            <rey-single-select rey-placeholder="Not Selected"
+                                               rey-uri="/api/company/"
+                                               ng-model="model.client"></rey-single-select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Headcount</label>
-                    <div class="col-sm-4">
-                        <input type="number" class="form-control" placeholder="Headcount" ng-model="model.headcount">
+                    <div class="has-feedback" ng-class="!verifyFunction(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Function</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected"
+                                              rey-uri="/api/function/"
+                                              rey-tree
+                                              ng-model="model.functions"></rey-multi-select>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Assignment Date</label>
-                    <div class="col-sm-4">
-                        <rey-date-picker ng-model="model.assignmentDate"></rey-date-picker>
+                    <div class="has-feedback" ng-class="!verifyLocation(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Location</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected"
+                                              rey-uri="/api/location/"
+                                              rey-tree
+                                              ng-model="model.locations"></rey-multi-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="has-feedback" ng-class="form.headcount.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">Headcount</label>
+                        <div class="col-sm-4">
+                            <input type="number"
+                                   class="form-control"
+                                   name="headcount"
+                                   placeholder="Headcount"
+                                   ng-model="model.headcount"
+                                   ng-required="true">
+                        </div>
+                    </div>
+                    <div class="has-feedback" ng-class="!verifyAssignmentDate(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Assignment Date</label>
+                        <div class="col-sm-4">
+                            <rey-date-picker ng-model="model.assignmentDate"></rey-date-picker>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -59,17 +81,21 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Project Leader</label>
-                    <div class="col-sm-4">
-                        <rey-single-select rey-placeholder="Not Selected"
-                                           rey-uri="/api/user/"
-                                           ng-model="model.manager"></rey-single-select>
+                    <div class="has-feedback" ng-class="!verifyManager(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Project Leader</label>
+                        <div class="col-sm-4">
+                            <rey-single-select rey-placeholder="Not Selected"
+                                               rey-uri="/api/user/"
+                                               ng-model="model.manager"></rey-single-select>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Consultant</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/user/"
-                                          ng-model="model.consultants"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyConsultant(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Consultant</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected"
+                                              rey-uri="/api/user/"
+                                              ng-model="model.consultants"></rey-multi-select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -161,6 +187,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
-        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid"><i class="fa fa-save"></i> Save</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="disabled(form, model)"><i class="fa fa-save"></i> Save</button>
     </div>
 </form>

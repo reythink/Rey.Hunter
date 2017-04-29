@@ -290,16 +290,21 @@
                 <ul class="editable-list">
                     <li ng-repeat="item in model.experiences">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Company</label>
-                            <div class="col-sm-8">
-                                <rey-single-select rey-placeholder="Not Selected"
-                                                   rey-uri="/api/company/"
-                                                   ng-model="item.company"></rey-single-select>
+                            <div class="has-feedback" ng-class="!verifyExperienceCompany(item)?'has-error':''">
+                                <label class="col-sm-2 control-label">Company</label>
+                                <div class="col-sm-8">
+                                    <rey-single-select rey-placeholder="Not Selected"
+                                                       rey-uri="/api/company/"
+                                                       ng-model="item.company"></rey-single-select>
+                                </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" ng-model="item.currentJob"> Current Job
+                                        <input type="checkbox" 
+                                               ng-model="item.currentJob" 
+                                               ng-disabled="item.currentJob"
+                                               ng-change="experience_current_changed(item)"> Current Job
                                     </label>
                                 </div>
                             </div>
@@ -360,7 +365,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Job</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 has-feedback" ng-class="!verifyExperienceTitle(item)?'has-error':''">
                                 <input type="text" class="form-control" placeholder="Title" ng-model="item.title">
                             </div>
                             <div class="col-sm-4">

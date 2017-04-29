@@ -4,10 +4,10 @@
     angular
         .module('app')
         .service('modal_talent', [
-            '$uibModal', 'modal_options', 'api',
-            function ($uibModal, modal_options, api) {
+            '$uibModal', 'modal_options', 'api', 'growl',
+            function ($uibModal, modal_options, api, growl) {
                 this.open = function (model) {
-                    model = model || new api.Talent({ experiences: [], language: 1, nationality: 1 });
+                    model = model || new api.Talent({ experiences: [{ currentJob: true }], language: 1, nationality: 1 });
                     var options = {
                         templateUrl: '/app/modals/talent/index.html?r=' + Math.random(),
                         controller: [
@@ -22,9 +22,26 @@
                                     $scope.model.experiences.push({});
                                 };
 
-                                $scope.experience_remove = function (item) {
-                                    var index = $scope.model.experiences.indexOf(item);
+                                $scope.experience_remove = function (experience) {
+                                    if ($scope.model.experiences.length <= 1) {
+                                        growl.warning('Cannot remove last experience!');
+                                        return;
+                                    }
+
+                                    var index = $scope.model.experiences.indexOf(experience);
                                     $scope.model.experiences.splice(index, 1);
+
+                                    if (experience.currentJob === true) {
+                                        $scope.model.experiences[0].currentJob = true;
+                                    }
+                                };
+
+                                $scope.experience_current_changed = function (experience) {
+                                    $scope.model.experiences.forEach(function (item) {
+                                        if (item !== experience) {
+                                            item.currentJob = false;
+                                        }
+                                    });
                                 };
 
                                 $scope.cancel = function () {
@@ -43,9 +60,27 @@
                                     return model.currentLocations && model.currentLocations.length > 0;
                                 };
 
+                                $scope.verifyExperienceCompany = function (experience) {
+                                    return experience.company && experience.company.id;
+                                };
+
+                                $scope.verifyExperienceTitle = function (experience) {
+                                    return experience.title;
+                                };
+
+                                $scope.verifyExperience = function (model) {
+                                    for (var i = 0, len = model.experiences.length; i < len; ++i) {
+                                        var item = model.experiences[i];
+                                        if (!$scope.verifyExperienceCompany(item)) { return false; }
+                                        if (!$scope.verifyExperienceTitle(item)) { return false; }
+                                    }
+                                    return true;
+                                };
+
                                 $scope.disabled = function (form, model) {
                                     return form.$invalid
-                                        || !$scope.verifyCurrentLocation(model);
+                                        || !$scope.verifyCurrentLocation(model)
+                                        || !$scope.verifyExperience(model);
                                 };
                             }]
                     };

@@ -219,7 +219,7 @@
                     <div class="box box-info">
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-md-6" ng-repeat="item in model.experiences  | orderBy:'fromMonth' | orderBy:'fromYear' | orderBy:'currentJob':true">
+                                <div class="col-md-6" ng-repeat="item in model.experiences  | orderBy:'':true:expComparator">
                                     <div class="box box-info box-solid">
                                         <div class="box-header with-border">
                                             <h3 class="box-title">

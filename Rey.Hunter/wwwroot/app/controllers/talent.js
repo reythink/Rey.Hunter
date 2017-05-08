@@ -35,5 +35,13 @@
                 page.item(options)
                     .initInit()
                     .initUpdate();
+
+                $scope.expComparator = function (item1, item2) {
+                    var value1 = item1.value;
+                    var value2 = item2.value;
+                    value1 = value1.currentJob ? 1000000 : 0 + value1.fromYear * 100 + value1.fromMonth;
+                    value2 = value2.currentJob ? 1000000 : 0 + value2.fromYear * 100 + value2.fromMonth;
+                    return value1 - value2;
+                };
             }]);
 })();

@@ -29,6 +29,9 @@
                     <button type="button" class="btn btn-default" ng-click="modal.export.open('/api/talent')"><i class="fa fa-download"></i> Export</button>
                 </div>
                 <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-disabled="selector.items(true).length === 0" ng-click="batchJoin(selector.values(true))"><i class="fa fa-plus-circle"></i> Join Project</button>
+                </div>
+                <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Order By {{order.current.text}} {{order.current.direction}} <span class="caret"></span>
                     </button>
@@ -64,8 +67,8 @@
                         <th>Gender</th>
                         <th>Current Location</th>
                         <th>Mobility</th>
-                        <th>Working Background</th>
-                        <th>Actions</th>
+                        <th>Previous Company</th>
+                        <th width="180">Actions</th>
                     </tr>
                     @foreach (var item in this.Model) {
                         <tr>
@@ -98,8 +101,9 @@
                                     <span class="label label-info">@item2.Company?.Concrete(this.ViewBag.DB)?.Name</span>
                                 }
                             </td>
-                            <td width="130" align="right">
+                            <td align="right">
                                 <div class="btn-group btn-group-xs">
+                                    <button class="btn btn-default" ng-click="join('@item.Id')"><i class="fa fa-plus-circle"></i> Join</button>
                                     <button class="btn btn-default" ng-click="update('@item.Id')"><i class="fa fa-edit"></i> Edit</button>
                                     <button type="button" class="btn btn-danger" ng-click="delete('@item.Id')"><i class="fa fa-trash-o"></i> Delete</button>
                                 </div>

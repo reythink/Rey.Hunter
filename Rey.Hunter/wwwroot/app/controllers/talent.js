@@ -1,13 +1,11 @@
 ﻿(function () {
     'use strict';
 
-
-
     angular
         .module('app')
         .controller('talent-list-ctrl', [
-            'page', '$scope', 'api', 'modal', 'selector', 'filter',
-            function (page, $scope, api, modal, selector, filter) {
+            'page', '$scope', 'api', 'modal', 'selector', 'filter', 'growl',
+            function (page, $scope, api, modal, selector, filter, growl) {
                 var options = {
                     scope: $scope,
                     Model: api.Talent,
@@ -18,6 +16,8 @@
                     .initUpdate()
                     .initDelete()
                     .initBatchDelete()
+                    .initJoin({ modal: modal.join, then: () => growl.success('candidate join success!') })
+                    .initBatchJoin({ modal: modal.join, then: () => growl.success('candidates join success!') })
                     .initOrder();
 
                 $scope.selector = selector.create();

@@ -1,0 +1,24 @@
+﻿<form name="form" class="form-horizontal" ng-submit="ok()">
+    <div class="modal-header clearfix">
+        <span type="button" class="close" ng-click="cancel()">
+            <span aria-hidden="true">×</span>
+        </span>
+        <h4 class="modal-title">Join Project</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <div class="has-feedback" ng-class="(!model)?'has-error':''">
+                <label class="col-sm-2 control-label">Project</label>
+                <div class="col-sm-10">
+                    <rey-single-select rey-placeholder="Not Selected"
+                                       rey-uri="/api/project/"
+                                       ng-model="model"></rey-single-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || (!model)"><i class="fa fa-save"></i> Save</button>
+    </div>
+</form>

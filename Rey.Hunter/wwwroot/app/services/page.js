@@ -92,6 +92,22 @@
             return this;
         }
 
+        initJoin(options) {
+            options = angular.extend({}, ListPage.defaults.join, options);
+            this.scope[options.name] = function (id) {
+                options.modal.open([id]).result.then(options.then);
+            };
+            return this;
+        }
+
+        initBatchJoin(options) {
+            options = angular.extend({}, ListPage.defaults.batchJoin, options);
+            this.scope[options.name] = function (idList) {
+                options.modal.open(idList).result.then(options.then);
+            };
+            return this;
+        }
+
         static get defaults() {
             return {
                 services: { bootbox: null, order: null },
@@ -128,6 +144,8 @@
                 },
                 order: { name: 'order' },
                 auth: { name: 'auth', modal: null, then: function () { location.reload(); } },
+                join: { name: 'join', modal: null, then: function () { location.reload(); } },
+                batchJoin: { name: 'batchJoin', modal: null, then: function () { location.reload(); } },
             }
         };
     }

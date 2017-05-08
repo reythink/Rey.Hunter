@@ -7,3 +7,4 @@ import './project';
 import './talent';
 import './role';
 import './user';
+import './join';

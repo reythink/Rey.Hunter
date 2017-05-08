@@ -62,6 +62,12 @@
     <Content Include="wwwroot\app\modals\index.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\app\modals\join\index.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\modals\join\index.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\app\modals\role\auth.html" />
     <Content Include="wwwroot\app\modals\role\index.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

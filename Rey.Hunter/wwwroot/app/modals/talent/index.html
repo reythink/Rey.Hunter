@@ -13,14 +13,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Function</label>
                     <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
+                        <rey-multi-select rey-placeholder="Not Selected (Current)"
                                           rey-uri="/api/function/"
                                           rey-tree
                                           ng-model="model.functions"></rey-multi-select>
                     </div>
                     <label class="col-sm-2 control-label">Industry</label>
                     <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
+                        <rey-multi-select rey-placeholder="Not Selected (Current)"
                                           rey-uri="/api/industry/"
                                           rey-tree
                                           ng-model="model.industries"></rey-multi-select>
@@ -46,7 +46,10 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Date Of Birth</label>
                     <div class="col-sm-4">
-                        <rey-date-picker ng-model="model.birthday" rey-end-today></rey-date-picker>
+                        <select class="form-control" ng-model="model.birthYear">
+                            <option value="">Not Selected</option>
+                            <option ng-repeat="item in years" ng-bind="item" ng-value="item"></option>
+                        </select>
                     </div>
                     <div class="has-feedback" ng-class="form.gender.$invalid?'has-error':''">
                         <label class="col-sm-2 control-label">Gender</label>

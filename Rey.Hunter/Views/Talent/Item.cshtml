@@ -1,4 +1,7 @@
 ﻿@model Talent
+@{
+    this.ViewBag.Title = $"Talent - {this.Model.EnglishName}";
+}
 <div class="row" ng-controller="talent-item-ctrl" ng-init="init('@this.Model.Id')">
     <div class="col-md-3">
         <div class="box box-primary">
@@ -63,7 +66,7 @@
                                         </tr>
                                         <tr>
                                             <td>Date Of Birth:</td>
-                                            <td>@this.Model.Birthday?.ToString("yyyy/MM/dd")</td>
+                                            <td>@this.Model.BirthYear</td>
                                         </tr>
                                         <tr>
                                             <td>Gender:</td>
@@ -91,7 +94,7 @@
                                         </tr>
                                         <tr>
                                             <td>Linkedin Profile:</td>
-                                            <td>@this.Model.Linkedin</td>
+                                            <td><a href="@this.Model.Linkedin" target="_blank">@this.Model.Linkedin</a></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -135,7 +138,7 @@
                                         </tr>
                                         <tr>
                                             <td>Email:</td>
-                                            <td>@this.Model.Email</td>
+                                            <td><a href="mailto:@this.Model.Email">@this.Model.Email</a></td>
                                         </tr>
                                         <tr>
                                             <td>QQ:</td>
@@ -251,12 +254,12 @@
                                                     <td ng-bind="item.grade"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Basic Salary:</td>
-                                                    <td ng-bind="item.basicSalary"></td>
+                                                    <td>Annual Total Package:</td>
+                                                    <td ng-bind="item.annualPackage"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Basic Salary Months:</td>
-                                                    <td ng-bind="item.basicSalaryMonths"></td>
+                                                    <td>Basic Salary:</td>
+                                                    <td>{{item.basicSalary}} <span class="text text-aqua pull-right" ng-if="item.basicSalaryMonths">{{item.basicSalaryMonths}} months</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Bonus:</td>
@@ -291,9 +294,3 @@
         </div>
     </div>
 </div>
-@section Head{
-    <style>
-        .table.table-details { }
-            .table.table-details > tbody > tr > td:first-child { width: 160px; text-align: right; }
-    </style>
-}

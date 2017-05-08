@@ -18,7 +18,7 @@ namespace Rey.Hunter.Models.Business {
 
         public string ChineseName { get; set; }
 
-        public DateTime? Birthday { get; set; }
+        public int? BirthYear { get; set; }
 
         public Gender? Gender { get; set; }
 

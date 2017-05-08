@@ -15,6 +15,7 @@
                             function ($scope, $uibModalInstance, transfer) {
                                 $scope.model = transfer(model, {
                                     startDate: function (value) { return value ? new Date(value) : value; },
+                                    offerSignedDate: function (value) { return value ? new Date(value) : value; },
                                     assignmentDate: function (value) { return value ? new Date(value) : value; },
                                     onBoardDate: function (value) { return value ? new Date(value) : value; },
                                 });

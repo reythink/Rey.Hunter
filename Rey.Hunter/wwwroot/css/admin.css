@@ -121,3 +121,12 @@ ul.rey-tree-view { }
     .ui-select-choices-row-inner .level.level-7 { padding-left: 140px; }
     .ui-select-choices-row-inner .level.level-8 { padding-left: 160px; }
     .ui-select-choices-row-inner .level.level-9 { padding-left: 180px; }
+
+.box > .box-header { font-weight: bold; }
+
+.table th, td { text-align: center; }
+.table.table-condensed { font-size: 12px; }
+    .table.table-condensed > thead > tr > th { text-align: center; }
+    .table.table-condensed > tbody > tr > td { text-align: center; line-height: 19px; }
+.table.table-details > tbody > tr > td { text-align: left; }
+    .table.table-details > tbody > tr > td:first-child { width: 160px; text-align: right; }

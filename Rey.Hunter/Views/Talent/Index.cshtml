@@ -53,8 +53,8 @@
                 </div>
             </div>
 
-            <table class="table table-striped">
-                <tbody>
+            <table class="table table-striped table-condensed">
+                <thead>
                     <tr>
                         <th></th>
                         <th>Company</th>
@@ -64,12 +64,15 @@
                         <th>English Name</th>
                         <th>Chinese Name</th>
                         <th>DOB</th>
+                        <th>Job Intension</th>
                         <th>Gender</th>
                         <th>Current Location</th>
                         <th>Mobility</th>
                         <th>Previous Company</th>
-                        <th width="180">Actions</th>
+                        <th>Actions</th>
                     </tr>
+                </thead>
+                <tbody>
                     @foreach (var item in this.Model) {
                         <tr>
                             <td width="40">
@@ -84,7 +87,8 @@
                             <td>@current?.Grade</td>
                             <td><a href="/Talent/@item.Id">@item.EnglishName</a></td>
                             <td><a href="/Talent/@item.Id">@item.ChineseName</a></td>
-                            <td>@item.Birthday?.ToString("yyyy/MM/dd")</td>
+                            <td>@item.BirthYear</td>
+                            <td>@item.Intension?.EnumDesc()</td>
                             <td>@item.Gender.EnumDesc()</td>
                             <td>
                                 @foreach (var item2 in item.CurrentLocations) {

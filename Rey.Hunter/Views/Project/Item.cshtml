@@ -1,6 +1,6 @@
 ﻿@model Project
 @{
-    this.ViewBag.Title = "Project";
+    this.ViewBag.Title = $"Project - {this.Model.Name}";
 }
 <div class="row" ng-controller="project-item-ctrl" ng-init="init('@this.Model.Id')">
     <div class="col-md-3">
@@ -194,9 +194,3 @@
         </div>
     </div>
 </div>
-@section Head{
-    <style>
-        .table.table-details { }
-            .table.table-details > tbody > tr > td:first-child { width: 160px; text-align: right; }
-    </style>
-}

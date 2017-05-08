@@ -166,6 +166,7 @@
             var scope = this.scope;
             scope[options.name] = function (id) {
                 Model.get({ id: id }, function (model) {
+                    console.log(model);
                     scope[options.modelName] = model;
                 });
             };

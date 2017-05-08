@@ -16,7 +16,8 @@
                                 $scope.model = transfer(model, {
                                     birthday: function (value) { return value ? new Date(value) : value; }
                                 });
-                                $scope.years = generator.range((new Date()).getFullYear(), -50, true);
+                                var year = (new Date()).getFullYear();
+                                $scope.years = generator.range(year, 1960 - year, true);
 
                                 $scope.experience_create = function () {
                                     $scope.model.experiences.push({});

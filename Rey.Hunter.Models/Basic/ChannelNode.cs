@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Rey.Hunter.Models.Basic {
-    [MonCollection("bus.channels")]
+    [MonCollection("bas.channels")]
     public class ChannelNode : AccountNodeModel<ChannelNode> {
         public string Name { get; set; }
     }

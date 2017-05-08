@@ -33,6 +33,17 @@ namespace Rey.Hunter.Query {
             if (model.Wechat != null && model.Wechat.IndexOf(value, StringComparison.CurrentCultureIgnoreCase) != -1)
                 return true;
 
+            if (model.Experiences != null
+                && model.Experiences.Count > 0
+                && model.Experiences.Any(exp => {
+                    if (!exp.CurrentJob.HasValue || !exp.CurrentJob.Value) { return false; }
+                    var name = exp.Company?.Concrete(this.DB)?.Name;
+                    if (name == null) { return false; }
+                    return name.IndexOf(value, StringComparison.CurrentCultureIgnoreCase) != -1;
+                })) {
+                return true;
+            }
+
             return false;
         }
 

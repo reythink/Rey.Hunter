@@ -65,6 +65,7 @@
                                 };
 
                                 $scope.verifyExperienceTitle = function (experience) {
+                                    if (!experience.currentJob) { return true; }
                                     return experience.title;
                                 };
 

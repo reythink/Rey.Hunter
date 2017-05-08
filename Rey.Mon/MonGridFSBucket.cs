@@ -45,7 +45,7 @@ namespace Rey.Mon {
             if (buffer == null)
                 throw new ArgumentNullException(nameof(buffer));
 
-            var md5 = string.Join("", MD5.Create().ComputeHash(buffer).Select(x => string.Format("{0:x}", x)));
+            var md5 = string.Join("", MD5.Create().ComputeHash(buffer).Select(x => string.Format("{0:x2}", x)));
             return FindByMD5(md5);
         }
 
@@ -53,7 +53,7 @@ namespace Rey.Mon {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
 
-            var md5 = string.Join("", MD5.Create().ComputeHash(input).Select(x => string.Format("{0:x}", x)));
+            var md5 = string.Join("", MD5.Create().ComputeHash(input).Select(x => string.Format("{0:x2}", x)));
             return FindByMD5(md5);
         }
 

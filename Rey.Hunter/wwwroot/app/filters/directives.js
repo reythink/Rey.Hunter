@@ -4,13 +4,9 @@
     angular
         .module('app')
         .filter('textLevel', function () {
-            return function (input, item) {
-                var level = item.level || 0;
-                var ret = input;
-                for (var i = 0; i < level; ++i) {
-                    ret = '&nbsp;&nbsp;&nbsp;&nbsp;' + ret;
-                }
-                return ret;;
+            return function (input, item, tree) {
+                if (!tree) { return input; }
+                return '<span class="level level-' + (item.level || 0) + '">' + input + '</span>';
             };
         })
         .filter('propsFilter', function () {

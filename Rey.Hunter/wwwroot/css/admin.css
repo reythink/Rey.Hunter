@@ -109,3 +109,15 @@ ul.rey-tree-view { }
         ul.rey-tree-view > li.tree-row.ng-enter-active { opacity: 1; max-height: 60px; }
         ul.rey-tree-view > li.tree-row.ng-leave { transition: 200ms linear all; position: relative; display: block; height: 60px; max-height: 30px; opacity: 1; }
         ul.rey-tree-view > li.tree-row.ng-leave-active { height: 0px; max-height: 0px; opacity: 0; }
+
+.ui-select-choices-row-inner .level { font-size: 12px; }
+    .ui-select-choices-row-inner .level.level-0 { padding-left: 0; font-size: 18px; font-weight: bold; }
+    .ui-select-choices-row-inner .level.level-1 { padding-left: 20px; font-size: 16px; }
+    .ui-select-choices-row-inner .level.level-2 { padding-left: 40px; font-size: 14px; }
+    .ui-select-choices-row-inner .level.level-3 { padding-left: 60px; }
+    .ui-select-choices-row-inner .level.level-4 { padding-left: 80px; }
+    .ui-select-choices-row-inner .level.level-5 { padding-left: 100px; }
+    .ui-select-choices-row-inner .level.level-6 { padding-left: 120px; }
+    .ui-select-choices-row-inner .level.level-7 { padding-left: 140px; }
+    .ui-select-choices-row-inner .level.level-8 { padding-left: 160px; }
+    .ui-select-choices-row-inner .level.level-9 { padding-left: 180px; }

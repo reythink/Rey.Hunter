@@ -170,9 +170,16 @@
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Mobile Phone</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="Mobile Phone" ng-model="model.mobile">
+                    <div class="has-feedback" ng-class="form.mobile.$invalid?'has-error':''">
+                        <label class="col-sm-2 control-label">Mobile Phone</label>
+                        <div class="col-sm-4">
+                            <input type="text" 
+                                   class="form-control" 
+                                   placeholder="Mobile Phone" 
+                                   name="mobile"
+                                   ng-model="model.mobile" 
+                                   ng-required="true">
+                        </div>
                     </div>
                     <label class="col-sm-2 control-label">Table Phone</label>
                     <div class="col-sm-4">
@@ -301,8 +308,8 @@
                             <div class="col-sm-2">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" 
-                                               ng-model="item.currentJob" 
+                                        <input type="checkbox"
+                                               ng-model="item.currentJob"
                                                ng-disabled="item.currentJob"
                                                ng-change="experience_current_changed(item)"> Current Job
                                     </label>

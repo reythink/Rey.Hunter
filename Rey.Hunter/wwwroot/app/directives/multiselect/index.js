@@ -11,7 +11,7 @@
     <ui-select-choices repeat="item in items | propsFilter: {name: $select.search}"
                        refresh="search($select.search)"
                        refresh-delay="0">
-        <div ng-bind-html="getSelect(item) | highlight: $select.search | textLevel: item"></div>
+        <div ng-bind-html="getSelect(item) | highlight: $select.search | textLevel: item: options.tree()"></div>
     </ui-select-choices>
 </ui-select>`,
                 scope: {
@@ -49,8 +49,9 @@
                                     for (var i = 0, len = node.children.length; i < len; ++i) {
                                         var child = node.children[i];
                                         child.level = (node.level || 0) + 1;
-                                        stack = [child].concat(stack);
                                     }
+
+                                    stack = node.children.concat(stack);
                                 }
 
                                 scope.items = items;

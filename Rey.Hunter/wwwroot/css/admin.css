@@ -34,6 +34,10 @@ ul.attachment-list { list-style: none; margin: 0; padding: 0; }
         ul.attachment-list > li.add { text-align: center; cursor: pointer; border: 1px dashed #ccc; width: 60px; }
             ul.attachment-list > li.add:hover { color: #00c0ef !important; border-color: #00c0ef !important; }
 
+ul.attachment-list-line { list-style: none; margin: 0; padding: 0; }
+    ul.attachment-list-line > li { padding: 10px 15px; }
+        ul.attachment-list-line > li:nth-of-type(odd) { background-color: #F9F9F9; }
+
 ul.contact-list { list-style: none; margin: 0; padding: 0; }
     ul.contact-list > li { margin: 10px 15px; margin-left: 0; padding: 10px 15px; position: relative; display: inline-block; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; width: 100%; }
         ul.contact-list > li:first-of-type { margin-top: 0; }

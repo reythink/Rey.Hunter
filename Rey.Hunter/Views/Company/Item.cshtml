@@ -96,10 +96,11 @@
                     <div class="box box-info">
                         <div class="box-header">Department Structures</div>
                         <div class="box-body no-padding">
-                            <ul class="attachment-list">
+                            <ul class="attachment-list-line">
                                 @foreach (var item in this.Model.DepartmentStructures) {
                                     <li>
                                         <a class="text" href="@item.Url">@item.Name</a>
+                                        <small class="pull-right text text-muted">@item.CreateAt</small>
                                     </li>
                                 }
                             </ul>
@@ -108,10 +109,11 @@
                     <div class="box box-info">
                         <div class="box-header">Namelist</div>
                         <div class="box-body no-padding">
-                            <ul class="attachment-list">
+                            <ul class="attachment-list-line">
                                 @foreach (var item in this.Model.NameList) {
                                     <li>
                                         <a class="text" href="@item.Url">@item.Name</a>
+                                        <small class="pull-right text text-muted">@item.CreateAt</small>
                                     </li>
                                 }
                             </ul>

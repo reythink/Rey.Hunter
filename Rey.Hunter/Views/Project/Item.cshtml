@@ -180,10 +180,11 @@
                 <div class="tab-pane" id="attachments">
                     <div class="box box-info">
                         <div class="box-body no-padding">
-                            <ul class="attachment-list">
+                            <ul class="attachment-list-line">
                                 @foreach (var item in this.Model.Attachments) {
                                     <li>
                                         <a class="text" href="@item.Url">@item.Name</a>
+                                        <small class="pull-right text text-muted">@item.CreateAt</small>
                                     </li>
                                 }
                             </ul>

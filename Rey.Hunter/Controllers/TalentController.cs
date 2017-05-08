@@ -12,6 +12,8 @@ namespace Rey.Hunter.Controllers {
     [Authorize]
     public class TalentController : ReyController {
         public IActionResult Index(string search,
+            string[] company,
+            string[] previousCompany,
             string[] title,
             string[] inChargeOf,
             string[] grade,
@@ -39,6 +41,8 @@ namespace Rey.Hunter.Controllers {
             IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
             var query = new TalentAdvancedQuery(db, this.CurrentAccount().Id)
                 .Search(search)
+                .Company(company)
+                .PreviousCompany(previousCompany)
                 .Title(title)
                 .InChargeOf(inChargeOf)
                 .Grade(grade)

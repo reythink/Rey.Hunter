@@ -116,6 +116,24 @@
 
     <rey-sidebar>
         <rey-filter-panel>
+            <rey-filter-category rey-name="Company">
+                <label>Company:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
+            <rey-filter-category rey-name="PreviousCompany" rey-text="Previous Company">
+                <label>Previous Company:</label>
+                <form class="input-group" ng-submit="$category.item($value);$value=null;">
+                    <input type="text" class="form-control" ng-model="$value">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </div>
+                </form>
+            </rey-filter-category>
             <rey-filter-category rey-name="Title">
                 <label>Title:</label>
                 <form class="input-group" ng-submit="$category.item($value);$value=null;">

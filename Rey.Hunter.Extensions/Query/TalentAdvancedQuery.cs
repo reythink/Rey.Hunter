@@ -58,6 +58,44 @@ namespace Rey.Hunter.Query {
             return this;
         }
 
+        private bool Company(Talent model, string value) {
+            var name = model.Experiences?.FirstOrDefault(x => x.CurrentJob == true)?.Company?.Concrete(this.DB)?.Name;
+            if (name == null) { return false; }
+
+            return name.IndexOf(value, StringComparison.CurrentCultureIgnoreCase) != -1;
+        }
+
+        public TalentAdvancedQuery Company(string[] values) {
+            if (values == null || values.Length == 0)
+                return this;
+
+            this.Query = this.Query.Where(
+                model => values.Any(
+                    value => Company(model, value)
+                    )
+                );
+            return this;
+        }
+
+        private bool PreviousCompany(Talent model, string value) {
+            var name = model.Experiences?.FirstOrDefault(x => x.CurrentJob != true)?.Company?.Concrete(this.DB)?.Name;
+            if (name == null) { return false; }
+
+            return name.IndexOf(value, StringComparison.CurrentCultureIgnoreCase) != -1;
+        }
+
+        public TalentAdvancedQuery PreviousCompany(string[] values) {
+            if (values == null || values.Length == 0)
+                return this;
+
+            this.Query = this.Query.Where(
+                model => values.Any(
+                    value => PreviousCompany(model, value)
+                    )
+                );
+            return this;
+        }
+
         private bool Title(Talent model, string value) {
             var experience = model.Experiences.Find(x => x.CurrentJob == true);
             if (experience == null || experience.Title == null)

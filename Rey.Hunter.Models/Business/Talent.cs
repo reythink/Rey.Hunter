@@ -18,6 +18,10 @@ namespace Rey.Hunter.Models.Business {
 
         public string ChineseName { get; set; }
 
+        public string Name {
+            get { return $"{this.EnglishName}"; }
+        }
+
         public int? BirthYear { get; set; }
 
         public Gender? Gender { get; set; }

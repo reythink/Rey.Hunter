@@ -15,6 +15,10 @@ namespace Rey.Hunter.Models.Business {
 
         public CompanyStatus? Status { get; set; }
 
+        public MonStringModelRef<Talent> HR { get; set; }
+
+        public MonStringModelRef<Talent> LineManager { get; set; }
+
         public List<Contact> Contacts { get; set; } = new List<Contact>();
 
         public List<Attachment> DepartmentStructures { get; set; } = new List<Attachment>();

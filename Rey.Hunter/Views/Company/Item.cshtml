@@ -57,6 +57,14 @@
                                     <td>Status:</td>
                                     <td>@this.Model.Status.EnumDesc()</td>
                                 </tr>
+                                <tr>
+                                    <td>HR:</td>
+                                    <td>@this.Model.HR?.Concrete(this.ViewBag.DB)?.Name</td>
+                                </tr>
+                                <tr>
+                                    <td>LM Information:</td>
+                                    <td>@this.Model.LineManager?.Concrete(this.ViewBag.DB)?.Name</td>
+                                </tr>
                             </table>
                         </div>
                     </div>

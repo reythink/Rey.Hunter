@@ -1,0 +1,21 @@
+﻿@{
+    this.ViewBag.Title = "Import/Export";
+}
+
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title">Location</h3>
+            </div>
+            <div class="box-body">
+                <form method="post" action="/Porting/Import" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="location" class="form-control">
+                    </div>
+                    <button class="btn btn-primary pull-right"><i class="fa fa-upload"></i> Import</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

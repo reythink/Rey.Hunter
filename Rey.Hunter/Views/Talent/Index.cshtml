@@ -92,12 +92,12 @@
                             <td>@item.Gender.EnumDesc()</td>
                             <td>
                                 @foreach (var item2 in item.CurrentLocations) {
-                                    <span class="label label-info">@item2.Concrete(this.ViewBag.DB)?.Name</span>
+                                    <span class="label label-info">@item2?.Concrete(this.ViewBag.DB)?.Name</span>
                                 }
                             </td>
                             <td>
                                 @foreach (var item2 in item.MobilityLocations) {
-                                    <span class="label label-info">@item2.Concrete(this.ViewBag.DB)?.Name</span>
+                                    <span class="label label-info">@item2?.Concrete(this.ViewBag.DB)?.Name</span>
                                 }
                             </td>
                             <td>

@@ -3,10 +3,14 @@ using Rey.Mon.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using Rey.Hunter.Models.Basic;
 using System.Collections.Generic;
+using Rey.Hunter.Models.Business.Enums;
 
 namespace Rey.Hunter.Models.Business {
     [MonCollection("bus.companies")]
     public class Company : AccountModel {
+        [BsonIgnoreIfNull]
+        public DataSource? Source { get; set; }
+
         public string Name { get; set; }
 
         public List<MonStringNodeModelRef<IndustryNode>> Industries { get; set; } = new List<MonStringNodeModelRef<IndustryNode>>();

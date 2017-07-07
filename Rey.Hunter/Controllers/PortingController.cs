@@ -157,7 +157,7 @@ namespace Rey.Hunter.Controllers {
             if (exceptions.Count > 0)
                 throw new InvalidOperationException($"Repeation:\r\n{string.Join("\r\n", exceptions)}");
 
-            collection.DeleteMany(x => x.Source == DataSource.Excel);
+            //collection.DeleteMany(x => x.Source == DataSource.Excel);
             collection.InsertMany(items.Select(x => (Company)x.Model));
         }
 

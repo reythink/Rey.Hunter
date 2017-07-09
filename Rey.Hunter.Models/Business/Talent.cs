@@ -4,10 +4,14 @@ using MongoDB.Bson.Serialization.Attributes;
 using Rey.Hunter.Models.Basic;
 using System;
 using System.Collections.Generic;
+using Rey.Hunter.Models.Business.Enums;
 
 namespace Rey.Hunter.Models.Business {
     [MonCollection("bus.talents")]
     public class Talent : AccountModel {
+        [BsonIgnoreIfNull]
+        public DataSource? Source { get; set; }
+
         #region Basic Info
 
         public List<MonStringNodeModelRef<IndustryNode>> Industries { get; set; } = new List<MonStringNodeModelRef<IndustryNode>>();

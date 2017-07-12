@@ -63,12 +63,26 @@
 
                     scope.getSelect = function (item) {
                         if (typeof (item) === 'undefined' || item === null) { return item; }
-                        return item[scope.reyAttrSelect || 'name'];
+                        var template = scope.reyAttrSelect || '{name}';
+                        return template.replace(/\{(.*?)\}/g, function (_, prop) {
+                            var temp = item;
+                            prop.split('.').forEach(function (name) {
+                                temp = temp[name];
+                            });
+                            return temp;
+                        });
                     };
 
                     scope.getSelected = function (item) {
                         if (typeof (item) === 'undefined' || item === null) { return item; }
-                        return item[scope.reyAttrSelected || 'name'];
+                        var template = scope.reyAttrSelected || '{name}';
+                        return template.replace(/\{(.*?)\}/g, function (_, prop) {
+                            var temp = item;
+                            prop.split('.').forEach(function (name) {
+                                temp = temp[name];
+                            });
+                            return temp;
+                        });
                     };
                 }
             };

@@ -9,10 +9,12 @@
         <div class="form-group">
             <div class="has-feedback" ng-class="(!model)?'has-error':''">
                 <label class="col-sm-2 control-label">Project</label>
-                <div class="col-sm-10">
+                <div class="col-sm-10 ">
                     <rey-single-select rey-placeholder="Not Selected"
                                        rey-uri="/api/project/"
-                                       ng-model="model"></rey-single-select>
+                                       ng-model="model"
+                                       rey-attr-select='{name}-{client.name}<div>{assignmentDate}<div>'
+                                       rey-attr-selected='{name}-{client.name}'></rey-single-select>
                 </div>
             </div>
         </div>

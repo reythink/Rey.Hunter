@@ -162,77 +162,147 @@ namespace Rey.Hunter.Controllers {
             });
 
             errors.Throw();
-            
-            this.GetMonCollection<Company>().InsertMany(models.Select(x => x.Model));
+
+            var companies = this.GetMonCollection<Company>();
+            var newModels = models.Select(x => x.Model).Where(model => !companies.Exist(x => x.Name.Equals(model.Name)));
+            if (newModels.Count() > 0) {
+                companies.InsertMany(newModels);
+            }
         }
 
         private void ImportTalent(Stream input) {
             var errors = new ErrorManager();
-            var collection = this.GetMonCollection<Talent>();
-            var package = new ExcelPackage(input);
-            var sheet = package.Workbook.Worksheets.FirstOrDefault();
-            if (sheet == null)
-                throw new InvalidOperationException("There is no sheet in excel file!");
-
-            var values = (object[,])sheet.Cells.Value;
-            var rows = values.GetUpperBound(0) + 1;
-            var columns = values.GetUpperBound(1) + 1;
             var account = this.CurrentAccount();
-            var items = new List<dynamic>();
+            var models = new List<ModelWrapper<Talent>>();
 
-            for (var row = 2; row <= rows; ++row) {
-                var column1 = sheet.Cells[row, 1].Value?.ToString();        //! function
-                var column2 = sheet.Cells[row, 2].Value?.ToString();        //! industry
-                var column3 = sheet.Cells[row, 3].Value?.ToString();        //! company
-                var column4 = sheet.Cells[row, 4].Value?.ToString();        //! title
-                var column5 = sheet.Cells[row, 5].Value?.ToString();        //! in charge of
+            EachRow(input, (row, EachColumn) => {
+                var model = new Talent { Account = account, Source = DataSource.Excel };
+                model.Experiences.Add(new TalentExperience() { CurrentJob = true });
 
-                dynamic item = new ExpandoObject();
-                item.Column1 = column1;
-                item.Column2 = column2;
-                item.Column3 = column3;
-                item.Column4 = column4;
-                item.Column5 = column5;
-                item.Row = row;
-
-                var functions = new List<FunctionNode>();
-                if (!string.IsNullOrEmpty(column1)) {
-                    functions.AddRange(column1.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => {
-                        var node = FindFunction(x);
-                        if (node == null)
-                            errors.Error($"Cannot find function! [row: {row}][column: 1][value: {x}]");
-                        return node;
-                    }));
-                }
-
-                var industries = new List<IndustryNode>();
-                if (!string.IsNullOrEmpty(column2)) {
-                    industries.AddRange(column2.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => {
-                        var node = FindIndustry(x);
-                        if (node == null)
-                            errors.Error($"Cannot find industry! [row: {row}][column: 2][value: {x}]");
-                        return node;
-                    }));
-                }
-
-                if (string.IsNullOrEmpty(column3)) {
-                    errors.Error($"Company is empty! [row: {row}]");
-                } else {
-                    var trimed = column3.Trim();
-                    var company = this.GetMonCollection<Company>().FindOne(x => x.Name.Equals(column3) || x.Name.Equals(trimed));
-                    if (company == null) {
-                        errors.Error($"Cannot find company! [row: {row}][value: {column3}]");
+                EachColumn((column, value) => {
+                    switch (column) {
+                        case 1: {
+                                //if (string.IsNullOrEmpty(value)) {
+                                //    errors.Error($"Empty function: [row: {row}][column: {column}]");
+                                //} else {
+                                //    value.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
+                                //        var node = FindFunction(x);
+                                //        if (node == null)
+                                //            errors.Error($"Cannot find function: [row: {row}][column: {column}][value: {x}]");
+                                //        else
+                                //            model.Functions.Add(node);
+                                //    });
+                                //}
+                            }
+                            break;
+                        case 2: {
+                                //if (string.IsNullOrEmpty(value)) {
+                                //    errors.Error($"Empty industry: [row: {row}][column: {column}]");
+                                //} else {
+                                //    value.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
+                                //        var node = FindIndustry(x);
+                                //        if (node == null)
+                                //            errors.Error($"Cannot find industry: [row: {row}][column: {column}][value: {x}]");
+                                //        else
+                                //            model.Industries.Add(node);
+                                //    });
+                                //}
+                            }
+                            break;
+                        case 3: {
+                                //if (string.IsNullOrEmpty(value)) {
+                                //    errors.Error($"Empty company: [row: {row}][column: {column}]");
+                                //} else {
+                                //    var company = this.GetMonCollection<Company>().FindOne(x => x.Name.Equals(value));
+                                //    if (company == null) {
+                                //        errors.Error($"Cannot find company: [row: {row}][column: {column}][value: {value}]");
+                                //    } else {
+                                //        model.Experiences.First().Company = company;
+                                //    }
+                                //}
+                            }
+                            break;
+                        case 4: {
+                                if (string.IsNullOrEmpty(value)) {
+                                    errors.Error($"Empty title: [row: {row}][column: {column}]");
+                                } else {
+                                    model.Experiences.First().Title = value;
+                                }
+                            }
+                            break;
+                        case 5: {
+                                model.Experiences.First().Responsibility = value;
+                            }
+                            break;
+                        case 6: {
+                            }
+                            break;
+                        case 7: {
+                                model.EnglishName = value;
+                            }
+                            break;
+                        case 8: {
+                                model.ChineseName = value;
+                            }
+                            break;
+                        case 9: {
+                                if (!string.IsNullOrEmpty(value)) {
+                                    var year = 0;
+                                    if (!int.TryParse(value.Trim(), out year)) {
+                                        errors.Error($"Invalid DOB: [row: {row}][column: {column}][value: {value}]");
+                                    } else {
+                                        model.BirthYear = year;
+                                    }
+                                }
+                            }
+                            break;
+                        case 10: {
+                                if (!string.IsNullOrEmpty(value)) {
+                                    if (value.Trim().Equals("F", StringComparison.CurrentCultureIgnoreCase)
+                                     || value.Trim().Equals("Female", StringComparison.CurrentCultureIgnoreCase)) {
+                                        model.Gender = Gender.Female;
+                                    } else if (value.Trim().Equals("M", StringComparison.CurrentCultureIgnoreCase)
+                                     || value.Trim().Equals("Male", StringComparison.CurrentCultureIgnoreCase)) {
+                                        model.Gender = Gender.Male;
+                                    } else {
+                                        errors.Error($"Invalid Gender: [row: {row}][column: {column}][value: {value}]");
+                                    }
+                                }
+                            }
+                            break;
+                        case 11: {
+                                if (string.IsNullOrEmpty(value)) {
+                                    errors.Error($"Empty location: [row: {row}][column: {column}]");
+                                } else {
+                                    value.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
+                                        var node = FindLocation(x);
+                                        if (node == null)
+                                            errors.Error($"Cannot find location: [row: {row}][column: {column}][value: {x}]");
+                                        else
+                                            model.CurrentLocations.Add(node);
+                                    });
+                                }
+                            }
+                            break;
+                        case 12: {
+                                if (!string.IsNullOrEmpty(value)) {
+                                    value.Split(new char[] { '|', ',', '&' }).Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
+                                        var node = FindLocation(x);
+                                        if (node == null)
+                                            errors.Error($"Cannot find mobility: [row: {row}][column: {column}][value: {x}]");
+                                        else
+                                            model.MobilityLocations.Add(node);
+                                    });
+                                }
+                            }
+                            break;
+                        default:
+                            break;
                     }
-                }
+                });
 
-                var model = new Talent() {
-                    Account = account,
-                    Source = DataSource.Excel,
-                };
-
-                item.Model = model;
-                items.Add(item);
-            }
+                models.Add(new ModelWrapper<Talent>(model, row));
+            });
 
             errors.Throw();
         }
@@ -303,6 +373,10 @@ namespace Rey.Hunter.Controllers {
 
         private IndustryNode FindIndustry(string name) {
             return FindNode<IndustryNode>(node => node.Name.Trim().Equals(name.Trim(), StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        private LocationNode FindLocation(string name) {
+            return FindNode<LocationNode>(node => node.Name.Trim().Equals(name.Trim(), StringComparison.CurrentCultureIgnoreCase));
         }
 
         public object GetEnumValue(Type enumType, string value) {

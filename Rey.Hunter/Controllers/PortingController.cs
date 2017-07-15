@@ -36,7 +36,7 @@ namespace Rey.Hunter.Controllers {
                     }
                 } else if (formFile.Name.Equals("talent", StringComparison.CurrentCultureIgnoreCase)) {
                     using (var input = formFile.OpenReadStream()) {
-                        ImportTalent(input);
+                        return ImportTalent(input);
                     }
                 }
             }
@@ -170,7 +170,7 @@ namespace Rey.Hunter.Controllers {
             }
         }
 
-        private void ImportTalent(Stream input) {
+        private IActionResult ImportTalent(Stream input) {
             var errors = new ErrorManager();
             var account = this.CurrentAccount();
             var models = new List<ModelWrapper<Talent>>();
@@ -405,7 +405,12 @@ namespace Rey.Hunter.Controllers {
                 }
             });
 
-            errors.Throw();
+            try {
+                errors.Throw();
+                return Redirect("/Porting");
+            } catch (Exception ex) {
+                return Content(ex.Message);
+            }
         }
 
         private void EachRow(Stream input, Action<int, Action<Action<int, string>>> eachRow) {

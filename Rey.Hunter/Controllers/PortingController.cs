@@ -32,7 +32,7 @@ namespace Rey.Hunter.Controllers {
                     }
                 } else if (formFile.Name.Equals("company", StringComparison.CurrentCultureIgnoreCase)) {
                     using (var input = formFile.OpenReadStream()) {
-                        ImportCompany(input);
+                        return ImportCompany(input);
                     }
                 } else if (formFile.Name.Equals("talent", StringComparison.CurrentCultureIgnoreCase)) {
                     using (var input = formFile.OpenReadStream()) {
@@ -83,7 +83,7 @@ namespace Rey.Hunter.Controllers {
             }
         }
 
-        private void ImportCompany(Stream input) {
+        private IActionResult ImportCompany(Stream input) {
             var errors = new ErrorManager();
             var account = this.CurrentAccount();
             var models = new List<ModelWrapper<Company>>();
@@ -161,12 +161,18 @@ namespace Rey.Hunter.Controllers {
                 }
             });
 
-            errors.Throw();
+            try {
+                errors.Throw();
 
-            var companies = this.GetMonCollection<Company>();
-            var newModels = models.Select(x => x.Model).Where(model => !companies.Exist(x => x.Name.Equals(model.Name)));
-            if (newModels.Count() > 0) {
-                companies.InsertMany(newModels);
+                var companies = this.GetMonCollection<Company>();
+                var newModels = models.Select(x => x.Model).Where(model => !companies.Exist(x => x.Name.Equals(model.Name)));
+                if (newModels.Count() > 0) {
+                    companies.InsertMany(newModels);
+                }
+
+                return Content($"Great!!! there are no problems found. [total: {models.Count}][insert: {newModels.Count()}]");
+            } catch (Exception ex) {
+                return Content(ex.Message);
             }
         }
 
@@ -275,7 +281,7 @@ namespace Rey.Hunter.Controllers {
                                     errors.Error($"Empty location: [row: {row}][column: {column}]", column);
                                 } else {
                                     value.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
-                                        var node = FindLocation(x);
+                                        var node = FindLocation(x.Trim());
                                         if (node == null)
                                             errors.Error($"Cannot find location: [row: {row}][column: {column}][value: {x}]", column);
                                         else
@@ -287,7 +293,7 @@ namespace Rey.Hunter.Controllers {
                         case 12: {
                                 if (!string.IsNullOrEmpty(value)) {
                                     value.Split(new char[] { '|', ',', '&' }).Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
-                                        var node = FindLocation(x);
+                                        var node = FindLocation(x.Trim());
                                         if (node == null)
                                             errors.Error($"Cannot find mobility: [row: {row}][column: {column}][value: {x}]", column);
                                         else
@@ -407,7 +413,8 @@ namespace Rey.Hunter.Controllers {
 
             try {
                 errors.Throw();
-                return Redirect("/Porting");
+
+                return Content($"Great!!! there are no problems found. [total: {models.Count}][insert: {0}]");
             } catch (Exception ex) {
                 return Content(ex.Message);
             }

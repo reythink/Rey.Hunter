@@ -221,7 +221,11 @@ namespace Rey.Hunter.Controllers {
                                 } else {
                                     var company = this.GetMonCollection<Company>().FindOne(x => x.Name.Equals(value));
                                     if (company == null) {
-                                        errors.Error($"Cannot find company: [row: {row}][column: {column}][value: {value}]", column);
+                                        value = value.Trim();
+                                        company = this.GetMonCollection<Company>().FindOne(x => x.Name.Equals(value));
+                                        if (company == null) {
+                                            errors.Error($"Cannot find company: [row: {row}][column: {column}][value: {value}]", column);
+                                        }
                                     } else {
                                         model.Experiences.First().Company = company;
                                     }
@@ -277,9 +281,7 @@ namespace Rey.Hunter.Controllers {
                             }
                             break;
                         case 11: {
-                                if (string.IsNullOrEmpty(value)) {
-                                    errors.Error($"Empty location: [row: {row}][column: {column}]", column);
-                                } else {
+                                if (!string.IsNullOrEmpty(value)) {
                                     value.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
                                         var node = FindLocation(x.Trim());
                                         if (node == null)

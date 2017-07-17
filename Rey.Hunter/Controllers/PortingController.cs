@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using OfficeOpenXml;
 using Rey.Hunter.Models;
 using Rey.Hunter.Models.Attributes;
@@ -162,7 +163,7 @@ namespace Rey.Hunter.Controllers {
             });
 
             try {
-                errors.Throw();
+                errors.ThrowIfError();
 
                 var companies = this.GetMonCollection<Company>();
                 var newModels = models.Select(x => x.Model).Where(model => !companies.Exist(x => x.Name.Equals(model.Name)));
@@ -176,6 +177,7 @@ namespace Rey.Hunter.Controllers {
             }
         }
 
+        private static List<Company> Companies { get; set; }
         private IActionResult ImportTalent(Stream input) {
             var errors = new ErrorManager();
             var account = this.CurrentAccount();
@@ -219,13 +221,18 @@ namespace Rey.Hunter.Controllers {
                                 if (string.IsNullOrEmpty(value)) {
                                     errors.Error($"Empty company: [row: {row}][column: {column}]", column);
                                 } else {
-                                    var company = this.GetMonCollection<Company>().FindOne(x => x.Name.Equals(value));
+                                    if (Companies == null) {
+                                        Companies = this.GetMonCollection<Company>().MongoCollection
+                                                    .Find(x => x.Account.Id.Equals(this.CurrentAccount().Id))
+                                                    .ToList();
+                                    }
+
+                                    var company = Companies
+                                                .Where(x => x.Name.Trim().Equals(value.Trim(), StringComparison.CurrentCultureIgnoreCase))
+                                                .FirstOrDefault();
+
                                     if (company == null) {
-                                        value = value.Trim();
-                                        company = this.GetMonCollection<Company>().FindOne(x => x.Name.Equals(value));
-                                        if (company == null) {
-                                            errors.Error($"Cannot find company: [row: {row}][column: {column}][value: {value}]", column);
-                                        }
+                                        errors.Error($"Cannot find company: [row: {row}][column: {column}][value: {value}]", column);
                                     } else {
                                         model.Experiences.First().Company = company;
                                     }
@@ -392,6 +399,10 @@ namespace Rey.Hunter.Controllers {
                     }
                 });
 
+                //! Ignore if mobile is empty.
+                if (string.IsNullOrEmpty(model.Mobile))
+                    return;
+
                 models.Add(new ModelWrapper<Talent>(model, row));
             });
 
@@ -414,7 +425,7 @@ namespace Rey.Hunter.Controllers {
             });
 
             try {
-                errors.Throw();
+                errors.ThrowIfError();
 
                 return Content($"Great!!! there are no problems found. [total: {models.Count}][insert: {0}]");
             } catch (Exception ex) {
@@ -586,14 +597,15 @@ namespace Rey.Hunter.Controllers {
             return this;
         }
 
-        public void Throw() {
+        public void ThrowIfError() {
             if (this.Items.Count == 0)
                 return;
 
-            var items = this.Items.OrderBy(x => x.Order);
+            var items = this.Items.OrderBy(x => x.Order).ToList();
             var builder = new StringBuilder();
-            foreach (var item in items) {
-                builder.AppendLine(item.Message);
+            for (var i = 0; i < items.Count; ++i) {
+                var item = items[i];
+                builder.AppendLine($"{i + 1}.{item.Message}");
             }
 
             throw new Exception(builder.ToString());

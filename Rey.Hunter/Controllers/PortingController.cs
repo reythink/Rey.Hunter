@@ -424,7 +424,14 @@ namespace Rey.Hunter.Controllers {
             try {
                 errors.ThrowIfError();
 
-                return Content($"Great!!! there are no problems found. [total: {models.Count}][insert: {0}]");
+                var collection = this.GetMonCollection<Talent>();
+                var results = models.Select(x => x.Model).Where(model => !collection.Exist(x => x.Mobile.Equals(model.Mobile)));
+                var count = results.Count();
+                if (count > 0) {
+                    collection.InsertMany(results);
+                }
+
+                return Content($"Great!!! there are no problems found. [total: {models.Count}][insert: {count}]");
             } catch (Exception ex) {
                 return Content(ex.Message);
             }

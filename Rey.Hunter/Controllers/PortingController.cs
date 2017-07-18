@@ -179,6 +179,7 @@ namespace Rey.Hunter.Controllers {
 
         private static List<Company> Companies { get; set; }
         private IActionResult ImportTalent(Stream input) {
+            Companies = null;
             var errors = new ErrorManager();
             var account = this.CurrentAccount();
             var models = new List<ModelWrapper<Talent>>();
@@ -301,7 +302,7 @@ namespace Rey.Hunter.Controllers {
                             break;
                         case 12: {
                                 if (!string.IsNullOrEmpty(value)) {
-                                    value.Split(new char[] { '|', ',', '&' }).Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
+                                    value.Split(new char[] { '|', ',', '&', ';' }).Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x => {
                                         var node = FindLocation(x.Trim());
                                         if (node == null)
                                             errors.Error($"Cannot find mobility: [row: {row}][column: {column}][value: {x}]", column);
@@ -399,24 +400,20 @@ namespace Rey.Hunter.Controllers {
                     }
                 });
 
-                //! Ignore if mobile is empty.
-                if (string.IsNullOrEmpty(model.Mobile))
-                    return;
-
                 models.Add(new ModelWrapper<Talent>(model, row));
             });
 
-            models.GroupBy(x => x.Model.EnglishName).ToList().ForEach(group => {
-                if (group.Count() > 1 && !string.IsNullOrEmpty(group.Key)) {
-                    errors.Error($"Repetitive items by english name \"{group.Key}\": [rows: { string.Join(", ", group.Select(x => x.Row)) }]", 101);
-                }
-            });
+            //models.GroupBy(x => x.Model.EnglishName).ToList().ForEach(group => {
+            //    if (group.Count() > 1 && !string.IsNullOrEmpty(group.Key)) {
+            //        errors.Error($"Repetitive items by english name \"{group.Key}\": [rows: { string.Join(", ", group.Select(x => x.Row)) }]", 101);
+            //    }
+            //});
 
-            models.GroupBy(x => x.Model.ChineseName).ToList().ForEach(group => {
-                if (group.Count() > 1 && !string.IsNullOrEmpty(group.Key)) {
-                    errors.Error($"Repetitive items by chinese name \"{group.Key}\": [rows: { string.Join(", ", group.Select(x => x.Row)) }]", 102);
-                }
-            });
+            //models.GroupBy(x => x.Model.ChineseName).ToList().ForEach(group => {
+            //    if (group.Count() > 1 && !string.IsNullOrEmpty(group.Key)) {
+            //        errors.Error($"Repetitive items by chinese name \"{group.Key}\": [rows: { string.Join(", ", group.Select(x => x.Row)) }]", 102);
+            //    }
+            //});
 
             models.GroupBy(x => x.Model.Mobile).ToList().ForEach(group => {
                 if (group.Count() > 1 && !string.IsNullOrEmpty(group.Key)) {

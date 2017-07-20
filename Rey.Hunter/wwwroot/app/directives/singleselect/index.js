@@ -30,6 +30,8 @@
                     };
 
                     scope.search = function (text) {
+                        if (scope.items) { return; }
+
                         $http.get(scope.reyUri).then(function (resp) {
                             if (options.tree()) {
                                 var items = [];

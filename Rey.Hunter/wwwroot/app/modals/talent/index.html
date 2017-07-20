@@ -224,19 +224,23 @@
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Cross Industry Experience</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/industry/"
-                                          rey-tree
-                                          ng-model="model.profileLabel.crossIndustries"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyCrossIndustry(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Cross Industry Experience</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected"
+                                              rey-uri="/api/industry/"
+                                              rey-tree
+                                              ng-model="model.profileLabel.crossIndustries"></rey-multi-select>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Cross Function Experience</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected"
-                                          rey-uri="/api/function/"
-                                          rey-tree
-                                          ng-model="model.profileLabel.crossFunctions"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyCrossFunction(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Cross Function Experience</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected"
+                                              rey-uri="/api/function/"
+                                              rey-tree
+                                              ng-model="model.profileLabel.crossFunctions"></rey-multi-select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">

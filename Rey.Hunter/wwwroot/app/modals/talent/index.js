@@ -65,6 +65,18 @@
                                     return model.industries && model.industries.length > 0;
                                 };
 
+                                $scope.verifyCrossFunction = function (model) {
+                                    return model.profileLabel
+                                        && model.profileLabel.crossFunctions
+                                        && model.profileLabel.crossFunctions.length > 0;
+                                };
+
+                                $scope.verifyCrossIndustry = function (model) {
+                                    return model.profileLabel
+                                        && model.profileLabel.crossIndustries
+                                        && model.profileLabel.crossIndustries.length > 0;
+                                };
+
                                 $scope.verifyCurrentLocation = function (model) {
                                     return model.currentLocations && model.currentLocations.length > 0;
                                 };

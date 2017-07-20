@@ -64,11 +64,12 @@
                         <th>English Name</th>
                         <th>Chinese Name</th>
                         <th>DOB</th>
-                        <th>Job Intension</th>
+                        <th>Mobile Phone</th>
                         <th>Gender</th>
                         <th>Current Location</th>
                         <th>Mobility</th>
                         <th>Previous Company</th>
+                        <th>Job Intension</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -88,7 +89,7 @@
                             <td><a href="/Talent/@item.Id">@item.EnglishName</a></td>
                             <td><a href="/Talent/@item.Id">@item.ChineseName</a></td>
                             <td>@item.BirthYear</td>
-                            <td>@item.Intension?.EnumDesc()</td>
+                            <td>@item?.Mobile</td>
                             <td>@item.Gender.EnumDesc()</td>
                             <td>
                                 @foreach (var item2 in item.CurrentLocations) {
@@ -105,6 +106,7 @@
                                     <span class="label label-info">@item2.Company?.Concrete(this.ViewBag.DB)?.Name</span>
                                 }
                             </td>
+                            <td>@item.Intension?.EnumDesc()</td>
                             <td align="right">
                                 <div class="btn-group btn-group-xs">
                                     <button class="btn btn-default" ng-click="join('@item.Id')"><i class="fa fa-plus-circle"></i> Join</button>

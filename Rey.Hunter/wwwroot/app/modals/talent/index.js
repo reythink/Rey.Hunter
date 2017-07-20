@@ -57,6 +57,14 @@
                                     });
                                 };
 
+                                $scope.verifyFunction = function (model) {
+                                    return model.functions && model.functions.length > 0;
+                                };
+
+                                $scope.verifyIndustry = function (model) {
+                                    return model.industries && model.industries.length > 0;
+                                };
+
                                 $scope.verifyCurrentLocation = function (model) {
                                     return model.currentLocations && model.currentLocations.length > 0;
                                 };

@@ -156,9 +156,10 @@
                 category.item(item.value, item.text);
             });
 
-            if (this.hasItem) {
-                $('body').addClass('control-sidebar-open');
-            }
+            //! 如果有搜索项，自动打开面板。
+            //if (this.hasItem) {
+            //    $('body').addClass('control-sidebar-open');
+            //}
 
             return this;
         }

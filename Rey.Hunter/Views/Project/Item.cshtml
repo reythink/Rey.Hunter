@@ -141,23 +141,21 @@
                         <div class="box-header">Job Understanding</div>
                         <div class="box-body">
                             <table class="table table-striped">
-                                <tr><td><label>Reporting Line:</label><p>@this.Model.JobUnderstanding?.Field1</p></td></tr>
-                                <tr><td><label>Line manager’s background and style?</label><p>@this.Model.JobUnderstanding?.Field2</p></td></tr>
-                                <tr><td><label>Subbordidate:</label><p>@this.Model.JobUnderstanding?.Field3</p></td></tr>
-                                <tr><td><label>Package Range & Salary Sturcture:</label><p>@this.Model.JobUnderstanding?.Field4</p></td></tr>
-                                <tr><td><label>Why this opening:</label><p>@this.Model.JobUnderstanding?.Field5</p></td></tr>
-                                <tr><td><label>How many candidates have been interviewed? Why failed?</label><p>@this.Model.JobUnderstanding?.Field6</p></td></tr>
-                                <tr><td><label>Key responsibilities:</label><p>@this.Model.JobUnderstanding?.Field7</p></td></tr>
-                                <tr><td><label>Requirements / Top-3 skills needed:</label><p>@this.Model.JobUnderstanding?.Field8</p></td></tr>
-                                <tr><td><label>Expectation/Key challenges:</label><p>@this.Model.JobUnderstanding?.Field9</p></td></tr>
-                                <tr><td><label>Preferred company background:</label><p>@this.Model.JobUnderstanding?.Field10</p></td></tr>
-                                <tr><td><label>Selling points:</label><p>@this.Model.JobUnderstanding?.Field11</p></td></tr>
-                                <tr><td><label>Interview process:</label><p>@this.Model.JobUnderstanding?.Field12</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Reporting Line:</label><p>@this.Model.JobUnderstanding?.Field1</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Line manager’s background and style?</label><p>@this.Model.JobUnderstanding?.Field2</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Subbordidate:</label><p>@this.Model.JobUnderstanding?.Field3</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Package Range & Salary Sturcture:</label><p>@this.Model.JobUnderstanding?.Field4</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Why this opening:</label><p>@this.Model.JobUnderstanding?.Field5</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">How many candidates have been interviewed? Why failed?</label><p>@this.Model.JobUnderstanding?.Field6</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Key responsibilities:</label><p>@this.Model.JobUnderstanding?.Field7</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Requirements / Top-3 skills needed:</label><p>@this.Model.JobUnderstanding?.Field8</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Expectation/Key challenges:</label><p>@this.Model.JobUnderstanding?.Field9</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Preferred company background:</label><p>@this.Model.JobUnderstanding?.Field10</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Selling points:</label><p>@this.Model.JobUnderstanding?.Field11</p></td></tr>
+                                <tr><td class="text-left"><label style="float:left;margin-right:10px;">Interview process:</label><p>@this.Model.JobUnderstanding?.Field12</p></td></tr>
                             </table>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="tab-pane" id="candidates">
                     <rey-candidate-panel ng-if="model" ng-model="model">

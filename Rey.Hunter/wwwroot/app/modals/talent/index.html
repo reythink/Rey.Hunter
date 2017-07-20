@@ -11,19 +11,23 @@
             <div class="box-header with-border">Basic Information</div>
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Function</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected (Current)"
-                                          rey-uri="/api/function/"
-                                          rey-tree
-                                          ng-model="model.functions"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyFunction(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Function</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected (Current)"
+                                              rey-uri="/api/function/"
+                                              rey-tree
+                                              ng-model="model.functions"></rey-multi-select>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Industry</label>
-                    <div class="col-sm-4">
-                        <rey-multi-select rey-placeholder="Not Selected (Current)"
-                                          rey-uri="/api/industry/"
-                                          rey-tree
-                                          ng-model="model.industries"></rey-multi-select>
+                    <div class="has-feedback" ng-class="!verifyIndustry(model)?'has-error':''">
+                        <label class="col-sm-2 control-label">Industry</label>
+                        <div class="col-sm-4">
+                            <rey-multi-select rey-placeholder="Not Selected (Current)"
+                                              rey-uri="/api/industry/"
+                                              rey-tree
+                                              ng-model="model.industries"></rey-multi-select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -176,11 +180,11 @@
                     <div class="has-feedback" ng-class="form.mobile.$invalid?'has-error':''">
                         <label class="col-sm-2 control-label">Mobile Phone</label>
                         <div class="col-sm-4">
-                            <input type="text" 
-                                   class="form-control" 
-                                   placeholder="Mobile Phone" 
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Mobile Phone"
                                    name="mobile"
-                                   ng-model="model.mobile" 
+                                   ng-model="model.mobile"
                                    ng-required="true">
                         </div>
                     </div>

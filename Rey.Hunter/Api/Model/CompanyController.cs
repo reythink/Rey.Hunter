@@ -19,7 +19,9 @@ namespace Rey.Hunter.Api {
         [HttpGet("Sample")]
         public Task<IActionResult> SampleQueryAction(string search) {
             return this.JsonInvokeManyAsync(() => {
-                IQueryable<Company> query = this.Collection.Query();
+                IQueryable<Company> query = this.Collection
+                .Query()
+                .Where(x => x.Account.Id.Equals(this.CurrentAccount().Id));
 
                 if (!string.IsNullOrEmpty(search)) {
                     query = query.Where(x => x.Name.ToLower().Contains(search.ToLower()));

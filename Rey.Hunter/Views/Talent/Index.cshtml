@@ -61,8 +61,7 @@
                         <th>Title</th>
                         <th>In Charge of</th>
                         <th>Job Grade</th>
-                        <th>English Name</th>
-                        <th>Chinese Name</th>
+                        <th>Name</th>
                         <th>DOB</th>
                         <th>Mobile Phone</th>
                         <th>Gender</th>
@@ -86,8 +85,7 @@
                             <td>@current?.Title</td>
                             <td>@current?.Responsibility</td>
                             <td>@current?.Grade</td>
-                            <td><a href="/Talent/@item.Id">@item.EnglishName</a></td>
-                            <td><a href="/Talent/@item.Id">@item.ChineseName</a></td>
+                            <td><a href="/Talent/@item.Id">@Html.Raw($"{item.EnglishName}({item.ChineseName})")</a></td>
                             <td>@item.BirthYear</td>
                             <td>@item?.Mobile</td>
                             <td>@item.Gender.EnumDesc()</td>

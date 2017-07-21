@@ -209,7 +209,7 @@
                             <div class="box box-info">
                                 <div class="box-header">Notes</div>
                                 <div class="box-body">
-                                    <p>@Html.Raw(this.Model.Notes.Replace("\n", "<br/>"))</p>
+                                    <p>@Html.Raw(this.Model?.Notes?.Replace("\n", "<br/>"))</p>
                                 </div>
                             </div>
                         </div>

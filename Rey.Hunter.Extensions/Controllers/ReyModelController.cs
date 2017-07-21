@@ -94,7 +94,7 @@ namespace Microsoft.AspNetCore.Mvc {
 
                 var args = new BeforeUpdateEventArgs<TModel, TKey>(id, model);
                 this.BeforeUpdate?.Invoke(args);
-                this.Collection.UpdateOne(x => x.Id.Equals(id), model, args.Ignores);
+                this.Collection.ReplaceOne(x => x.Id.Equals(id), model);
                 model = this.Collection.FindOne(x => x.Id.Equals(id));
                 this.AfterUpdate?.Invoke(id, model);
 

@@ -23,22 +23,7 @@ namespace Rey.Hunter.Controllers {
         [HttpPost]
         public Task<IActionResult> Index(string clean) {
             return this.JsonInvokeOneAsync(() => {
-                var account = this.CurrentAccount();
                 dynamic result = new ExpandoObject();
-
-                result.Category = this.GetMonCollection<CategoryNode>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-                result.Channel = this.GetMonCollection<ChannelNode>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-                result.Function = this.GetMonCollection<FunctionNode>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-                result.Industry = this.GetMonCollection<IndustryNode>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-                result.Location = this.GetMonCollection<LocationNode>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-
-                result.Company = this.GetMonCollection<Company>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-                result.Talent = this.GetMonCollection<Talent>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-                result.Project = this.GetMonCollection<Project>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-
-                result.Account = this.GetMonCollection<Account>().MongoCollection.DeleteMany(x => !x.Id.Equals(account.Id));
-                result.Role = this.GetMonCollection<Role>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
-                result.User = this.GetMonCollection<User>().MongoCollection.DeleteMany(x => !x.Account.Id.Equals(account.Id));
 
                 result.CategoryReplace = ReplaceModels<CategoryNode>();
                 result.ChannelReplace = ReplaceModels<ChannelNode>();

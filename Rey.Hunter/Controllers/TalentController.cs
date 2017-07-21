@@ -27,19 +27,20 @@ namespace Rey.Hunter.Controllers {
             string[] KAHadManaged,
             string[] currentLocation,
             string[] mobilityLocation,
-            string[] gender,
-            string[] education,
-            string[] language,
-            string[] nationality,
-            string[] jobIntension,
+            int[] gender,
+            int[] education,
+            int[] language,
+            int[] nationality,
+            int[] jobIntension,
             string[] cv,
             string[] notes,
             string orderBy,
             string orderDirection,
             int page = 1) {
 
+            var begin = DateTime.Now;
             IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
-            var query = new TalentAdvancedQuery(db, this.CurrentAccount().Id)
+            var query = new TalentAdvancedQuery2(db, this.CurrentAccount().Id)
                 .Search(search)
                 .Company(company)
                 .PreviousCompany(previousCompany)
@@ -63,7 +64,7 @@ namespace Rey.Hunter.Controllers {
                 .JobIntension(jobIntension)
                 .CV(cv)
                 .Notes(notes)
-                .Query;
+                .QueryModels().AsQueryable();
 
             if (!string.IsNullOrEmpty(orderBy)) {
                 if (orderBy.Equals("Company", StringComparison.CurrentCultureIgnoreCase)) {
@@ -79,7 +80,9 @@ namespace Rey.Hunter.Controllers {
                 query = query.OrderByDescending(x => x.Id);
             }
 
-            return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
+            var models = query.Page(page, 15, (data) => this.ViewBag.PageData = data);
+            this.ViewBag.Elapsed = (DateTime.Now - begin).TotalSeconds;
+            return View(models);
         }
 
         [HttpGet("/[controller]/{id}")]

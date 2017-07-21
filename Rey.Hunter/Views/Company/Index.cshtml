@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Company>
 @{
     this.ViewBag.Title = "Company";
+    this.ViewBag.Description = $"total: {this.ViewBag.PageData?.Total} elapsed: {this.ViewBag.Elapsed}";
 }
 
 <div ng-controller="company-list-ctrl">

@@ -18,6 +18,7 @@ namespace Rey.Hunter.Controllers {
             string orderDirection,
             int page = 1) {
 
+            var begin = DateTime.Now;
             IMonDatabase db = this.ViewBag.DB = this.GetMonDatabase();
             var query = new CompanyAdvancedQuery(db, this.CurrentAccount().Id)
                 .Search(search)
@@ -37,7 +38,9 @@ namespace Rey.Hunter.Controllers {
                 query = query.OrderByDescending(x => x.Id);
             }
 
-            return View(query.Page(page, 15, (data) => this.ViewBag.PageData = data));
+            var models = query.Page(page, 15, (data) => this.ViewBag.PageData = data);
+            this.ViewBag.Elapsed = (DateTime.Now - begin).TotalSeconds;
+            return View(models);
         }
 
         [HttpGet("/[controller]/{id}")]

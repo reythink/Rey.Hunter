@@ -10,6 +10,8 @@ namespace Rey.Hunter.Repository {
         IRoleRepository Role(string accountId);
         IUserRepository User(string accountId);
 
+        IIndustryRepository Industry(string accountId);
+
         ICompanyRepository Company(string accountId);
     }
 }

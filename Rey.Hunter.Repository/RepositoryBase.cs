@@ -25,16 +25,20 @@ namespace Rey.Hunter.Repository {
 
         public abstract string GetCollectionName();
 
-        protected virtual IMongoDatabase GetDatabase() {
+        public virtual IMongoDatabase GetDatabase() {
             return this.Client.GetDatabase(this.GetDatabaseName());
         }
 
-        protected virtual IMongoCollection<TModel> GetCollection() {
+        public virtual IMongoCollection<TModel> GetCollection() {
             return this.GetDatabase().GetCollection<TModel>(this.GetCollectionName());
         }
 
         public virtual void InsertOne(TModel model) {
             this.GetCollection().InsertOne(model);
+        }
+
+        public void InsertMany(IEnumerable<TModel> models) {
+            this.GetCollection().InsertMany(models);
         }
 
         public virtual void ReplaceOne(TModel model) {
@@ -45,8 +49,21 @@ namespace Rey.Hunter.Repository {
             this.GetCollection().DeleteOne(x => x.Id.Equals(id));
         }
 
+        public void DeleteMany(IEnumerable<string> list) {
+            var filter = FilterBuilder.In(x => x.Id, list);
+            this.GetCollection().DeleteMany(filter);
+        }
+
+        public virtual TModel FindOne(string id) {
+            return this.GetCollection().Find(x => x.Id.Equals(id)).SingleOrDefault();
+        }
+
         public virtual void Drop() {
             this.GetDatabase().DropCollection(this.GetCollectionName());
+        }
+
+        public IQueryBuilder<TModel> Query() {
+            return new QueryBuilder<TModel>(this);
         }
     }
 }

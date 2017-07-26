@@ -6,10 +6,17 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.4.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Rey.Hunter.Models2\Rey.Hunter.Models2.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\industry.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

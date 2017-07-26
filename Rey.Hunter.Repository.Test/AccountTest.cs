@@ -6,43 +6,39 @@ using System.Text;
 using Xunit;
 
 namespace Rey.Hunter.Repository.Test {
-    public class AccountTest {
-        [Fact(DisplayName = "Account: Insert, Replace, Delete, Drop")]
-        public void Test() {
-            var mgr = new RepositoryManager();
-            var repAccount = mgr.Account();
-
-
-            var modelAccount = new Account() {
+    public class AccountTest : TestBase {
+        [Fact(DisplayName = "TestAccount")]
+        public void TestAccount() {
+            var rep = this.Repository.Account();
+            var model = new Account() {
                 Company = "Company1"
             };
-            repAccount.InsertOne(modelAccount);
 
-            modelAccount.Company = "Company2";
-            repAccount.ReplaceOne(modelAccount);
+            rep.InsertOne(model);
+            Assert.Equal(rep.FindOne(model.Id).Company, model.Company);
 
-            repAccount.DeleteOne(modelAccount.Id);
+            model.Company = "Company2";
+            rep.ReplaceOne(model);
+            Assert.Equal(rep.FindOne(model.Id).Company, model.Company);
 
-            modelAccount = new Account() {
-                Company = "Company1"
-            };
-            repAccount.InsertOne(modelAccount);
+            rep.DeleteOne(model.Id);
+            Assert.Null(rep.FindOne(model.Id));
+        }
 
-            var repRole = mgr.Role(modelAccount.Id);
+        [Fact(DisplayName = "TestAccountQuery")]
+        public void TestAccountQuery() {
+            //var rep = this.Repository.Account();
+            //var models = new List<Account>();
+            //for (var i = 0; i < 100000; ++i) {
+            //    models.Add(new Account { Company = $"Company{i.ToString("00000")}" });
+            //}
+            //rep.InsertMany(models);
 
-            var modelRole = new Role() {
-                Name = "Role1",
-                Account = modelAccount
-            };
+            //foreach (var model in models) {
+            //    Assert.NotNull(model.Id);
+            //}
 
-            repRole.InsertOne(modelRole);
-            var roles = repRole.FindAll().ToList();
-            foreach (var role in roles) {
-                Assert.NotNull(role.Account.Id);
-            }
-
-            mgr.Client.GetDatabase("rey_hunter");
-
+            //rep.DeleteMany(models.Select(x => x.Id));
         }
     }
 }

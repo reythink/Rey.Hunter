@@ -23,15 +23,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Hunter.Extensions", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Hunter.TagHelpers", "Rey.Hunter.TagHelpers\Rey.Hunter.TagHelpers.csproj", "{99A4D105-3E94-4B72-9272-C1881BE14179}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Hunter.Models2", "Rey.Hunter.Models2\Rey.Hunter.Models2.csproj", "{75993240-B3EA-4630-9F8A-A0E99C5AA95C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Hunter.Models2", "Rey.Hunter.Models2\Rey.Hunter.Models2.csproj", "{75993240-B3EA-4630-9F8A-A0E99C5AA95C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Hunter.Repository", "Rey.Hunter.Repository\Rey.Hunter.Repository.csproj", "{B97787B2-B64E-424A-8DA6-2EF59CA75EED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Hunter.Repository", "Rey.Hunter.Repository\Rey.Hunter.Repository.csproj", "{B97787B2-B64E-424A-8DA6-2EF59CA75EED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{289E8533-B628-4B35-8ED2-F8EBAB352AB8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5D7D7714-80B4-4169-922E-AD50B3EB7090}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Hunter.Repository.Test", "Rey.Hunter.Repository.Test\Rey.Hunter.Repository.Test.csproj", "{2CCC5079-5799-496C-B290-CC1B0D1A06C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Hunter.Repository.Test", "Rey.Hunter.Repository.Test\Rey.Hunter.Repository.Test.csproj", "{2CCC5079-5799-496C-B290-CC1B0D1A06C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{622B76FE-3BE5-4521-B6F7-C1BC6E0ED710}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Hunter.Importer", "Rey.Hunter.Importer\Rey.Hunter.Importer.csproj", "{FA01DB13-19D4-4725-91DC-64ACCA7BD810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +91,10 @@ Global
 		{2CCC5079-5799-496C-B290-CC1B0D1A06C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CCC5079-5799-496C-B290-CC1B0D1A06C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CCC5079-5799-496C-B290-CC1B0D1A06C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA01DB13-19D4-4725-91DC-64ACCA7BD810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA01DB13-19D4-4725-91DC-64ACCA7BD810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA01DB13-19D4-4725-91DC-64ACCA7BD810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA01DB13-19D4-4725-91DC-64ACCA7BD810}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,5 +113,6 @@ Global
 		{75993240-B3EA-4630-9F8A-A0E99C5AA95C} = {5D7D7714-80B4-4169-922E-AD50B3EB7090}
 		{B97787B2-B64E-424A-8DA6-2EF59CA75EED} = {5D7D7714-80B4-4169-922E-AD50B3EB7090}
 		{2CCC5079-5799-496C-B290-CC1B0D1A06C4} = {289E8533-B628-4B35-8ED2-F8EBAB352AB8}
+		{FA01DB13-19D4-4725-91DC-64ACCA7BD810} = {622B76FE-3BE5-4521-B6F7-C1BC6E0ED710}
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Rey.Hunter.Models2 {
-    [MongoCollection("project")]
+    [MongoCollection("busi.project")]
     public class Project : AccountModel {
     }
 }

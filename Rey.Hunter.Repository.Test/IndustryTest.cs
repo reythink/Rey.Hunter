@@ -1,4 +1,4 @@
-﻿using Rey.Hunter.Models2.Basic;
+﻿using Rey.Hunter.Models2.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Rey.Hunter.Models2 {
-    [MongoCollection("talent")]
+    [MongoCollection("busi.talent")]
     public class Talent : AccountModel {
         public List<string> Industry { get; set; } = new List<string>();
         public List<string> Function { get; set; } = new List<string>();

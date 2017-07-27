@@ -1,7 +1,7 @@
 ﻿using Rey.Hunter.Models2.Attributes;
 
 namespace Rey.Hunter.Models2 {
-    [MongoCollection("user")]
+    [MongoCollection("auth.user")]
     public class User : AccountModel {
         public string Email { get; set; }
         public string Salt { get; set; }

@@ -1,5 +1,5 @@
 ﻿using Rey.Hunter.Models2;
-using Rey.Hunter.Models2.Basic;
+using Rey.Hunter.Models2.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

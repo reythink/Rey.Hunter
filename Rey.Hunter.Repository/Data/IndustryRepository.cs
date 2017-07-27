@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Rey.Hunter.Models2.Basic;
+using Rey.Hunter.Models2.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;

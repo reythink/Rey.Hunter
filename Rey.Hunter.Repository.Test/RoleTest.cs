@@ -14,11 +14,25 @@ namespace Rey.Hunter.Repository.Test {
             };
 
             rep.InsertOne(model);
-            Assert.Equal(rep.FindOne(model.Id).Name, model.Name);
+            Assert.NotNull(model.Id);
+            Assert.NotNull(model.Account);
+            Assert.NotNull(model.Account.Key);
+
+            var found = rep.FindOne(model.Id);
+            Assert.NotNull(found);
+            Assert.NotNull(found.Id);
+            Assert.NotNull(found.Account);
+            Assert.NotNull(found.Account.Key);
+            Assert.Equal(found.Name, "Role Name");
 
             model.Name = "Role Name Changed";
             rep.ReplaceOne(model);
-            Assert.Equal(rep.FindOne(model.Id).Name, model.Name);
+            found = rep.FindOne(model.Id);
+            Assert.NotNull(found);
+            Assert.NotNull(found.Id);
+            Assert.NotNull(found.Account);
+            Assert.NotNull(found.Account.Key);
+            Assert.Equal(found.Name, "Role Name Changed");
 
             rep.DeleteOne(model.Id);
             Assert.Null(rep.FindOne(model.Id));

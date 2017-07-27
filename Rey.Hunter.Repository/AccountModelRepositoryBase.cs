@@ -17,6 +17,13 @@ namespace Rey.Hunter.Repository {
             base.InsertOne(model);
         }
 
+        public override void InsertMany(IEnumerable<TModel> models) {
+            foreach (var model in models) {
+                model.Account = this.AccountId;
+            }
+            base.InsertMany(models);
+        }
+
         public virtual IEnumerable<TModel> FindAll() {
             var filter = FilterBuilder.Eq(x => x.Account.Key, this.AccountId);
             return this.Collection.Find(filter).ToEnumerable();

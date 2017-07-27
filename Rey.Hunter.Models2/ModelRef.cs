@@ -5,13 +5,13 @@ using System.Reflection;
 namespace Rey.Hunter.Models2 {
     public class ModelRef<TModel>
         where TModel : class, IModel {
-        [BsonElement("$ref")]
+        [BsonElement("@ref")]
         public string Collection { get; set; }
 
-        [BsonElement("$id")]
+        [BsonElement("@id")]
         public string Key { get; set; }
 
-        [BsonElement("$db")]
+        [BsonElement("@db")]
         [BsonIgnoreIfNull]
         public string Database { get; set; }
 
@@ -22,7 +22,7 @@ namespace Rey.Hunter.Models2 {
         }
 
         public ModelRef(string key, string collection)
-            : this(key, collection, null) {
+            : this(key, collection, typeof(TModel).GetTypeInfo().GetCustomAttribute<MongoCollectionAttribute>()?.Database) {
         }
 
         public ModelRef(string key)

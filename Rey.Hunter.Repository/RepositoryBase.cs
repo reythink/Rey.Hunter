@@ -1,16 +1,19 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using Rey.Hunter.Models2;
 using Rey.Hunter.Models2.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace Rey.Hunter.Repository {
     public abstract class RepositoryBase<TModel> : IRepository<TModel>
         where TModel : class, IModel {
-        protected IRepositoryManager Manager { get; }
-        protected IMongoClient Client => this.Manager.Client;
-        protected IMongoDatabase Database => this.Client.GetDatabase(this.GetDatabaseName());
-        protected IMongoCollection<TModel> Collection => this.Database.GetCollection<TModel>(this.GetCollectionName());
+        public IRepositoryManager Manager { get; }
+        public IMongoClient Client => this.Manager.Client;
+        public IMongoDatabase Database => this.Client.GetDatabase(this.GetDatabaseName());
+        public IMongoCollection<TModel> Collection => this.Database.GetCollection<TModel>(this.GetCollectionName());
+        public IMongoCollection<BsonDocument> DocCollectin => this.Database.GetCollection<BsonDocument>(this.GetCollectionName());
 
         protected static FilterDefinitionBuilder<TModel> FilterBuilder => Builders<TModel>.Filter;
         protected static IndexKeysDefinitionBuilder<TModel> IndexKeysBuilder => Builders<TModel>.IndexKeys;
@@ -34,7 +37,7 @@ namespace Rey.Hunter.Repository {
             this.Collection.InsertOne(model);
         }
 
-        public void InsertMany(IEnumerable<TModel> models) {
+        public virtual void InsertMany(IEnumerable<TModel> models) {
             this.Collection.InsertMany(models);
         }
 
@@ -59,8 +62,25 @@ namespace Rey.Hunter.Repository {
             this.Database.DropCollection(this.GetCollectionName());
         }
 
-        public IQueryBuilder<TModel> Query() {
-            return new QueryBuilder<TModel>(this);
-        }
+        //public IQueryBuilder<TModel> Query() {
+        //    //var filter = Builders<BsonDocument>.Filter.Regex("industry.name", new BsonRegularExpression("edu", "ig"));
+
+        //    ////this.Collection.Indexes.CreateOne(IndexKeysBuilder.Ascending("name"));
+        //    ////var count = this.Collection.Find(x => true).Count();
+
+        //    //var agg = this.Collection.Aggregate()
+        //    //    .Lookup("industry", "industry.@id", "_id", "industry")
+        //    //    .Match(filter);
+
+        //    ////var count = agg.Group("{_id: 1, result : { '$sum' : 1 }}").SingleOrDefault();
+        //    ////var count = agg.Count().SingleOrDefault()?.Count ?? 0;
+        //    //var list = agg
+        //    //    .Skip((1 - 1) * 15)
+        //    //    .Limit(10)
+        //    //    .ToEnumerable();
+
+
+        //    return new QueryBuilder<TModel>(this);
+        //}
     }
 }

@@ -1,8 +1,15 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System.Collections.Generic;
 
 namespace Rey.Hunter.Repository {
     public interface IRepository<TModel> {
+        IRepositoryManager Manager { get; }
+        IMongoClient Client { get; }
+        IMongoDatabase Database { get; }
+        IMongoCollection<TModel> Collection { get; }
+        IMongoCollection<BsonDocument> DocCollectin { get; }
+
         void InsertOne(TModel model);
         void InsertMany(IEnumerable<TModel> models);
 
@@ -13,7 +20,5 @@ namespace Rey.Hunter.Repository {
 
         TModel FindOne(string id);
         void Drop();
-
-        IQueryBuilder<TModel> Query();
     }
 }

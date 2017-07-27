@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Rey.Hunter.Importer {
     class Program {
@@ -18,7 +19,15 @@ namespace Rey.Hunter.Importer {
             var collIndustry = dbHunter.GetCollection<BsonDocument>("bas.industries");
 
             var repCompany = mgr.Company("58ff2e23a31baa1d28b77fd0");
-            repCompany.Drop();
+            var list = repCompany.Query()
+                .IndustryName("edu")
+                .ToEnumerable()
+                .ToList();
+            //var list = repCompany.Query()
+            //    .Aggregate(agg => agg.Lookup("industry", "industry.@id", "_id", "industry"))
+            //    .Filter(builder => builder.Regex("industry.name", new BsonRegularExpression("edu", "i")))
+            //    .ToEnumerable()
+            //    .ToList();
 
             var repIndustry = mgr.Industry("58ff2e23a31baa1d28b77fd0");
 
@@ -48,24 +57,27 @@ namespace Rey.Hunter.Importer {
             //    repCompany.InsertOne(model);
             //});
 
-            repIndustry.Drop();
-            collIndustry.Find(x => true).ToList().ForEach(item => {
-                var content = item.ToJson();
-                File.WriteAllText("D:\\industry.json", content);
+            //repIndustry.Drop();
+            //collIndustry.Find(x => true).ToList().ForEach(item => {
+            //    var content = item.ToJson();
+            //    File.WriteAllText("D:\\industry.json", content);
 
-                var stack = new Stack<BsonValue>();
-                stack.Push(item);
+            //    var stack = new Stack<BsonValue>();
+            //    stack.Push(item);
 
-                while (stack.Count > 0) {
-                    var node = stack.Pop();
+            //    while (stack.Count > 0) {
+            //        var node = stack.Pop();
 
-                    var children = node["Children"].AsBsonArray.ToList();
-                    if (children.Count > 0) {
-                        children.Reverse();
-                        children.ForEach(child => stack.Push(child));
-                    }
-                }
-            });
+            //        var children = node["Children"].AsBsonArray.ToList();
+            //        if (children.Count > 0) {
+            //            children.Reverse();
+            //            children.ForEach(child => stack.Push(child));
+            //        }
+            //    }
+            //});
+
+            //var industries = repIndustry.FindAll().ToList();
+            //var children = industries.First().Children.Select(x => x.Concrete(mgr)).ToList();
         }
     }
 }

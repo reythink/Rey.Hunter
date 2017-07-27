@@ -9,12 +9,14 @@ namespace Rey.Hunter.Repository.Test {
         [Fact(DisplayName = "TestIndustry")]
         public void TestIndustry() {
             var rep = this.Repository.Industry(this.AccountId);
+            rep.Drop();
+
             var model = new Industry { Name = "Consumer" };
             rep.InsertOne(model);
             Assert.NotNull(model.Id);
             Assert.NotNull(model.Account);
-            Assert.NotNull(model.Account.Id);
-            Assert.Equal(model.Account.Id, this.AccountId);
+            Assert.NotNull(model.Account.Key);
+            Assert.Equal(model.Account.Key, this.AccountId);
 
             rep.DeleteOne(model.Id);
 

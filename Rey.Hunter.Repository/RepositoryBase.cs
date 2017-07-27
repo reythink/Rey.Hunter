@@ -1,13 +1,16 @@
-﻿using System;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Rey.Hunter.Models2;
+using Rey.Hunter.Models2.Attributes;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Rey.Hunter.Repository {
     public abstract class RepositoryBase<TModel> : IRepository<TModel>
         where TModel : class, IModel {
         protected IRepositoryManager Manager { get; }
         protected IMongoClient Client => this.Manager.Client;
+        protected IMongoDatabase Database => this.Client.GetDatabase(this.GetDatabaseName());
+        protected IMongoCollection<TModel> Collection => this.Database.GetCollection<TModel>(this.GetCollectionName());
 
         protected static FilterDefinitionBuilder<TModel> FilterBuilder => Builders<TModel>.Filter;
         protected static IndexKeysDefinitionBuilder<TModel> IndexKeysBuilder => Builders<TModel>.IndexKeys;
@@ -19,47 +22,41 @@ namespace Rey.Hunter.Repository {
             this.Manager = manager;
         }
 
-        public virtual string GetDatabaseName() {
-            return "rey_test";
+        protected virtual string GetDatabaseName() {
+            return typeof(TModel).GetTypeInfo().GetCustomAttribute<MongoCollectionAttribute>()?.Database ?? this.Manager.DefaultDatabaseName;
         }
 
-        public abstract string GetCollectionName();
-
-        public virtual IMongoDatabase GetDatabase() {
-            return this.Client.GetDatabase(this.GetDatabaseName());
-        }
-
-        public virtual IMongoCollection<TModel> GetCollection() {
-            return this.GetDatabase().GetCollection<TModel>(this.GetCollectionName());
+        protected virtual string GetCollectionName() {
+            return typeof(TModel).GetTypeInfo().GetCustomAttribute<MongoCollectionAttribute>()?.Collection;
         }
 
         public virtual void InsertOne(TModel model) {
-            this.GetCollection().InsertOne(model);
+            this.Collection.InsertOne(model);
         }
 
         public void InsertMany(IEnumerable<TModel> models) {
-            this.GetCollection().InsertMany(models);
+            this.Collection.InsertMany(models);
         }
 
         public virtual void ReplaceOne(TModel model) {
-            this.GetCollection().ReplaceOne(x => x.Id.Equals(model.Id), model);
+            this.Collection.ReplaceOne(x => x.Id.Equals(model.Id), model);
         }
 
         public virtual void DeleteOne(string id) {
-            this.GetCollection().DeleteOne(x => x.Id.Equals(id));
+            this.Collection.DeleteOne(x => x.Id.Equals(id));
         }
 
         public void DeleteMany(IEnumerable<string> list) {
             var filter = FilterBuilder.In(x => x.Id, list);
-            this.GetCollection().DeleteMany(filter);
+            this.Collection.DeleteMany(filter);
         }
 
         public virtual TModel FindOne(string id) {
-            return this.GetCollection().Find(x => x.Id.Equals(id)).SingleOrDefault();
+            return this.Collection.Find(x => x.Id.Equals(id)).SingleOrDefault();
         }
 
         public virtual void Drop() {
-            this.GetDatabase().DropCollection(this.GetCollectionName());
+            this.Database.DropCollection(this.GetCollectionName());
         }
 
         public IQueryBuilder<TModel> Query() {

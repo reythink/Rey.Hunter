@@ -1,4 +1,7 @@
-﻿namespace Rey.Hunter.Models2 {
+﻿using Rey.Hunter.Models2.Attributes;
+
+namespace Rey.Hunter.Models2 {
+    [MongoCollection("user")]
     public class User : AccountModel {
         public string Email { get; set; }
         public string Salt { get; set; }

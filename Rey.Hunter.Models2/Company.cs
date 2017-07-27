@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
+using Rey.Hunter.Models2.Attributes;
 using Rey.Hunter.Models2.Enums;
 using System.Collections.Generic;
 
@@ -9,6 +10,7 @@ namespace Rey.Hunter.Models2 {
         public string Address { get; set; }
     }
 
+    [MongoCollection("company")]
     public class Company : AccountModel {
         public string Name { get; set; }
 

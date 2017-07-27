@@ -1,9 +1,6 @@
 ﻿using Rey.Hunter.Models2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Rey.Hunter.Repository {
+namespace Rey.Hunter.Repository.Repositories {
     public interface ICompanyRepository : IAccountModelRepository<Company> {
 
     }

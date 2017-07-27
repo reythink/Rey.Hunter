@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MongoDB.Driver;
 using Rey.Hunter.Models2;
-using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace Rey.Hunter.Repository {
     public abstract class AccountModelRepositoryBase<TModel> : RepositoryBase<TModel>, IAccountModelRepository<TModel>
@@ -19,8 +18,8 @@ namespace Rey.Hunter.Repository {
         }
 
         public virtual IEnumerable<TModel> FindAll() {
-            var filter = FilterBuilder.Eq(x => x.Account.Id, this.AccountId);
-            return this.GetCollection().Find(filter).ToEnumerable();
+            var filter = FilterBuilder.Eq(x => x.Account.Key, this.AccountId);
+            return this.Collection.Find(filter).ToEnumerable();
         }
     }
 }

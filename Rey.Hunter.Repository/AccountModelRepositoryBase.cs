@@ -25,7 +25,7 @@ namespace Rey.Hunter.Repository {
         }
 
         public virtual IEnumerable<TModel> FindAll() {
-            var filter = FilterBuilder.Eq(x => x.Account.Key, this.AccountId);
+            var filter = FilterBuilder.Eq(x => x.Account.Id, this.AccountId);
             return this.Collection.Find(filter).ToEnumerable();
         }
     }

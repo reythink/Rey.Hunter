@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Rey.Hunter.Models2;
 using System;
@@ -9,40 +10,107 @@ using System.Linq.Expressions;
 
 namespace Rey.Hunter.Repository {
     public interface IQueryBuilder<TModel> {
-        //IQueryBuilder<TModel> Aggregate(Func<IAggregateFluent<BsonDocument>, IAggregateFluent<BsonDocument>> build);
-        //IQueryBuilder<TModel> Filter(Func<FilterDefinitionBuilder<BsonDocument>, FilterDefinition<BsonDocument>> build);
-        IEnumerable<TModel> ToEnumerable();
+        IEnumerable<TModel> Build();
     }
 
     public interface ICompanyQueryBuilder : IQueryBuilder<Company> {
-        ICompanyQueryBuilder IndustryName(string value);
+        ICompanyQueryBuilder Name(params string[] values);
+        ICompanyQueryBuilder IndustryName(params string[] values);
+
+        ICompanyQueryBuilder SortAsc(string value);
+        ICompanyQueryBuilder SortDesc(string value);
+
+        ICompanyQueryBuilder Page(int index, int size = 15);
+    }
+
+    public abstract class QueryBuilder<TModel> : IQueryBuilder<TModel> {
+        protected IRepository<TModel> Repository { get; }
+        public QueryBuilder(IRepository<TModel> repository) {
+            this.Repository = repository;
+        }
+
+        public abstract IEnumerable<TModel> Build();
     }
 
     public class CompanyQueryBuilder : QueryBuilder<Company>, ICompanyQueryBuilder {
-        private List<string> IndustryNameList { get; } = new List<string>();
+        private List<SortDefinition<BsonDocument>> Sorts { get; } = new List<SortDefinition<BsonDocument>>();
+        private List<FilterDefinition<BsonDocument>> NameFilters { get; } = new List<FilterDefinition<BsonDocument>>();
+        private List<FilterDefinition<BsonDocument>> IndustryNameFilters { get; } = new List<FilterDefinition<BsonDocument>>();
+
+        private int PageIndex { get; set; } = 1;
+        private int PageSize { get; set; } = 15;
 
         public CompanyQueryBuilder(IRepository<Company> repository)
             : base(repository) {
         }
 
-        public ICompanyQueryBuilder IndustryName(string value) {
-            this.IndustryNameList.Add(value);
+        public ICompanyQueryBuilder Name(params string[] values) {
+            this.NameFilters.AddRange(values.Select(x => Builders<BsonDocument>.Filter.Regex("name", new BsonRegularExpression(x, "i"))));
             return this;
         }
 
-        public FilterDefinition<BsonDocument> BuildFilter() {
+        public ICompanyQueryBuilder IndustryName(params string[] values) {
+            this.IndustryNameFilters.AddRange(values.Select(x => Builders<BsonDocument>.Filter.Regex("industry.name", new BsonRegularExpression(x, "i"))));
+            return this;
+        }
+
+        public ICompanyQueryBuilder SortAsc(string value) {
+            this.Sorts.Add(Builders<BsonDocument>.Sort.Ascending(value));
+            return this;
+        }
+
+        public ICompanyQueryBuilder SortDesc(string value) {
+            this.Sorts.Add(Builders<BsonDocument>.Sort.Descending(value));
+            return this;
+        }
+
+        public ICompanyQueryBuilder Page(int index, int size = 15) {
+            this.PageIndex = index;
+            this.PageSize = size;
+            return this;
+        }
+
+        private FilterDefinition<BsonDocument> BuildFilter() {
             var filters = new List<FilterDefinition<BsonDocument>>();
-            filters.Add(Builders<BsonDocument>.Filter.Or(this.IndustryNameList.Select(x => Builders<BsonDocument>.Filter.Regex("industry.name", new BsonRegularExpression(x, "i")))));
+            BuildFilter(filters, this.NameFilters);
+            BuildFilter(filters, this.IndustryNameFilters);
+
+            if (filters.Count == 0)
+                return Builders<BsonDocument>.Filter.Empty;
+
             return Builders<BsonDocument>.Filter.And(filters);
         }
 
-        public override IEnumerable<Company> ToEnumerable() {
+        private void BuildFilter(ICollection<FilterDefinition<BsonDocument>> filters, IEnumerable<FilterDefinition<BsonDocument>> subs) {
+            if (subs.Count() > 0) {
+                filters.Add(Builders<BsonDocument>.Filter.Or(subs));
+            }
+        }
+
+        private SortDefinition<BsonDocument> BuildSort() {
+            if (this.Sorts.Count == 0)
+                return Builders<BsonDocument>.Sort.Descending("_id");
+
+            return Builders<BsonDocument>.Sort.Combine(this.Sorts);
+        }
+
+        public override IEnumerable<Company> Build() {
             var agg = this.Repository.DocCollectin
                 .Aggregate()
-                .Lookup("industry", "industry.@id", "_id", "industry")
+                .Lookup("industry", "industry._id", "_id", "industry")
+                //.Sort(this.BuildSort())
                 .Match(this.BuildFilter());
 
-            return agg.Project(Builders<BsonDocument>.Projection.As<Company>()).ToEnumerable();
+            var count = agg.Count().SingleOrDefault()?.Count ?? 0;
+
+            var list = agg
+                .Sort(this.BuildSort())
+                .Skip((this.PageIndex - 1) * this.PageSize)
+                .Limit(this.PageSize)
+                .ToEnumerable()
+                .Select(x => BsonSerializer.Deserialize<Company>(x));
+
+            return list;
         }
     }
 }

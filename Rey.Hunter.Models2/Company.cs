@@ -5,21 +5,19 @@ using Rey.Hunter.Models2.Enums;
 using System.Collections.Generic;
 
 namespace Rey.Hunter.Models2 {
-    public class CompanyAddress {
-        public string Name { get; set; }
-        public string Mobile { get; set; }
-        public string Address { get; set; }
-    }
-
     [MongoCollection("company")]
     public class Company : AccountModel {
         public string Name { get; set; }
 
-        public List<ModelRef<Industry>> Industry { get; set; } = new List<ModelRef<Industry>>();
+        public List<string> Industry { get; set; } = new List<string>();
 
         public CompanyType? Type { get; set; }
 
         public CompanyStatus? Status { get; set; }
+
+        public TalentRef HR { get; set; }
+
+        public TalentRef LineManager { get; set; }
 
         public List<CompanyAddress> Address { get; set; } = new List<CompanyAddress>();
 

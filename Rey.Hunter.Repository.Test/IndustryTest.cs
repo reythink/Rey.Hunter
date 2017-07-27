@@ -13,8 +13,8 @@ namespace Rey.Hunter.Repository.Test {
             rep.InsertOne(model);
             Assert.NotNull(model.Id);
             Assert.NotNull(model.Account);
-            Assert.NotNull(model.Account.Key);
-            Assert.Equal(model.Account.Key, this.AccountId);
+            Assert.NotNull(model.Account.Id);
+            Assert.Equal(model.Account.Id, this.AccountId);
 
             rep.DeleteOne(model.Id);
         }

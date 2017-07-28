@@ -42,7 +42,9 @@ namespace Rey.Hunter.Repository.Test {
         public void TestCompanyQuery() {
             var rep = this.Repository.Company(this.Account);
             var list = rep.Query()
-                //.Name("1")
+                .Name("t")
+                .IndustryName("con")
+                .Page(1)
                 .Build()
                 .ToList();
         }

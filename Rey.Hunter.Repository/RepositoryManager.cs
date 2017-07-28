@@ -16,10 +16,12 @@ namespace Rey.Hunter.Repository {
         public IMongoClient Client { get; }
         public string DefaultDatabaseName { get; } = "rey_test";
 
-        public RepositoryManager() {
+        static RepositoryManager() {
             BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
             ConventionRegistry.Register("CamelCase", new ConventionPack { new CamelCaseElementNameConvention() }, type => true);
+        }
 
+        public RepositoryManager() {
             this.Client = new MongoClient(new MongoClientSettings() {
                 Credentials = new List<MongoCredential> { MongoCredential.CreateCredential("admin", "admin", "admin123~") }
             }.Freeze());

@@ -3,12 +3,21 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Rey.Hunter.Models2;
 using Rey.Hunter.Models2.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Rey.Hunter.Repository {
+    public class QueryResult {
+        public long Count { get; }
+
+        public QueryResult(long count) {
+            this.Count = count;
+        }
+    }
+
     public interface IQueryBuilder<TModel> {
-        IEnumerable<TModel> Build();
+        IEnumerable<TModel> Build(Action<QueryResult> result = null);
     }
 
     public interface ICompanyQueryBuilder : IQueryBuilder<Company> {
@@ -27,88 +36,94 @@ namespace Rey.Hunter.Repository {
             this.Repository = repository;
         }
 
-        public abstract IEnumerable<TModel> Build();
+        protected abstract FilterDefinition<TModel> BuildFilter();
+        protected abstract SortDefinition<TModel> BuildSort();
+        protected abstract int? BuildSkip();
+        protected abstract int? BuildLimit();
+
+        public virtual IEnumerable<TModel> Build(Action<QueryResult> result = null) {
+            var fluent = this.Repository
+                .Collection
+                .Find(this.BuildFilter());
+
+            result?.Invoke(new QueryResult(fluent.Count()));
+
+            return fluent
+                .Sort(this.BuildSort())
+                .Skip(this.BuildSkip())
+                .Limit(this.BuildLimit())
+                .ToEnumerable();
+        }
     }
 
     public class CompanyQueryBuilder : QueryBuilder<Company>, ICompanyQueryBuilder {
-        private List<SortDefinition<BsonDocument>> Sorts { get; } = new List<SortDefinition<BsonDocument>>();
-        private List<FilterDefinition<BsonDocument>> NameFilters { get; } = new List<FilterDefinition<BsonDocument>>();
-        private List<FilterDefinition<BsonDocument>> IndustryNameFilters { get; } = new List<FilterDefinition<BsonDocument>>();
+        private List<SortDefinition<Company>> Sorts { get; } = new List<SortDefinition<Company>>();
+        private List<FilterDefinition<Company>> NameFilters { get; } = new List<FilterDefinition<Company>>();
+        private List<FilterDefinition<Company>> IndustryNameFilters { get; } = new List<FilterDefinition<Company>>();
 
-        private int PageIndex { get; set; } = 1;
-        private int PageSize { get; set; } = 15;
+        private int? Skip { get; set; }
+        private int? Limit { get; set; }
 
         public CompanyQueryBuilder(IRepository<Company> repository)
             : base(repository) {
         }
 
         public ICompanyQueryBuilder Name(params string[] values) {
-            this.NameFilters.AddRange(values.Select(x => Builders<BsonDocument>.Filter.Regex("name", new BsonRegularExpression(x, "i"))));
+            this.NameFilters.AddRange(values.Select(x => Builders<Company>.Filter.Regex("name", new BsonRegularExpression(x, "i"))));
             return this;
         }
 
         public ICompanyQueryBuilder IndustryName(params string[] values) {
-            this.IndustryNameFilters.AddRange(values.Select(x => Builders<BsonDocument>.Filter.Regex("industry.name", new BsonRegularExpression(x, "i"))));
+            this.IndustryNameFilters.AddRange(values.Select(x => Builders<Company>.Filter.Regex("industry.name", new BsonRegularExpression(x, "i"))));
             return this;
         }
 
         public ICompanyQueryBuilder SortAsc(string value) {
-            this.Sorts.Add(Builders<BsonDocument>.Sort.Ascending(value));
+            this.Sorts.Add(Builders<Company>.Sort.Ascending(value));
             return this;
         }
 
         public ICompanyQueryBuilder SortDesc(string value) {
-            this.Sorts.Add(Builders<BsonDocument>.Sort.Descending(value));
+            this.Sorts.Add(Builders<Company>.Sort.Descending(value));
             return this;
         }
 
         public ICompanyQueryBuilder Page(int index, int size = 15) {
-            this.PageIndex = index;
-            this.PageSize = size;
+            this.Skip = (index - 1) * size;
+            this.Limit = size;
             return this;
         }
 
-        private FilterDefinition<BsonDocument> BuildFilter() {
-            var filters = new List<FilterDefinition<BsonDocument>>();
+        protected override FilterDefinition<Company> BuildFilter() {
+            var filters = new List<FilterDefinition<Company>>();
             BuildFilter(filters, this.NameFilters);
             BuildFilter(filters, this.IndustryNameFilters);
 
             if (filters.Count == 0)
-                return Builders<BsonDocument>.Filter.Empty;
+                return Builders<Company>.Filter.Empty;
 
-            return Builders<BsonDocument>.Filter.And(filters);
+            return Builders<Company>.Filter.And(filters);
         }
 
-        private void BuildFilter(ICollection<FilterDefinition<BsonDocument>> filters, IEnumerable<FilterDefinition<BsonDocument>> subs) {
+        private void BuildFilter(ICollection<FilterDefinition<Company>> filters, IEnumerable<FilterDefinition<Company>> subs) {
             if (subs.Count() > 0) {
-                filters.Add(Builders<BsonDocument>.Filter.Or(subs));
+                filters.Add(Builders<Company>.Filter.Or(subs));
             }
         }
 
-        private SortDefinition<BsonDocument> BuildSort() {
+        protected override SortDefinition<Company> BuildSort() {
             if (this.Sorts.Count == 0)
-                return Builders<BsonDocument>.Sort.Descending("_id");
+                return Builders<Company>.Sort.Descending("_id");
 
-            return Builders<BsonDocument>.Sort.Combine(this.Sorts);
+            return Builders<Company>.Sort.Combine(this.Sorts);
         }
 
-        public override IEnumerable<Company> Build() {
-            var agg = this.Repository.BsonCollection
-                .Aggregate()
-                .Lookup("industry", "industry._id", "_id", "industry")
-                //.Sort(this.BuildSort())
-                .Match(this.BuildFilter());
+        protected override int? BuildSkip() {
+            return this.Skip;
+        }
 
-            var count = agg.Count().SingleOrDefault()?.Count ?? 0;
-
-            var list = agg
-                .Sort(this.BuildSort())
-                .Skip((this.PageIndex - 1) * this.PageSize)
-                .Limit(this.PageSize)
-                .ToEnumerable()
-                .Select(x => BsonSerializer.Deserialize<Company>(x));
-
-            return list;
+        protected override int? BuildLimit() {
+            return this.Limit;
         }
     }
 }

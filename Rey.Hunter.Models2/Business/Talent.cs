@@ -11,22 +11,22 @@ namespace Rey.Hunter.Models2.Business {
 
         public string EnglishName { get; set; }
         public string ChineseName { get; set; }
-        public int? DOB { get; set; }
+        public int? BirthYear { get; set; }
         public Gender? Gender { get; set; }
-        public MaritalStatus? MaritalStatus { get; set; }
-        public EducationLevel? EducationLevel { get; set; }
+        public Marital? Marital { get; set; }
+        public Education? Education { get; set; }
         public Language? Language { get; set; }
         public Nationality? Nationality { get; set; }
-        public JobIntension? Intension { get; set; }
+        public Intension? Intension { get; set; }
         public string Linkedin { get; set; }
-        public string CV { get; set; }
+        public string Vita { get; set; }
         public string Notes { get; set; }
 
-        public TalentLocation Location { get; set; }
+        public TalentLocation Location { get; set; } = new TalentLocation();
 
-        public TalentContact Contact { get; set; }
+        public TalentContact Contact { get; set; } = new TalentContact();
 
-        public TalentProfileLabel ProfileLabel { get; set; }
+        public TalentProfile Profile { get; set; } = new TalentProfile();
 
         public List<TalentExperience> Experiences { get; set; } = new List<TalentExperience>();
 

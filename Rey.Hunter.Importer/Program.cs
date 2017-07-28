@@ -41,12 +41,13 @@ namespace Rey.Hunter.Importer {
 
             var mgr = new RepositoryManager();
 
-            ImportIndustry(db, mgr);
-            ImportFunction(db, mgr);
-            ImportLocation(db, mgr);
-            ImportCategory(db, mgr);
-            ImportChannel(db, mgr);
-            ImportCompany(db, mgr);
+            //ImportIndustry(db, mgr);
+            //ImportFunction(db, mgr);
+            //ImportLocation(db, mgr);
+            //ImportCategory(db, mgr);
+            //ImportChannel(db, mgr);
+            //ImportCompany(db, mgr);
+            ImportTalent(db, mgr);
         }
 
         static void ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, bool, TModel> create)
@@ -100,24 +101,74 @@ namespace Rey.Hunter.Importer {
         }
 
         static void ImportCompany(IMongoDatabase db, IRepositoryManager mgr) {
-            var company = db.GetCollection<BsonDocument>(NAME_COMPANY);
-            var industry = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
+            var collection = db.GetCollection<BsonDocument>(NAME_COMPANY);
+            var industry = mgr.Industry(ACCOUNT_ID);
+            var company = mgr.Company(ACCOUNT_ID);
 
-            var output = mgr.Company(ACCOUNT_ID);
-
-            output.Drop();
-            company.Find(x => true).ToList().ForEach(item => {
+            company.Drop();
+            collection.Find(x => true).ToList().ForEach(item => {
                 var model = new Company();
 
+                model.Id = item["_id"].AsString;
                 model.Name = item["Name"].AsString;
-                model.Type = (CompanyType?)item["Type"].AsInt32;
-                model.Status = (CompanyStatus?)item["Status"].AsInt32;
+                model.Type = (CompanyType?)(int)BsonTypeMapper.MapToDotNetValue(item["Type"]);
+                model.Status = (CompanyStatus?)(int)BsonTypeMapper.MapToDotNetValue(item["Status"]);
                 model.Introduction = BsonTypeMapper.MapToDotNetValue(item["Introduction"]) as string;
                 model.Culture = BsonTypeMapper.MapToDotNetValue(item["Culture"]) as string;
                 model.BasicRecruitmentPrinciple = BsonTypeMapper.MapToDotNetValue(item["BasicRecruitmentPrinciple"]) as string;
-                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => FindNodeName(NAME_INDUSTRY, x["_id"].AsString)));
+                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => industry.FindOne(x["_id"].AsString).Name));
 
-                output.InsertOne(model);
+                company.InsertOne(model);
+            });
+        }
+
+        static void ImportTalent(IMongoDatabase db, IRepositoryManager mgr) {
+            var collection = db.GetCollection<BsonDocument>(NAME_TALENT);
+            var industry = mgr.Industry(ACCOUNT_ID);
+            var function = mgr.Function(ACCOUNT_ID);
+            var location = mgr.Location(ACCOUNT_ID);
+            var category = mgr.Category(ACCOUNT_ID);
+            var channel = mgr.Channel(ACCOUNT_ID);
+            var talent = mgr.Talent(ACCOUNT_ID);
+
+            talent.Drop();
+            collection.Find(x => true).ToList().ForEach(item => {
+                var model = new Talent();
+
+                model.Id = (string)GetValue(item, "_id");
+                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => industry.FindOne(x["_id"].AsString).Name));
+                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => function.FindOne(x["_id"].AsString).Name));
+                model.EnglishName = (string)GetValue(item, "EnglishName");
+                model.ChineseName = (string)GetValue(item, "ChineseName");
+                model.BirthYear = (int?)GetValue(item, "BirthYear");
+                model.Gender = (Gender?)(int?)GetValue(item, "Gender");
+                model.Marital = (Marital?)(int?)GetValue(item, "MaritalStatus");
+                model.Education = (Education?)(int?)GetValue(item, "EducationLevel");
+                model.Language = (Language?)(int?)GetValue(item, "Language");
+                model.Nationality = (Nationality?)(int?)GetValue(item, "Nationality");
+                model.Intension = (Intension?)(int?)GetValue(item, "Intension");
+                model.Linkedin = (string)GetValue(item, "Linkedin");
+                model.Vita = (string)GetValue(item, "CV");
+                model.Notes = (string)GetValue(item, "Notes");
+
+                model.Location.Current = item["CurrentLocations"].AsBsonArray.Select(x => location.FindOne(x["_id"].AsString).Name).FirstOrDefault();
+                model.Location.Mobility.AddRange(item["MobilityLocations"].AsBsonArray.Select(x => location.FindOne(x["_id"].AsString).Name));
+
+                model.Contact.Phone = (string)GetValue(item, "Phone");
+                model.Contact.Mobile = (string)GetValue(item, "Mobile");
+                model.Contact.Email = (string)GetValue(item, "Email");
+                model.Contact.QQ = (string)GetValue(item, "QQ");
+                model.Contact.Wechat = (string)GetValue(item, "Wechat");
+
+                model.Profile.CrossIndustry.AddRange(item["ProfileLabel"]["CrossIndustries"].AsBsonArray.Select(x => industry.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossFunction.AddRange(item["ProfileLabel"]["CrossFunctions"].AsBsonArray.Select(x => function.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossChannel.AddRange(item["ProfileLabel"]["CrossChannels"].AsBsonArray.Select(x => channel.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossCategory.AddRange(item["ProfileLabel"]["CrossCategories"].AsBsonArray.Select(x => category.FindOne(x["_id"].AsString).Name));
+                model.Profile.Brand = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "BrandExp");
+                model.Profile.KeyAccount = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "KeyAccountExp");
+                model.Profile.Others = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "Others");
+
+                talent.InsertOne(model);
             });
         }
 
@@ -142,6 +193,10 @@ namespace Rey.Hunter.Importer {
         static string FindNodeName(string collectionName, string id) {
             var collection = new RepositoryManager().Client.GetDatabase("rey_hunter").GetCollection<BsonDocument>(collectionName);
             return FindNodeName(collection, id);
+        }
+
+        static object GetValue(BsonDocument item, string name) {
+            return BsonTypeMapper.MapToDotNetValue(item.GetValue(name, BsonNull.Value));
         }
     }
 }

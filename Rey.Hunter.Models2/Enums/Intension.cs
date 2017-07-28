@@ -1,5 +1,5 @@
 ﻿namespace Rey.Hunter.Models2.Enums {
-    public enum JobIntension {
+    public enum Intension {
         VeryActive = 1,
         SemiActive = 2,
         SemiPassive = 3,

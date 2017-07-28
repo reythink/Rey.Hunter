@@ -1,5 +1,5 @@
 ﻿namespace Rey.Hunter.Models2.Enums {
-    public enum EducationLevel {
+    public enum Education {
         Bachelor = 1,
         Master = 2,
         MBA = 3,

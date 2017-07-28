@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Rey.Hunter.Models2;
+using Rey.Hunter.Models2.Business;
 using System.Collections.Generic;
 using System.Linq;
 

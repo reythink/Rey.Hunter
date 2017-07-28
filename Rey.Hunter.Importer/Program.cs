@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using Rey.Hunter.Models2;
+using Rey.Hunter.Models2.Business;
 using Rey.Hunter.Models2.Data;
 using Rey.Hunter.Models2.Enums;
 using Rey.Hunter.Repository;

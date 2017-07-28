@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Rey.Hunter.Models2 {
+namespace Rey.Hunter.Models2.Business {
     public class TalentProfileLabel {
         /// <summary>
         /// 跨行业经验

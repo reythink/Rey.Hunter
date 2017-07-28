@@ -1,4 +1,4 @@
-﻿namespace Rey.Hunter.Models2 {
+﻿namespace Rey.Hunter.Models2.Business {
     public class CompanyAddress {
         public string Name { get; set; }
         public string Mobile { get; set; }

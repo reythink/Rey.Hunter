@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace Rey.Hunter.Models2 {
+namespace Rey.Hunter.Models2.Business {
     public class TalentContact {
         [BsonIgnoreIfNull]
         public string Phone { get; set; }

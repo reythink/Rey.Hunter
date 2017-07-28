@@ -3,7 +3,7 @@ using Rey.Hunter.Models2.Enums;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Rey.Hunter.Models2 {
+namespace Rey.Hunter.Models2.Business {
     [MongoCollection("busi.talent")]
     public class Talent : AccountModel {
         public List<string> Industry { get; set; } = new List<string>();

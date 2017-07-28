@@ -4,7 +4,7 @@ using Rey.Hunter.Models2.Data;
 using Rey.Hunter.Models2.Enums;
 using System.Collections.Generic;
 
-namespace Rey.Hunter.Models2 {
+namespace Rey.Hunter.Models2.Business {
     [MongoCollection("busi.company")]
     public class Company : AccountModel {
         public string Name { get; set; }

@@ -8,19 +8,19 @@ namespace Rey.Hunter.Repository.Test {
     public class RoleTest : TestBase {
         [Fact(DisplayName = "TestRole")]
         public void TestRole() {
-            var rep = this.Repository.Role(this.AccountId);
+            var rep = this.Repository.Role(this.Account);
             var model = new Role() {
                 Name = "Role Name"
             };
 
             rep.InsertOne(model);
             Assert.NotNull(model.Id);
-            Assert.NotNull(model.AccountId);
+            Assert.NotNull(model.Account);
 
             var found = rep.FindOne(model.Id);
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
-            Assert.NotNull(found.AccountId);
+            Assert.NotNull(found.Account);
             Assert.Equal(found.Name, "Role Name");
 
             model.Name = "Role Name Changed";
@@ -28,7 +28,7 @@ namespace Rey.Hunter.Repository.Test {
             found = rep.FindOne(model.Id);
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
-            Assert.NotNull(found.AccountId);
+            Assert.NotNull(found.Account);
             Assert.Equal(found.Name, "Role Name Changed");
 
             rep.DeleteOne(model.Id);

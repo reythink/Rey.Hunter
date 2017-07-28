@@ -11,19 +11,19 @@ namespace Rey.Hunter.Repository.Test {
     public class CompanyTest : TestBase {
         [Fact(DisplayName = "TestCompany")]
         public void TestCompany() {
-            var rep = this.Repository.Company(this.AccountId);
+            var rep = this.Repository.Company(this.Account);
             var model = new Company() {
                 Name = "Company Name"
             };
 
             rep.InsertOne(model);
             Assert.NotNull(model.Id);
-            Assert.NotNull(model.AccountId);
+            Assert.NotNull(model.Account);
 
             var found = rep.FindOne(model.Id);
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
-            Assert.NotNull(found.AccountId);
+            Assert.NotNull(found.Account);
             Assert.Equal(found.Name, "Company Name");
 
             model.Name = "Company Name Changed";
@@ -31,7 +31,7 @@ namespace Rey.Hunter.Repository.Test {
             found = rep.FindOne(model.Id);
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
-            Assert.NotNull(found.AccountId);
+            Assert.NotNull(found.Account);
             Assert.Equal(found.Name, "Company Name Changed");
 
             rep.DeleteOne(model.Id);
@@ -40,7 +40,7 @@ namespace Rey.Hunter.Repository.Test {
 
         [Fact(DisplayName = "TestCompanyQuery")]
         public void TestCompanyQuery() {
-            var rep = this.Repository.Company(this.AccountId);
+            var rep = this.Repository.Company(this.Account);
             var list = rep.Query()
                 //.Name("1")
                 .Build()

@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using Rey.Hunter.Models2.Attributes;
+using Rey.Hunter.Models2.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,8 +15,8 @@ namespace Rey.Hunter.Models2.Business {
         public UserRef Manager { get; set; }
         public List<UserRef> Consultant { get; set; } = new List<UserRef>();
 
-        public List<string> Function { get; set; } = new List<string>();
-        public List<string> Location { get; set; } = new List<string>();
+        public List<FunctionRef> Function { get; set; } = new List<FunctionRef>();
+        public List<LocationRef> Location { get; set; } = new List<LocationRef>();
 
         public DateTime? AssignmentDate { get; set; }
         public DateTime? OfferSignedDate { get; set; }

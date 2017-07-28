@@ -2,8 +2,8 @@
 
 namespace Rey.Hunter.Repository.Auth {
     public class UserRepository : AccountModelRepositoryBase<User>, IUserRepository {
-        public UserRepository(IRepositoryManager manager, string accountId)
-            : base(manager, accountId) {
+        public UserRepository(IRepositoryManager manager, Account account)
+            : base(manager, account) {
         }
     }
 }

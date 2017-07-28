@@ -1,26 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using Rey.Hunter.Models2.Data;
+using System.Collections.Generic;
 
 namespace Rey.Hunter.Models2.Business {
     public class TalentProfile {
         /// <summary>
         /// 跨行业经验
         /// </summary>
-        public List<string> CrossIndustry { get; set; } = new List<string>();
+        public List<IndustryRef> CrossIndustry { get; set; } = new List<IndustryRef>();
 
         /// <summary>
         /// 跨职能经验
         /// </summary>
-        public List<string> CrossFunction { get; set; } = new List<string>();
+        public List<FunctionRef> CrossFunction { get; set; } = new List<FunctionRef>();
 
         /// <summary>
         /// 跨渠道经验
         /// </summary>
-        public List<string> CrossChannel { get; set; } = new List<string>();
+        public List<ChannelRef> CrossChannel { get; set; } = new List<ChannelRef>();
 
         /// <summary>
         /// 跨品类经验 
         /// </summary>
-        public List<string> CrossCategory { get; set; } = new List<string>();
+        public List<CategoryRef> CrossCategory { get; set; } = new List<CategoryRef>();
 
         /// <summary>
         /// 品牌经验

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson.Serialization;
+using Rey.Hunter.Models2;
 
 namespace Rey.Hunter.Repository {
     public class RepositoryManager : IRepositoryManager {
@@ -30,52 +31,52 @@ namespace Rey.Hunter.Repository {
             return new AccountRepository(this);
         }
 
-        public IRoleRepository Role(string accountId) {
-            return new RoleRepository(this, accountId);
+        public IRoleRepository Role(Account account) {
+            return new RoleRepository(this, account);
         }
 
-        public IUserRepository User(string accountId) {
-            return new UserRepository(this, accountId);
+        public IUserRepository User(Account account) {
+            return new UserRepository(this, account);
         }
 
         #endregion
 
         #region Data
 
-        public IIndustryRepository Industry(string accountId) {
-            return new IndustryRepository(this, accountId);
+        public IIndustryRepository Industry(Account account) {
+            return new IndustryRepository(this, account);
         }
 
-        public IFunctionRepository Function(string accountId) {
-            return new FunctionRepository(this, accountId);
+        public IFunctionRepository Function(Account account) {
+            return new FunctionRepository(this, account);
         }
 
-        public ILocationRepository Location(string accountId) {
-            return new LocationRepository(this, accountId);
+        public ILocationRepository Location(Account account) {
+            return new LocationRepository(this, account);
         }
 
-        public ICategoryRepository Category(string accountId) {
-            return new CategoryRepository(this, accountId);
+        public ICategoryRepository Category(Account account) {
+            return new CategoryRepository(this, account);
         }
 
-        public IChannelRepository Channel(string accountId) {
-            return new ChannelRepository(this, accountId);
+        public IChannelRepository Channel(Account account) {
+            return new ChannelRepository(this, account);
         }
 
         #endregion
 
         #region Business
 
-        public ICompanyRepository Company(string accountId) {
-            return new CompanyRepository(this, accountId);
+        public ICompanyRepository Company(Account account) {
+            return new CompanyRepository(this, account);
         }
 
-        public ITalentRepository Talent(string accountId) {
-            return new TalentRepository(this, accountId);
+        public ITalentRepository Talent(Account account) {
+            return new TalentRepository(this, account);
         }
 
-        public IProjectRepository Project(string accountId) {
-            return new ProjectRepository(this, accountId);
+        public IProjectRepository Project(Account account) {
+            return new ProjectRepository(this, account);
         }
 
         #endregion

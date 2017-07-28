@@ -6,18 +6,18 @@ using System.Collections.Generic;
 namespace Rey.Hunter.Repository {
     public abstract class AccountModelRepositoryBase<TModel> : RepositoryBase<TModel>, IAccountModelRepository<TModel>
         where TModel : class, IAccountModel {
-        public string AccountId { get; }
+        public Account Account { get; }
 
-        public AccountModelRepositoryBase(IRepositoryManager manager, string accountId)
+        public AccountModelRepositoryBase(IRepositoryManager manager, Account account)
             : base(manager) {
-            this.AccountId = accountId;
+            this.Account = account;
         }
 
         public override void InsertOne(TModel model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            model.AccountId = this.AccountId;
+            model.Account = this.Account;
             base.InsertOne(model);
         }
 
@@ -26,7 +26,7 @@ namespace Rey.Hunter.Repository {
                 throw new ArgumentNullException(nameof(models));
 
             foreach (var model in models) {
-                model.AccountId = this.AccountId;
+                model.Account = this.Account;
             }
 
             base.InsertMany(models);
@@ -36,12 +36,12 @@ namespace Rey.Hunter.Repository {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            model.AccountId = this.AccountId;
+            model.Account = this.Account;
             base.ReplaceOne(model);
         }
 
         public override IEnumerable<TModel> FindAll() {
-            return this.Collection.Find(x => x.AccountId.Equals(this.AccountId)).ToEnumerable();
+            return this.Collection.Find(x => x.Account.Equals(this.Account)).ToEnumerable();
         }
     }
 }

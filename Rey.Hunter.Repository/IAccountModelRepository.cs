@@ -3,6 +3,6 @@
 namespace Rey.Hunter.Repository {
     public interface IAccountModelRepository<TModel> : IRepository<TModel>
         where TModel : class, IAccountModel {
-        string AccountId { get; }
+        Account Account { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Rey.Hunter.Models2.Attributes;
+using Rey.Hunter.Models2.Data;
 using Rey.Hunter.Models2.Enums;
 using System.Collections.Generic;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Text;
 namespace Rey.Hunter.Models2.Business {
     [MongoCollection("busi.talent")]
     public class Talent : AccountModel {
-        public List<string> Industry { get; set; } = new List<string>();
-        public List<string> Function { get; set; } = new List<string>();
+        public List<IndustryRef> Industry { get; set; } = new List<IndustryRef>();
+        public List<FunctionRef> Function { get; set; } = new List<FunctionRef>();
 
         public string EnglishName { get; set; }
         public string ChineseName { get; set; }

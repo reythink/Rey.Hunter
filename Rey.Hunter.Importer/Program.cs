@@ -92,7 +92,7 @@ namespace Rey.Hunter.Importer {
                 results.Add(model);
             });
 
-            var repRole = mgr.Role(account.Id);
+            var repRole = mgr.Role(account);
             repRole.Drop();
             repRole.InsertMany(results);
             Console.WriteLine($"role: {results.Count}");
@@ -101,7 +101,7 @@ namespace Rey.Hunter.Importer {
         static void ImportUser(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var collection = db.GetCollection<BsonDocument>(NAME_USER);
-            var repRole = mgr.Role(account.Id);
+            var repRole = mgr.Role(account);
             var results = new List<User>();
 
             collection.Find(filter).ToList().ForEach(item => {
@@ -120,7 +120,7 @@ namespace Rey.Hunter.Importer {
                 results.Add(model);
             });
 
-            var repUser = mgr.User(account.Id);
+            var repUser = mgr.User(account);
             repUser.Drop();
             repUser.InsertMany(results);
             Console.WriteLine($"user: {results.Count}");
@@ -158,38 +158,38 @@ namespace Rey.Hunter.Importer {
 
         static void ImportIndustry(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
-            var results = ImportNode(collection, mgr.Industry(account.Id), (id, name, root) => new Industry { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Industry(account), (id, name, root) => new Industry { Id = id, Name = name, Root = root }, account);
             Console.WriteLine($"industry: {results.Count()}");
         }
 
         static void ImportFunction(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_FUNCTION);
-            var results = ImportNode(collection, mgr.Function(account.Id), (id, name, root) => new Function { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Function(account), (id, name, root) => new Function { Id = id, Name = name, Root = root }, account);
             Console.WriteLine($"function: {results.Count()}");
         }
 
         static void ImportLocation(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_LOCATION);
-            var results = ImportNode(collection, mgr.Location(account.Id), (id, name, root) => new Location { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Location(account), (id, name, root) => new Location { Id = id, Name = name, Root = root }, account);
             Console.WriteLine($"location: {results.Count()}");
         }
 
         static void ImportCategory(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CATEGORY);
-            var results = ImportNode(collection, mgr.Category(account.Id), (id, name, root) => new Category { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Category(account), (id, name, root) => new Category { Id = id, Name = name, Root = root }, account);
             Console.WriteLine($"category: {results.Count()}");
         }
 
         static void ImportChannel(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CHANNEL);
-            var results = ImportNode(collection, mgr.Channel(account.Id), (id, name, root) => new Channel { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Channel(account), (id, name, root) => new Channel { Id = id, Name = name, Root = root }, account);
             Console.WriteLine($"channel: {results.Count()}");
         }
 
         static void ImportCompany(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var collection = db.GetCollection<BsonDocument>(NAME_COMPANY);
-            var repIndustry = mgr.Industry(account.Id);
+            var repIndustry = mgr.Industry(account);
             var results = new List<Company>();
 
             collection.Find(filter).ToList().ForEach(item => {
@@ -207,7 +207,7 @@ namespace Rey.Hunter.Importer {
                 results.Add(model);
             });
 
-            var repCompany = mgr.Company(account.Id);
+            var repCompany = mgr.Company(account);
             repCompany.Drop();
             repCompany.InsertMany(results);
             Console.WriteLine($"company: {results.Count}");
@@ -216,12 +216,12 @@ namespace Rey.Hunter.Importer {
         static void ImportTalent(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var collection = db.GetCollection<BsonDocument>(NAME_TALENT);
-            var repIndustry = mgr.Industry(account.Id);
-            var repFunction = mgr.Function(account.Id);
-            var repLocation = mgr.Location(account.Id);
-            var repCategory = mgr.Category(account.Id);
-            var repChannel = mgr.Channel(account.Id);
-            var repCompany = mgr.Company(account.Id);
+            var repIndustry = mgr.Industry(account);
+            var repFunction = mgr.Function(account);
+            var repLocation = mgr.Location(account);
+            var repCategory = mgr.Category(account);
+            var repChannel = mgr.Channel(account);
+            var repCompany = mgr.Company(account);
 
             var results = new List<Talent>();
 
@@ -229,8 +229,8 @@ namespace Rey.Hunter.Importer {
                 var model = new Talent();
 
                 model.Id = (string)GetValue(item, "_id");
-                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => repIndustry.FindOne(x["_id"].AsString).Name));
-                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => repFunction.FindOne(x["_id"].AsString).Name));
+                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => (IndustryRef)repIndustry.FindOne(x["_id"].AsString)));
+                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => (FunctionRef)repFunction.FindOne(x["_id"].AsString)));
                 model.EnglishName = (string)GetValue(item, "EnglishName");
                 model.ChineseName = (string)GetValue(item, "ChineseName");
                 model.BirthYear = (int?)GetValue(item, "BirthYear");
@@ -245,7 +245,7 @@ namespace Rey.Hunter.Importer {
                 model.Notes = (string)GetValue(item, "Notes");
 
                 model.Location.Current = item["CurrentLocations"].AsBsonArray.Select(x => repLocation.FindOne(x["_id"].AsString).Name).FirstOrDefault();
-                model.Location.Mobility.AddRange(item["MobilityLocations"].AsBsonArray.Select(x => repLocation.FindOne(x["_id"].AsString).Name));
+                model.Location.Mobility.AddRange(item["MobilityLocations"].AsBsonArray.Select(x => (LocationRef)repLocation.FindOne(x["_id"].AsString)));
 
                 model.Contact.Phone = (string)GetValue(item, "Phone");
                 model.Contact.Mobile = (string)GetValue(item, "Mobile");
@@ -253,10 +253,10 @@ namespace Rey.Hunter.Importer {
                 model.Contact.QQ = (string)GetValue(item, "QQ");
                 model.Contact.Wechat = (string)GetValue(item, "Wechat");
 
-                model.Profile.CrossIndustry.AddRange(item["ProfileLabel"]["CrossIndustries"].AsBsonArray.Select(x => repIndustry.FindOne(x["_id"].AsString).Name));
-                model.Profile.CrossFunction.AddRange(item["ProfileLabel"]["CrossFunctions"].AsBsonArray.Select(x => repFunction.FindOne(x["_id"].AsString).Name));
-                model.Profile.CrossChannel.AddRange(item["ProfileLabel"]["CrossChannels"].AsBsonArray.Select(x => repChannel.FindOne(x["_id"].AsString).Name));
-                model.Profile.CrossCategory.AddRange(item["ProfileLabel"]["CrossCategories"].AsBsonArray.Select(x => repCategory.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossIndustry.AddRange(item["ProfileLabel"]["CrossIndustries"].AsBsonArray.Select(x => (IndustryRef)repIndustry.FindOne(x["_id"].AsString)));
+                model.Profile.CrossFunction.AddRange(item["ProfileLabel"]["CrossFunctions"].AsBsonArray.Select(x => (FunctionRef)repFunction.FindOne(x["_id"].AsString)));
+                model.Profile.CrossChannel.AddRange(item["ProfileLabel"]["CrossChannels"].AsBsonArray.Select(x => (ChannelRef)repChannel.FindOne(x["_id"].AsString)));
+                model.Profile.CrossCategory.AddRange(item["ProfileLabel"]["CrossCategories"].AsBsonArray.Select(x => (CategoryRef)repCategory.FindOne(x["_id"].AsString)));
                 model.Profile.Brand = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "BrandExp");
                 model.Profile.KeyAccount = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "KeyAccountExp");
                 model.Profile.Others = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "Others");
@@ -296,7 +296,7 @@ namespace Rey.Hunter.Importer {
                 results.Add(model);
             });
 
-            var repTalent = mgr.Talent(account.Id);
+            var repTalent = mgr.Talent(account);
             repTalent.Drop();
             repTalent.InsertMany(results);
             Console.WriteLine($"talent: {results.Count}");
@@ -305,11 +305,11 @@ namespace Rey.Hunter.Importer {
         static void ImportProject(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var collection = db.GetCollection<BsonDocument>(NAME_PROJECT);
-            var repFunction = mgr.Function(account.Id);
-            var repLocation = mgr.Location(account.Id);
-            var repCompany = mgr.Company(account.Id);
-            var repUser = mgr.User(account.Id);
-            var repTalent = mgr.Talent(account.Id);
+            var repFunction = mgr.Function(account);
+            var repLocation = mgr.Location(account);
+            var repCompany = mgr.Company(account);
+            var repUser = mgr.User(account);
+            var repTalent = mgr.Talent(account);
             var results = new List<Project>();
 
             collection.Find(filter).ToList().ForEach(item => {
@@ -323,7 +323,7 @@ namespace Rey.Hunter.Importer {
                 model.Manager = repUser.FindOne((string)GetValue(item["Manager"].AsBsonDocument, "_id"));
                 model.Consultant.AddRange(item["Consultants"].AsBsonArray.Select(x => (UserRef)repUser.FindOne(x["_id"].AsString)).Where(x => x != null));
 
-                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => repFunction.FindOne(x["_id"].AsString).Name));
+                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => (FunctionRef)repFunction.FindOne(x["_id"].AsString)));
                 //model.Location.AddRange(item["Locations"].AsBsonArray.Select(x => repLocation.FindOne(x["_id"].AsString).Name));
 
                 model.AssignmentDate = (DateTime?)GetValue(item, "AssignmentDate");
@@ -367,7 +367,7 @@ namespace Rey.Hunter.Importer {
                 results.Add(model);
             });
 
-            var repProject = mgr.Project(account.Id);
+            var repProject = mgr.Project(account);
             repProject.Drop();
             repProject.InsertMany(results);
             Console.WriteLine($"project: {results.Count}");

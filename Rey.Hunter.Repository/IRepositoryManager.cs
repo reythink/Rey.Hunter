@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using Rey.Hunter.Models2;
 using Rey.Hunter.Repository.Auth;
 using Rey.Hunter.Repository.Business;
 using Rey.Hunter.Repository.Data;
@@ -11,26 +12,26 @@ namespace Rey.Hunter.Repository {
         #region Auth
 
         IAccountRepository Account();
-        IRoleRepository Role(string accountId);
-        IUserRepository User(string accountId);
+        IRoleRepository Role(Account account);
+        IUserRepository User(Account account);
 
         #endregion
 
         #region Data
 
-        IIndustryRepository Industry(string accountId);
-        IFunctionRepository Function(string accountId);
-        ILocationRepository Location(string accountId);
-        ICategoryRepository Category(string accountId);
-        IChannelRepository Channel(string accountId);
+        IIndustryRepository Industry(Account account);
+        IFunctionRepository Function(Account account);
+        ILocationRepository Location(Account account);
+        ICategoryRepository Category(Account account);
+        IChannelRepository Channel(Account account);
 
         #endregion
 
         #region Business
 
-        ICompanyRepository Company(string accountId);
-        ITalentRepository Talent(string accountId);
-        IProjectRepository Project(string accountId);
+        ICompanyRepository Company(Account account);
+        ITalentRepository Talent(Account account);
+        IProjectRepository Project(Account account);
 
         #endregion
     }

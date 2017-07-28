@@ -27,54 +27,79 @@ namespace Rey.Hunter.Importer {
         public const string NAME_TALENT = "bus.talents";
         public const string NAME_PROJECT = "bus.projects";
 
+        public const string NAME_ACCOUNT = "ide.accounts";
+        public const string NAME_ROLE = "ide.roles";
+        public const string NAME_USER = "ide.users";
+
         public const string ACCOUNT_ID = "58ff2e23a31baa1d28b77fd0";
 
         static void Main(string[] args) {
             var client = new MongoClient(new MongoClientSettings() {
                 Credentials = new List<MongoCredential> { MongoCredential.CreateCredential("admin", "admin", "admin123~") }
             }.Freeze());
+            var db = client.GetDatabase(NAME_DB);
 
             var mgr = new RepositoryManager();
 
-            ImportIndustry(client, mgr);
-            ImportCompany(client, mgr);
+            ImportIndustry(db, mgr);
+            ImportFunction(db, mgr);
+            ImportLocation(db, mgr);
+            ImportCategory(db, mgr);
+            ImportChannel(db, mgr);
+            ImportCompany(db, mgr);
         }
 
-        static void ImportIndustry(IMongoClient client, IRepositoryManager mgr) {
-            var db = client.GetDatabase(NAME_DB);
-            var industry = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
-
-            var output = mgr.Industry(ACCOUNT_ID);
-            output.Drop();
-
-            industry.Find(x => true).ToList().ForEach(item => {
-                var stack = new Stack<Tuple<BsonValue, Industry>>();
-                item["Children"].AsBsonArray.Reverse().ToList().ForEach(x => stack.Push(new Tuple<BsonValue, Industry>(x, null)));
+        static void ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, bool, TModel> create)
+            where TModel : class, IModel, INodeModel {
+            rep.Drop();
+            collection.Find(x => true).ToList().ForEach(item => {
+                var stack = new Stack<Tuple<BsonValue, TModel>>();
+                item["Children"].AsBsonArray.Reverse().ToList().ForEach(x => stack.Push(new Tuple<BsonValue, TModel>(x, null)));
 
                 while (stack.Count > 0) {
                     var node = stack.Pop();
-                    var model = new Industry {
-                        Id = node.Item1["_id"].AsString,
-                        Name = node.Item1["Name"].AsString,
-                        Root = node.Item2 == null,
-                    };
-                    output.InsertOne(model);
+                    var model = create(node.Item1["_id"].AsString, node.Item1["Name"].AsString, node.Item2 == null);
+                    rep.InsertOne(model);
 
                     if (node.Item2 != null) {
                         node.Item2.Children.Add(model.Id);
-                        output.ReplaceOne(node.Item2);
+                        rep.ReplaceOne(node.Item2);
                     }
 
                     var children = node.Item1["Children"].AsBsonArray;
                     if (children.Count > 0) {
-                        children.Reverse().ToList().ForEach(x => stack.Push(new Tuple<BsonValue, Industry>(x, model)));
+                        children.Reverse().ToList().ForEach(x => stack.Push(new Tuple<BsonValue, TModel>(x, model)));
                     }
                 }
             });
         }
 
-        static void ImportCompany(IMongoClient client, IRepositoryManager mgr) {
-            var db = client.GetDatabase(NAME_DB);
+        static void ImportIndustry(IMongoDatabase db, IRepositoryManager mgr) {
+            var collection = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
+            ImportNode(collection, mgr.Industry(ACCOUNT_ID), (id, name, root) => new Industry { Id = id, Name = name, Root = root });
+        }
+
+        static void ImportFunction(IMongoDatabase db, IRepositoryManager mgr) {
+            var collection = db.GetCollection<BsonDocument>(NAME_FUNCTION);
+            ImportNode(collection, mgr.Function(ACCOUNT_ID), (id, name, root) => new Function { Id = id, Name = name, Root = root });
+        }
+
+        static void ImportLocation(IMongoDatabase db, IRepositoryManager mgr) {
+            var collection = db.GetCollection<BsonDocument>(NAME_LOCATION);
+            ImportNode(collection, mgr.Location(ACCOUNT_ID), (id, name, root) => new Location { Id = id, Name = name, Root = root });
+        }
+
+        static void ImportCategory(IMongoDatabase db, IRepositoryManager mgr) {
+            var collection = db.GetCollection<BsonDocument>(NAME_CATEGORY);
+            ImportNode(collection, mgr.Category(ACCOUNT_ID), (id, name, root) => new Category { Id = id, Name = name, Root = root });
+        }
+
+        static void ImportChannel(IMongoDatabase db, IRepositoryManager mgr) {
+            var collection = db.GetCollection<BsonDocument>(NAME_CHANNEL);
+            ImportNode(collection, mgr.Channel(ACCOUNT_ID), (id, name, root) => new Channel { Id = id, Name = name, Root = root });
+        }
+
+        static void ImportCompany(IMongoDatabase db, IRepositoryManager mgr) {
             var company = db.GetCollection<BsonDocument>(NAME_COMPANY);
             var industry = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
 

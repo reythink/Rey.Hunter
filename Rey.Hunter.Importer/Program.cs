@@ -124,20 +124,21 @@ namespace Rey.Hunter.Importer {
 
         static void ImportTalent(IMongoDatabase db, IRepositoryManager mgr) {
             var collection = db.GetCollection<BsonDocument>(NAME_TALENT);
-            var industry = mgr.Industry(ACCOUNT_ID);
-            var function = mgr.Function(ACCOUNT_ID);
-            var location = mgr.Location(ACCOUNT_ID);
-            var category = mgr.Category(ACCOUNT_ID);
-            var channel = mgr.Channel(ACCOUNT_ID);
-            var talent = mgr.Talent(ACCOUNT_ID);
+            var repIndustry = mgr.Industry(ACCOUNT_ID);
+            var repFunction = mgr.Function(ACCOUNT_ID);
+            var repLocation = mgr.Location(ACCOUNT_ID);
+            var repCategory = mgr.Category(ACCOUNT_ID);
+            var repChannel = mgr.Channel(ACCOUNT_ID);
+            var repCompany = mgr.Company(ACCOUNT_ID);
+            var repTalent = mgr.Talent(ACCOUNT_ID);
 
-            talent.Drop();
+            repTalent.Drop();
             collection.Find(x => true).ToList().ForEach(item => {
                 var model = new Talent();
 
                 model.Id = (string)GetValue(item, "_id");
-                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => industry.FindOne(x["_id"].AsString).Name));
-                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => function.FindOne(x["_id"].AsString).Name));
+                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => repIndustry.FindOne(x["_id"].AsString).Name));
+                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => repFunction.FindOne(x["_id"].AsString).Name));
                 model.EnglishName = (string)GetValue(item, "EnglishName");
                 model.ChineseName = (string)GetValue(item, "ChineseName");
                 model.BirthYear = (int?)GetValue(item, "BirthYear");
@@ -151,8 +152,8 @@ namespace Rey.Hunter.Importer {
                 model.Vita = (string)GetValue(item, "CV");
                 model.Notes = (string)GetValue(item, "Notes");
 
-                model.Location.Current = item["CurrentLocations"].AsBsonArray.Select(x => location.FindOne(x["_id"].AsString).Name).FirstOrDefault();
-                model.Location.Mobility.AddRange(item["MobilityLocations"].AsBsonArray.Select(x => location.FindOne(x["_id"].AsString).Name));
+                model.Location.Current = item["CurrentLocations"].AsBsonArray.Select(x => repLocation.FindOne(x["_id"].AsString).Name).FirstOrDefault();
+                model.Location.Mobility.AddRange(item["MobilityLocations"].AsBsonArray.Select(x => repLocation.FindOne(x["_id"].AsString).Name));
 
                 model.Contact.Phone = (string)GetValue(item, "Phone");
                 model.Contact.Mobile = (string)GetValue(item, "Mobile");
@@ -160,15 +161,47 @@ namespace Rey.Hunter.Importer {
                 model.Contact.QQ = (string)GetValue(item, "QQ");
                 model.Contact.Wechat = (string)GetValue(item, "Wechat");
 
-                model.Profile.CrossIndustry.AddRange(item["ProfileLabel"]["CrossIndustries"].AsBsonArray.Select(x => industry.FindOne(x["_id"].AsString).Name));
-                model.Profile.CrossFunction.AddRange(item["ProfileLabel"]["CrossFunctions"].AsBsonArray.Select(x => function.FindOne(x["_id"].AsString).Name));
-                model.Profile.CrossChannel.AddRange(item["ProfileLabel"]["CrossChannels"].AsBsonArray.Select(x => channel.FindOne(x["_id"].AsString).Name));
-                model.Profile.CrossCategory.AddRange(item["ProfileLabel"]["CrossCategories"].AsBsonArray.Select(x => category.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossIndustry.AddRange(item["ProfileLabel"]["CrossIndustries"].AsBsonArray.Select(x => repIndustry.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossFunction.AddRange(item["ProfileLabel"]["CrossFunctions"].AsBsonArray.Select(x => repFunction.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossChannel.AddRange(item["ProfileLabel"]["CrossChannels"].AsBsonArray.Select(x => repChannel.FindOne(x["_id"].AsString).Name));
+                model.Profile.CrossCategory.AddRange(item["ProfileLabel"]["CrossCategories"].AsBsonArray.Select(x => repCategory.FindOne(x["_id"].AsString).Name));
                 model.Profile.Brand = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "BrandExp");
                 model.Profile.KeyAccount = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "KeyAccountExp");
                 model.Profile.Others = (string)GetValue(item["ProfileLabel"].AsBsonDocument, "Others");
 
-                talent.InsertOne(model);
+                foreach (var expItem in item["Experiences"].AsBsonArray) {
+                    var companyId = (string)GetValue(expItem["Company"].AsBsonDocument, "_id");
+                    var company = repCompany.FindOne(companyId);
+                    if (company == null) {
+                        Console.WriteLine($"Empty company, [id: {model.Id}][companyId: {companyId}]");
+                        continue;
+                    }
+
+                    var expModel = new TalentExperience();
+                    expModel.Company = company;
+                    expModel.Current = (bool?)GetValue(expItem.AsBsonDocument, "CurrentJob");
+                    expModel.FromYear = (int?)GetValue(expItem.AsBsonDocument, "FromYear");
+                    expModel.FromMonth = (int?)GetValue(expItem.AsBsonDocument, "FromMonth");
+                    expModel.ToYear = (int?)GetValue(expItem.AsBsonDocument, "ToYear");
+                    expModel.ToMonth = (int?)GetValue(expItem.AsBsonDocument, "ToMonth");
+
+                    expModel.Title = (string)GetValue(expItem.AsBsonDocument, "Title");
+                    expModel.Responsibility = (string)GetValue(expItem.AsBsonDocument, "Responsibility");
+                    expModel.Grade = (string)GetValue(expItem.AsBsonDocument, "Grade");
+
+                    expModel.AnnualPackage = (string)GetValue(expItem.AsBsonDocument, "AnnualPackage");
+                    expModel.Description = (string)GetValue(expItem.AsBsonDocument, "Description");
+
+                    expModel.BasicSalary = (int?)GetValue(expItem.AsBsonDocument, "BasicSalary");
+                    expModel.BasicSalaryMonths = (int?)GetValue(expItem.AsBsonDocument, "BasicSalaryMonths");
+
+                    expModel.Bonus = (string)GetValue(expItem.AsBsonDocument, "Bonus");
+                    expModel.Allowance = (string)GetValue(expItem.AsBsonDocument, "Allowance");
+
+                    model.Experiences.Add(expModel);
+                }
+
+                repTalent.InsertOne(model);
             });
         }
 

@@ -6,7 +6,7 @@ namespace Rey.Hunter.Models2.Business {
         public CompanyRef Company { get; set; }
 
         [BsonIgnoreIfNull]
-        public bool? CurrentJob { get; set; }
+        public bool? Current { get; set; }
 
         [BsonIgnoreIfNull]
         public int? FromYear { get; set; }

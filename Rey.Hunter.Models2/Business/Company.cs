@@ -9,7 +9,7 @@ namespace Rey.Hunter.Models2.Business {
     public class Company : AccountModel {
         public string Name { get; set; }
 
-        public List<string> Industry { get; set; } = new List<string>();
+        public List<IndustryRef> Industry { get; set; } = new List<IndustryRef>();
 
         public CompanyType? Type { get; set; }
 

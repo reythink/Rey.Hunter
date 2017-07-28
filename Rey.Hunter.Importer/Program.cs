@@ -202,7 +202,7 @@ namespace Rey.Hunter.Importer {
                 model.Introduction = (string)GetValue(item, "Introduction");
                 model.Culture = (string)GetValue(item, "Culture");
                 model.BasicRecruitmentPrinciple = (string)GetValue(item, "BasicRecruitmentPrinciple");
-                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => repIndustry.FindOne(x["_id"].AsString).Name));
+                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => (IndustryRef)repIndustry.FindOne(x["_id"].AsString)));
 
                 results.Add(model);
             });

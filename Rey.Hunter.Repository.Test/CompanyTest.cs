@@ -15,8 +15,6 @@ namespace Rey.Hunter.Repository.Test {
             var model = new Company() {
                 Name = "Company Name"
             };
-            var industries = this.Repository.Industry(this.AccountId).FindAll();
-            model.Industry.AddRange(industries.Select(x => x.Name));
 
             rep.InsertOne(model);
             Assert.NotNull(model.Id);

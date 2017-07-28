@@ -31,8 +31,6 @@ namespace Rey.Hunter.Importer {
         public const string NAME_ROLE = "ide.roles";
         public const string NAME_USER = "ide.users";
 
-        public const string ACCOUNT_ID = "58ff2e23a31baa1d28b77fd0";
-
         static void Main(string[] args) {
             var client = new MongoClient(new MongoClientSettings() {
                 Credentials = new List<MongoCredential> { MongoCredential.CreateCredential("admin", "admin", "admin123~") }
@@ -41,30 +39,109 @@ namespace Rey.Hunter.Importer {
 
             var mgr = new RepositoryManager();
 
-            //ImportIndustry(db, mgr);
-            //ImportFunction(db, mgr);
-            //ImportLocation(db, mgr);
-            //ImportCategory(db, mgr);
-            //ImportChannel(db, mgr);
-            //ImportCompany(db, mgr);
-            ImportTalent(db, mgr);
+            foreach (var account in ImportAccount(db, mgr)) {
+                ImportRole(db, mgr, account);
+                ImportUser(db, mgr, account);
+
+                ImportIndustry(db, mgr, account);
+                ImportFunction(db, mgr, account);
+                ImportLocation(db, mgr, account);
+                ImportCategory(db, mgr, account);
+                ImportChannel(db, mgr, account);
+
+                ImportCompany(db, mgr, account);
+                ImportTalent(db, mgr, account);
+                ImportProject(db, mgr, account);
+            }
         }
 
-        static void ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, bool, TModel> create)
-            where TModel : class, IModel, INodeModel {
-            rep.Drop();
+        static IEnumerable<Account> ImportAccount(IMongoDatabase db, IRepositoryManager mgr) {
+            var collection = db.GetCollection<BsonDocument>(NAME_ACCOUNT);
+            var results = new List<Account>();
+
             collection.Find(x => true).ToList().ForEach(item => {
+                var model = new Account();
+
+                model.Id = (string)GetValue(item, "_id");
+                model.Company = (string)GetValue(item, "Company");
+                model.Enabled = (bool)GetValue(item, "Enabled");
+
+                results.Add(model);
+            });
+
+            var repAccount = mgr.Account();
+            repAccount.Drop();
+            repAccount.InsertMany(results);
+            Console.WriteLine($"account: {results.Count}");
+
+            return results;
+        }
+
+        static void ImportRole(IMongoDatabase db, IRepositoryManager mgr, Account account) {
+            var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
+            var collection = db.GetCollection<BsonDocument>(NAME_ROLE);
+            var results = new List<Role>();
+
+            collection.Find(filter).ToList().ForEach(item => {
+                var model = new Role();
+
+                model.Id = (string)GetValue(item, "_id");
+                model.Name = (string)GetValue(item, "Name");
+                model.Enabled = (bool)GetValue(item, "Enabled");
+
+                results.Add(model);
+            });
+
+            var repRole = mgr.Role(account.Id);
+            repRole.Drop();
+            repRole.InsertMany(results);
+            Console.WriteLine($"role: {results.Count}");
+        }
+
+        static void ImportUser(IMongoDatabase db, IRepositoryManager mgr, Account account) {
+            var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
+            var collection = db.GetCollection<BsonDocument>(NAME_USER);
+            var repRole = mgr.Role(account.Id);
+            var results = new List<User>();
+
+            collection.Find(filter).ToList().ForEach(item => {
+                var model = new User();
+
+                model.Id = (string)GetValue(item, "_id");
+                model.Email = (string)GetValue(item, "Email");
+                model.Salt = (string)GetValue(item, "Salt");
+                model.Password = (string)GetValue(item, "Password");
+                model.Name = (string)GetValue(item, "Name");
+                model.Enabled = (bool)GetValue(item, "Enabled");
+                model.PortraitUrl = (string)GetValue(item, "PortraitUrl");
+                model.Position = (string)GetValue(item, "Position");
+                model.Role.AddRange(item["Roles"].AsBsonArray.Select(x => (RoleRef)repRole.FindOne(x["_id"].AsString)));
+
+                results.Add(model);
+            });
+
+            var repUser = mgr.User(account.Id);
+            repUser.Drop();
+            repUser.InsertMany(results);
+            Console.WriteLine($"user: {results.Count}");
+        }
+
+        static IEnumerable<TModel> ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, bool, TModel> create, Account account)
+            where TModel : class, IModel, INodeModel {
+            var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
+            var results = new List<TModel>();
+
+            collection.Find(filter).ToList().ForEach(item => {
                 var stack = new Stack<Tuple<BsonValue, TModel>>();
                 item["Children"].AsBsonArray.Reverse().ToList().ForEach(x => stack.Push(new Tuple<BsonValue, TModel>(x, null)));
 
                 while (stack.Count > 0) {
                     var node = stack.Pop();
                     var model = create(node.Item1["_id"].AsString, node.Item1["Name"].AsString, node.Item2 == null);
-                    rep.InsertOne(model);
+                    results.Add(model);
 
                     if (node.Item2 != null) {
                         node.Item2.Children.Add(model.Id);
-                        rep.ReplaceOne(node.Item2);
                     }
 
                     var children = node.Item1["Children"].AsBsonArray;
@@ -73,67 +150,82 @@ namespace Rey.Hunter.Importer {
                     }
                 }
             });
+
+            rep.Drop();
+            rep.InsertMany(results);
+            return results;
         }
 
-        static void ImportIndustry(IMongoDatabase db, IRepositoryManager mgr) {
+        static void ImportIndustry(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
-            ImportNode(collection, mgr.Industry(ACCOUNT_ID), (id, name, root) => new Industry { Id = id, Name = name, Root = root });
+            var results = ImportNode(collection, mgr.Industry(account.Id), (id, name, root) => new Industry { Id = id, Name = name, Root = root }, account);
+            Console.WriteLine($"industry: {results.Count()}");
         }
 
-        static void ImportFunction(IMongoDatabase db, IRepositoryManager mgr) {
+        static void ImportFunction(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_FUNCTION);
-            ImportNode(collection, mgr.Function(ACCOUNT_ID), (id, name, root) => new Function { Id = id, Name = name, Root = root });
+            var results = ImportNode(collection, mgr.Function(account.Id), (id, name, root) => new Function { Id = id, Name = name, Root = root }, account);
+            Console.WriteLine($"function: {results.Count()}");
         }
 
-        static void ImportLocation(IMongoDatabase db, IRepositoryManager mgr) {
+        static void ImportLocation(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_LOCATION);
-            ImportNode(collection, mgr.Location(ACCOUNT_ID), (id, name, root) => new Location { Id = id, Name = name, Root = root });
+            var results = ImportNode(collection, mgr.Location(account.Id), (id, name, root) => new Location { Id = id, Name = name, Root = root }, account);
+            Console.WriteLine($"location: {results.Count()}");
         }
 
-        static void ImportCategory(IMongoDatabase db, IRepositoryManager mgr) {
+        static void ImportCategory(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CATEGORY);
-            ImportNode(collection, mgr.Category(ACCOUNT_ID), (id, name, root) => new Category { Id = id, Name = name, Root = root });
+            var results = ImportNode(collection, mgr.Category(account.Id), (id, name, root) => new Category { Id = id, Name = name, Root = root }, account);
+            Console.WriteLine($"category: {results.Count()}");
         }
 
-        static void ImportChannel(IMongoDatabase db, IRepositoryManager mgr) {
+        static void ImportChannel(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CHANNEL);
-            ImportNode(collection, mgr.Channel(ACCOUNT_ID), (id, name, root) => new Channel { Id = id, Name = name, Root = root });
+            var results = ImportNode(collection, mgr.Channel(account.Id), (id, name, root) => new Channel { Id = id, Name = name, Root = root }, account);
+            Console.WriteLine($"channel: {results.Count()}");
         }
 
-        static void ImportCompany(IMongoDatabase db, IRepositoryManager mgr) {
+        static void ImportCompany(IMongoDatabase db, IRepositoryManager mgr, Account account) {
+            var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var collection = db.GetCollection<BsonDocument>(NAME_COMPANY);
-            var industry = mgr.Industry(ACCOUNT_ID);
-            var company = mgr.Company(ACCOUNT_ID);
+            var repIndustry = mgr.Industry(account.Id);
+            var results = new List<Company>();
 
-            company.Drop();
-            collection.Find(x => true).ToList().ForEach(item => {
+            collection.Find(filter).ToList().ForEach(item => {
                 var model = new Company();
 
-                model.Id = item["_id"].AsString;
-                model.Name = item["Name"].AsString;
-                model.Type = (CompanyType?)(int)BsonTypeMapper.MapToDotNetValue(item["Type"]);
-                model.Status = (CompanyStatus?)(int)BsonTypeMapper.MapToDotNetValue(item["Status"]);
-                model.Introduction = BsonTypeMapper.MapToDotNetValue(item["Introduction"]) as string;
-                model.Culture = BsonTypeMapper.MapToDotNetValue(item["Culture"]) as string;
-                model.BasicRecruitmentPrinciple = BsonTypeMapper.MapToDotNetValue(item["BasicRecruitmentPrinciple"]) as string;
-                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => industry.FindOne(x["_id"].AsString).Name));
+                model.Id = (string)GetValue(item, "_id");
+                model.Name = (string)GetValue(item, "Name");
+                model.Type = (CompanyType?)(int)GetValue(item, "Type");
+                model.Status = (CompanyStatus?)(int)GetValue(item, "Status");
+                model.Introduction = (string)GetValue(item, "Introduction");
+                model.Culture = (string)GetValue(item, "Culture");
+                model.BasicRecruitmentPrinciple = (string)GetValue(item, "BasicRecruitmentPrinciple");
+                model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => repIndustry.FindOne(x["_id"].AsString).Name));
 
-                company.InsertOne(model);
+                results.Add(model);
             });
+
+            var repCompany = mgr.Company(account.Id);
+            repCompany.Drop();
+            repCompany.InsertMany(results);
+            Console.WriteLine($"company: {results.Count}");
         }
 
-        static void ImportTalent(IMongoDatabase db, IRepositoryManager mgr) {
+        static void ImportTalent(IMongoDatabase db, IRepositoryManager mgr, Account account) {
+            var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var collection = db.GetCollection<BsonDocument>(NAME_TALENT);
-            var repIndustry = mgr.Industry(ACCOUNT_ID);
-            var repFunction = mgr.Function(ACCOUNT_ID);
-            var repLocation = mgr.Location(ACCOUNT_ID);
-            var repCategory = mgr.Category(ACCOUNT_ID);
-            var repChannel = mgr.Channel(ACCOUNT_ID);
-            var repCompany = mgr.Company(ACCOUNT_ID);
-            var repTalent = mgr.Talent(ACCOUNT_ID);
+            var repIndustry = mgr.Industry(account.Id);
+            var repFunction = mgr.Function(account.Id);
+            var repLocation = mgr.Location(account.Id);
+            var repCategory = mgr.Category(account.Id);
+            var repChannel = mgr.Channel(account.Id);
+            var repCompany = mgr.Company(account.Id);
 
-            repTalent.Drop();
-            collection.Find(x => true).ToList().ForEach(item => {
+            var results = new List<Talent>();
+
+            collection.Find(filter).ToList().ForEach(item => {
                 var model = new Talent();
 
                 model.Id = (string)GetValue(item, "_id");
@@ -201,8 +293,84 @@ namespace Rey.Hunter.Importer {
                     model.Experiences.Add(expModel);
                 }
 
-                repTalent.InsertOne(model);
+                results.Add(model);
             });
+
+            var repTalent = mgr.Talent(account.Id);
+            repTalent.Drop();
+            repTalent.InsertMany(results);
+            Console.WriteLine($"talent: {results.Count}");
+        }
+
+        static void ImportProject(IMongoDatabase db, IRepositoryManager mgr, Account account) {
+            var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
+            var collection = db.GetCollection<BsonDocument>(NAME_PROJECT);
+            var repFunction = mgr.Function(account.Id);
+            var repLocation = mgr.Location(account.Id);
+            var repCompany = mgr.Company(account.Id);
+            var repUser = mgr.User(account.Id);
+            var repTalent = mgr.Talent(account.Id);
+            var results = new List<Project>();
+
+            collection.Find(filter).ToList().ForEach(item => {
+                var model = new Project();
+
+                model.Id = (string)GetValue(item, "_id");
+                model.Name = (string)GetValue(item, "Name");
+                model.Headcount = (int?)GetValue(item, "Headcount");
+                model.Client = repCompany.FindOne((string)GetValue(item["Client"].AsBsonDocument, "_id"));
+
+                model.Manager = repUser.FindOne((string)GetValue(item["Manager"].AsBsonDocument, "_id"));
+                model.Consultant.AddRange(item["Consultants"].AsBsonArray.Select(x => (UserRef)repUser.FindOne(x["_id"].AsString)).Where(x => x != null));
+
+                model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => repFunction.FindOne(x["_id"].AsString).Name));
+                //model.Location.AddRange(item["Locations"].AsBsonArray.Select(x => repLocation.FindOne(x["_id"].AsString).Name));
+
+                model.AssignmentDate = (DateTime?)GetValue(item, "AssignmentDate");
+                model.OfferSignedDate = (DateTime?)GetValue(item, "OfferSignedDate");
+                model.OnBoardDate = (DateTime?)GetValue(item, "OnBoardDate");
+
+                model.Notes = (string)GetValue(item, "Notes");
+
+                foreach (var subItem in item["Candidates"].AsBsonArray) {
+                    var talentId = (string)GetValue(subItem["Talent"].AsBsonDocument, "_id");
+                    var talent = repTalent.FindOne(talentId);
+                    if (talent == null) {
+                        Console.WriteLine($"Empty talent, [id: {model.Id}][talent id: {talentId}]");
+                        continue;
+                    }
+
+                    var subModel = new ProjectCandidate();
+                    subModel.Talent = talent;
+                    subModel.Status = (CandidateStatus)(int)GetValue(subItem.AsBsonDocument, "Status");
+
+                    foreach (var subSubItem in subItem["Interviews"].AsBsonArray) {
+                        subModel.Interviews.Add(new CandidateInterviewItem());
+                    }
+
+                    model.Candidate.Add(subModel);
+                }
+
+                model.Question.Question1 = (string)GetValue(item, "JobUnderstanding", "Field1");
+                model.Question.Question2 = (string)GetValue(item, "JobUnderstanding", "Field2");
+                model.Question.Question3 = (string)GetValue(item, "JobUnderstanding", "Field3");
+                model.Question.Question4 = (string)GetValue(item, "JobUnderstanding", "Field4");
+                model.Question.Question5 = (string)GetValue(item, "JobUnderstanding", "Field5");
+                model.Question.Question6 = (string)GetValue(item, "JobUnderstanding", "Field6");
+                model.Question.Question7 = (string)GetValue(item, "JobUnderstanding", "Field7");
+                model.Question.Question8 = (string)GetValue(item, "JobUnderstanding", "Field8");
+                model.Question.Question9 = (string)GetValue(item, "JobUnderstanding", "Field9");
+                model.Question.Question10 = (string)GetValue(item, "JobUnderstanding", "Field10");
+                model.Question.Question11 = (string)GetValue(item, "JobUnderstanding", "Field11");
+                model.Question.Question12 = (string)GetValue(item, "JobUnderstanding", "Field12");
+
+                results.Add(model);
+            });
+
+            var repProject = mgr.Project(account.Id);
+            repProject.Drop();
+            repProject.InsertMany(results);
+            Console.WriteLine($"project: {results.Count}");
         }
 
         static string FindNodeName(IMongoCollection<BsonDocument> collection, string id) {
@@ -228,8 +396,17 @@ namespace Rey.Hunter.Importer {
             return FindNodeName(collection, id);
         }
 
-        static object GetValue(BsonDocument item, string name) {
-            return BsonTypeMapper.MapToDotNetValue(item.GetValue(name, BsonNull.Value));
+        static object GetValue(BsonDocument item, params string[] names) {
+            var value = item as BsonValue;
+
+            foreach (var name in names) {
+                if (!value.IsBsonDocument)
+                    break;
+
+                value = value.AsBsonDocument.GetValue(name, BsonNull.Value);
+            }
+
+            return BsonTypeMapper.MapToDotNetValue(value);
         }
     }
 }

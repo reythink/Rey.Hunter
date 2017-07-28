@@ -5,6 +5,8 @@ using Rey.Hunter.Repository.Business;
 using Rey.Hunter.Repository.Data;
 using System.Collections.Generic;
 using System;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
 
 namespace Rey.Hunter.Repository {
     public class RepositoryManager : IRepositoryManager {
@@ -14,6 +16,7 @@ namespace Rey.Hunter.Repository {
         public string DefaultDatabaseName { get; } = "rey_test";
 
         public RepositoryManager() {
+            BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
             ConventionRegistry.Register("CamelCase", new ConventionPack { new CamelCaseElementNameConvention() }, type => true);
 
             this.Client = new MongoClient(new MongoClientSettings() {

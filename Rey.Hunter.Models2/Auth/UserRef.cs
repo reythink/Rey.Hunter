@@ -1,22 +1,25 @@
 ﻿using System;
 
-namespace Rey.Hunter.Models2.Business {
-    public class CompanyRef : Model {
+namespace Rey.Hunter.Models2 {
+    public class UserRef : Model {
         public string Name { get; set; }
+        public string Email { get; set; }
 
-        public CompanyRef(Company model) {
+        public UserRef(User model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
             this.Id = model.Id;
             this.Name = model.Name;
+            this.Email = model.Email;
         }
 
-        public static implicit operator CompanyRef(Company model) {
+        public static implicit operator UserRef(User model) {
             if (model == null)
                 return null;
 
-            return new CompanyRef(model);
+            return new UserRef(model);
         }
     }
 }
+

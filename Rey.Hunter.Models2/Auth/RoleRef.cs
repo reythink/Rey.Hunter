@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Rey.Hunter.Models2.Business {
-    public class CompanyRef : Model {
+namespace Rey.Hunter.Models2 {
+    public class RoleRef : Model {
         public string Name { get; set; }
 
-        public CompanyRef(Company model) {
+        public RoleRef(Role model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
@@ -12,11 +12,12 @@ namespace Rey.Hunter.Models2.Business {
             this.Name = model.Name;
         }
 
-        public static implicit operator CompanyRef(Company model) {
+        public static implicit operator RoleRef(Role model) {
             if (model == null)
                 return null;
 
-            return new CompanyRef(model);
+            return new RoleRef(model);
         }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿using Rey.Hunter.Models2.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Rey.Hunter.Models2.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,5 +7,24 @@ using System.Text;
 namespace Rey.Hunter.Models2.Business {
     [MongoCollection("busi.project")]
     public class Project : AccountModel {
+        public string Name { get; set; }
+        public int? Headcount { get; set; }
+        public CompanyRef Client { get; set; }
+
+        public UserRef Manager { get; set; }
+        public List<UserRef> Consultant { get; set; } = new List<UserRef>();
+
+        public List<string> Function { get; set; } = new List<string>();
+        public List<string> Location { get; set; } = new List<string>();
+
+        public DateTime? AssignmentDate { get; set; }
+        public DateTime? OfferSignedDate { get; set; }
+        public DateTime? OnBoardDate { get; set; }
+
+        public string Notes { get; set; }
+
+        public List<ProjectCandidate> Candidate { get; set; } = new List<ProjectCandidate>();
+        public ProjectQuestion Question { get; set; } = new ProjectQuestion();
+        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
     }
 }

@@ -3,12 +3,14 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 
 namespace Rey.Hunter.Repository {
-    public interface IRepository<TModel> {
+    public interface IRepository {
         IRepositoryManager Manager { get; }
-        IMongoClient Client { get; }
         IMongoDatabase Database { get; }
+    }
+
+    public interface IRepository<TModel> : IRepository {
         IMongoCollection<TModel> Collection { get; }
-        IMongoCollection<BsonDocument> DocCollectin { get; }
+        IMongoCollection<BsonDocument> BsonCollection { get; }
 
         void InsertOne(TModel model);
         void InsertMany(IEnumerable<TModel> models);
@@ -16,9 +18,11 @@ namespace Rey.Hunter.Repository {
         void ReplaceOne(TModel model);
 
         void DeleteOne(string id);
-        void DeleteMany(IEnumerable<string> list);
+        void DeleteMany(IEnumerable<string> idList);
 
         TModel FindOne(string id);
+        IEnumerable<TModel> FindAll();
+
         void Drop();
     }
 }

@@ -12,18 +12,10 @@ namespace Rey.Hunter.Repository.Test {
             var model = new Industry { Name = "Consumer" };
             rep.InsertOne(model);
             Assert.NotNull(model.Id);
-            Assert.NotNull(model.Account);
-            Assert.NotNull(model.Account.Id);
-            Assert.Equal(model.Account.Id, this.AccountId);
+            Assert.NotNull(model.AccountId);
+            Assert.Equal(model.AccountId, this.AccountId);
 
             rep.DeleteOne(model.Id);
-        }
-
-        [Fact(DisplayName = "InitIndustry")]
-        public void InitIndustry() {
-            var rep = this.Repository.Industry(this.AccountId);
-            rep.Drop();
-            rep.Initialize();
         }
     }
 }

@@ -8,34 +8,34 @@ namespace Rey.Hunter.Models2.Data {
     public class Industry : AccountModel {
         public string Name { get; set; }
         public bool Root { get; set; }
-        public List<ModelRef<Industry>> Children { get; set; } = new List<ModelRef<Industry>>();
+        public List<string> Children { get; set; } = new List<string>();
     }
 
     [MongoCollection("data.function")]
     public class Function : AccountModel {
         public string Name { get; set; }
         public bool Root { get; set; }
-        public List<ModelRef<Industry>> Children { get; set; } = new List<ModelRef<Industry>>();
+        public List<string> Children { get; set; } = new List<string>();
     }
 
     [MongoCollection("data.location")]
     public class Location : AccountModel {
         public string Name { get; set; }
         public bool Root { get; set; }
-        public List<ModelRef<Industry>> Children { get; set; } = new List<ModelRef<Industry>>();
+        public List<string> Children { get; set; } = new List<string>();
     }
 
     [MongoCollection("data.category")]
     public class Category : AccountModel {
         public string Name { get; set; }
         public bool Root { get; set; }
-        public List<ModelRef<Industry>> Children { get; set; } = new List<ModelRef<Industry>>();
+        public List<string> Children { get; set; } = new List<string>();
     }
 
     [MongoCollection("data.channel")]
     public class Channel : AccountModel {
         public string Name { get; set; }
         public bool Root { get; set; }
-        public List<ModelRef<Industry>> Children { get; set; } = new List<ModelRef<Industry>>();
+        public List<string> Children { get; set; } = new List<string>();
     }
 }

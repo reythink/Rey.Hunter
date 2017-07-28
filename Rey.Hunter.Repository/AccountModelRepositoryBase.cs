@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using Rey.Hunter.Models2;
+using System;
 using System.Collections.Generic;
 
 namespace Rey.Hunter.Repository {
@@ -13,20 +14,34 @@ namespace Rey.Hunter.Repository {
         }
 
         public override void InsertOne(TModel model) {
-            model.Account = this.AccountId;
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            model.AccountId = this.AccountId;
             base.InsertOne(model);
         }
 
         public override void InsertMany(IEnumerable<TModel> models) {
+            if (models == null)
+                throw new ArgumentNullException(nameof(models));
+
             foreach (var model in models) {
-                model.Account = this.AccountId;
+                model.AccountId = this.AccountId;
             }
+
             base.InsertMany(models);
         }
 
-        public virtual IEnumerable<TModel> FindAll() {
-            var filter = FilterBuilder.Eq(x => x.Account.Id, this.AccountId);
-            return this.Collection.Find(filter).ToEnumerable();
+        public override void ReplaceOne(TModel model) {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            model.AccountId = this.AccountId;
+            base.ReplaceOne(model);
+        }
+
+        public override IEnumerable<TModel> FindAll() {
+            return this.Collection.Find(x => x.AccountId.Equals(this.AccountId)).ToEnumerable();
         }
     }
 }

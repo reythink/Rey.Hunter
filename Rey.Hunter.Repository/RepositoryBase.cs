@@ -8,21 +8,19 @@ using System.Reflection;
 
 namespace Rey.Hunter.Repository {
     public abstract class RepositoryBase<TModel> : IRepository<TModel>
-        where TModel : class, IModel {
+       where TModel : class, IModel {
         public IRepositoryManager Manager { get; }
-        public IMongoClient Client => this.Manager.Client;
-        public IMongoDatabase Database => this.Client.GetDatabase(this.GetDatabaseName());
-        public IMongoCollection<TModel> Collection => this.Database.GetCollection<TModel>(this.GetCollectionName());
-        public IMongoCollection<BsonDocument> DocCollectin => this.Database.GetCollection<BsonDocument>(this.GetCollectionName());
-
-        protected static FilterDefinitionBuilder<TModel> FilterBuilder => Builders<TModel>.Filter;
-        protected static IndexKeysDefinitionBuilder<TModel> IndexKeysBuilder => Builders<TModel>.IndexKeys;
-        protected static ProjectionDefinitionBuilder<TModel> ProjectionBuilder => Builders<TModel>.Projection;
-        protected static SortDefinitionBuilder<TModel> SortBuilder => Builders<TModel>.Sort;
-        protected static UpdateDefinitionBuilder<TModel> UpdateBuilder => Builders<TModel>.Update;
+        private IMongoClient Client { get; }
+        public IMongoDatabase Database { get; }
+        public IMongoCollection<TModel> Collection { get; }
+        public IMongoCollection<BsonDocument> BsonCollection { get; }
 
         public RepositoryBase(IRepositoryManager manager) {
-            this.Manager = manager;
+            this.Manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this.Client = this.Manager.Client;
+            this.Database = this.Client.GetDatabase(this.GetDatabaseName());
+            this.Collection = this.Database.GetCollection<TModel>(this.GetCollectionName());
+            this.BsonCollection = this.Database.GetCollection<BsonDocument>(this.GetCollectionName());
         }
 
         protected virtual string GetDatabaseName() {
@@ -34,53 +32,56 @@ namespace Rey.Hunter.Repository {
         }
 
         public virtual void InsertOne(TModel model) {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             this.Collection.InsertOne(model);
         }
 
         public virtual void InsertMany(IEnumerable<TModel> models) {
+            if (models == null)
+                throw new ArgumentNullException(nameof(models));
+
             this.Collection.InsertMany(models);
         }
 
         public virtual void ReplaceOne(TModel model) {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            if (model.Id == null)
+                throw new ArgumentNullException(nameof(model.Id));
+
             this.Collection.ReplaceOne(x => x.Id.Equals(model.Id), model);
         }
 
         public virtual void DeleteOne(string id) {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
             this.Collection.DeleteOne(x => x.Id.Equals(id));
         }
 
-        public void DeleteMany(IEnumerable<string> list) {
-            var filter = FilterBuilder.In(x => x.Id, list);
-            this.Collection.DeleteMany(filter);
+        public void DeleteMany(IEnumerable<string> idList) {
+            if (idList == null)
+                throw new ArgumentNullException(nameof(idList));
+
+            this.Collection.DeleteMany(Builders<TModel>.Filter.In(x => x.Id, idList));
         }
 
         public virtual TModel FindOne(string id) {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+
             return this.Collection.Find(x => x.Id.Equals(id)).SingleOrDefault();
+        }
+
+        public virtual IEnumerable<TModel> FindAll() {
+            return this.Collection.Find(x => true).ToEnumerable();
         }
 
         public virtual void Drop() {
             this.Database.DropCollection(this.GetCollectionName());
         }
-
-        //public IQueryBuilder<TModel> Query() {
-        //    //var filter = Builders<BsonDocument>.Filter.Regex("industry.name", new BsonRegularExpression("edu", "ig"));
-
-        //    ////this.Collection.Indexes.CreateOne(IndexKeysBuilder.Ascending("name"));
-        //    ////var count = this.Collection.Find(x => true).Count();
-
-        //    //var agg = this.Collection.Aggregate()
-        //    //    .Lookup("industry", "industry.@id", "_id", "industry")
-        //    //    .Match(filter);
-
-        //    ////var count = agg.Group("{_id: 1, result : { '$sum' : 1 }}").SingleOrDefault();
-        //    ////var count = agg.Count().SingleOrDefault()?.Count ?? 0;
-        //    //var list = agg
-        //    //    .Skip((1 - 1) * 15)
-        //    //    .Limit(10)
-        //    //    .ToEnumerable();
-
-
-        //    return new QueryBuilder<TModel>(this);
-        //}
     }
 }

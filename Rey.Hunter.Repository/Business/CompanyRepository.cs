@@ -1,7 +1,6 @@
-﻿using System;
-using Rey.Hunter.Models2;
+﻿using Rey.Hunter.Models2;
 
-namespace Rey.Hunter.Repository.Repositories {
+namespace Rey.Hunter.Repository.Business {
     public class CompanyRepository : AccountModelRepositoryBase<Company>, ICompanyRepository {
         public CompanyRepository(IRepositoryManager manager, string accountId)
             : base(manager, accountId) {

@@ -60,7 +60,7 @@ namespace Rey.Hunter.Importer {
                     output.InsertOne(model);
 
                     if (node.Item2 != null) {
-                        node.Item2.Children.Add(model);
+                        node.Item2.Children.Add(model.Id);
                         output.ReplaceOne(node.Item2);
                     }
 

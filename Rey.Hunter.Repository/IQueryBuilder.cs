@@ -2,11 +2,8 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Rey.Hunter.Models2;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Rey.Hunter.Repository {
     public interface IQueryBuilder<TModel> {
@@ -95,7 +92,7 @@ namespace Rey.Hunter.Repository {
         }
 
         public override IEnumerable<Company> Build() {
-            var agg = this.Repository.DocCollectin
+            var agg = this.Repository.BsonCollection
                 .Aggregate()
                 .Lookup("industry", "industry._id", "_id", "industry")
                 //.Sort(this.BuildSort())

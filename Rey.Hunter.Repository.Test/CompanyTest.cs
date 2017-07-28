@@ -19,14 +19,12 @@ namespace Rey.Hunter.Repository.Test {
 
             rep.InsertOne(model);
             Assert.NotNull(model.Id);
-            Assert.NotNull(model.Account);
-            Assert.NotNull(model.Account.Id);
+            Assert.NotNull(model.AccountId);
 
             var found = rep.FindOne(model.Id);
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
-            Assert.NotNull(found.Account);
-            Assert.NotNull(found.Account.Id);
+            Assert.NotNull(found.AccountId);
             Assert.Equal(found.Name, "Company Name");
 
             model.Name = "Company Name Changed";
@@ -34,8 +32,7 @@ namespace Rey.Hunter.Repository.Test {
             found = rep.FindOne(model.Id);
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
-            Assert.NotNull(found.Account);
-            Assert.NotNull(found.Account.Id);
+            Assert.NotNull(found.AccountId);
             Assert.Equal(found.Name, "Company Name Changed");
 
             rep.DeleteOne(model.Id);
@@ -49,26 +46,6 @@ namespace Rey.Hunter.Repository.Test {
                 //.Name("1")
                 .Build()
                 .ToList();
-        }
-
-        [Fact(DisplayName = "InitCompany")]
-        private void InitCompany() {
-            var rep = this.Repository.Company(this.AccountId);
-            rep.Drop();
-
-            var industries = this.Repository.Industry(this.AccountId).FindAll().ToList();
-
-            var models = new List<Company>();
-            var rand = new Random();
-            for (var i = 0; i < 100000; ++i) {
-                var model = new Company {
-                    Name = $"Company{i.ToString("00000")}",
-                };
-                model.Industry.AddRange(RandomIndustry(industries, rand));
-
-                models.Add(model);
-            }
-            rep.InsertMany(models);
         }
 
         private List<string> RandomIndustry(List<Industry> industry, Random rand) {

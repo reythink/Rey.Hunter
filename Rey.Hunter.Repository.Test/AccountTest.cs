@@ -7,38 +7,57 @@ using Xunit;
 
 namespace Rey.Hunter.Repository.Test {
     public class AccountTest : TestBase {
-        [Fact(DisplayName = "TestAccount")]
-        public void TestAccount() {
+        [Fact(DisplayName = "Account.Actions")]
+        public void Actions() {
             var rep = this.Repository.Account();
-            var model = new Account() {
-                Company = "Company1"
-            };
+            var model1 = new Account() { Company = "Company1" };
+            var model2 = new Account() { Company = "Company2", Enabled = false };
 
-            rep.InsertOne(model);
-            Assert.Equal(rep.FindOne(model.Id).Company, model.Company);
+            Assert.Null(model1.Id);
+            Assert.Null(model2.Id);
 
-            model.Company = "Company2";
-            rep.ReplaceOne(model);
-            Assert.Equal(rep.FindOne(model.Id).Company, model.Company);
+            rep.InsertOne(model1);
+            rep.InsertOne(model2);
 
-            rep.DeleteOne(model.Id);
-            Assert.Null(rep.FindOne(model.Id));
-        }
+            Assert.NotNull(model1.Id);
+            Assert.NotNull(model2.Id);
 
-        [Fact(DisplayName = "TestAccountQuery")]
-        public void TestAccountQuery() {
-            //var rep = this.Repository.Account();
-            //var models = new List<Account>();
-            //for (var i = 0; i < 100000; ++i) {
-            //    models.Add(new Account { Company = $"Company{i.ToString("00000")}" });
-            //}
-            //rep.InsertMany(models);
+            var found1 = rep.FindOne(model1.Id);
+            var found2 = rep.FindOne(model2.Id);
 
-            //foreach (var model in models) {
-            //    Assert.NotNull(model.Id);
-            //}
+            Assert.Equal(found1.Id, model1.Id);
+            Assert.Equal(found1.Company, "Company1");
+            Assert.True(found1.Enabled);
 
-            //rep.DeleteMany(models.Select(x => x.Id));
+            Assert.Equal(found2.Id, model2.Id);
+            Assert.Equal(found2.Company, "Company2");
+            Assert.False(found2.Enabled);
+
+            found1.Company = "Company1 Changed";
+            found1.Enabled = false;
+
+            found2.Company = "Company2 Changed";
+            found2.Enabled = true;
+
+            rep.ReplaceOne(found1);
+            rep.ReplaceOne(found2);
+
+            found1 = rep.FindOne(found1.Id);
+            found2 = rep.FindOne(found2.Id);
+
+            Assert.Equal(found1.Id, model1.Id);
+            Assert.Equal(found1.Company, "Company1 Changed");
+            Assert.False(found1.Enabled);
+
+            Assert.Equal(found2.Id, model2.Id);
+            Assert.Equal(found2.Company, "Company2 Changed");
+            Assert.True(found2.Enabled);
+
+            rep.DeleteOne(found1.Id);
+            rep.DeleteOne(found2.Id);
+
+            Assert.Null(rep.FindOne(found1.Id));
+            Assert.Null(rep.FindOne(found2.Id));
         }
     }
 }

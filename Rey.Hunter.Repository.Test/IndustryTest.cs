@@ -8,7 +8,7 @@ using Xunit;
 namespace Rey.Hunter.Repository.Test {
     public class IndustryTest : TestBase {
         [Fact(DisplayName = "Industry.Actions")]
-        public void TestIndustry() {
+        public void Actions() {
             var rep = this.Repository.Industry(this.Account);
             var model = new Industry { Name = "Consumer" };
             rep.InsertOne(model);

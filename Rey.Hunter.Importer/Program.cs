@@ -141,7 +141,7 @@ namespace Rey.Hunter.Importer {
                     results.Add(model);
 
                     if (node.Item2 != null) {
-                        model.SetParent(node.Item2);
+                        model.Parent = node.Item2;
                     }
 
                     var children = node.Item1["Children"].AsBsonArray;

@@ -1,7 +1,7 @@
 ﻿using Rey.Hunter.Models2.Data;
 
 namespace Rey.Hunter.Repository.Data {
-    public interface IFunctionRepository : IAccountModelRepository<Function> {
+    public interface IFunctionRepository : IAccountNodeModelRepository<Function> {
 
     }
 }

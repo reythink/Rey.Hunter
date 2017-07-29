@@ -84,33 +84,18 @@ namespace Rey.Hunter.Repository.Test {
         [Fact(DisplayName = "Talent.Query.Industry")]
         public void QueryIndustry() {
             var rep = this.Repository.Talent(this.Account);
-            QueryResult result = null;
-            foreach (var item in rep.Query()
-                .FilterIndustry("p", "a")
-                .Build(ret => result = ret)) {
-                Assert.True(item.Industry.Any(sub => {
-                    var index1 = sub.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase);
-                    var index2 = sub.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase);
-                    return index1 > -1 || index2 > -1;
-                }));
-            }
-            Assert.NotNull(result);
-        }
+            var random = new Random();
+            var selected = this.Repository.Industry(this.Account)
+                .FindAll()
+                .Where(x => random.Next() % 2 == 0)
+                .Select(x => x.Id)
+                .ToList();
 
-        [Fact(DisplayName = "Talent.Query.IndustryWithChildren")]
-        public void QueryIndustryWithChildren() {
-            var rep = this.Repository.Talent(this.Account);
             QueryResult result = null;
             foreach (var item in rep.Query()
-                .FilterIndustryWithChildren("p", "a")
+                .FilterIndustry(selected.ToArray())
                 .Build(ret => result = ret)) {
-                Assert.True(item.Industry.Any(sub =>
-                    sub.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase) > -1 ||
-                    sub.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase) > -1 ||
-                    sub.Path.Any(node =>
-                        node.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase) > -1 ||
-                        node.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase) > -1)
-                ));
+                Assert.True(item.Industry.Any(sub => selected.Contains(sub.Id)));
             }
             Assert.NotNull(result);
         }

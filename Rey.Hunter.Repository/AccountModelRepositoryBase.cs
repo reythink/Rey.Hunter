@@ -41,7 +41,7 @@ namespace Rey.Hunter.Repository {
         }
 
         public override IEnumerable<TModel> FindAll() {
-            return this.Collection.Find(x => x.Account.Equals(this.Account)).ToEnumerable();
+            return this.Collection.Find(x => x.Account.Id.Equals(this.Account.Id)).ToEnumerable();
         }
     }
 }

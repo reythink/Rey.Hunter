@@ -1,9 +1,7 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using Rey.Hunter.Models2.Attributes;
+﻿using Rey.Hunter.Models2.Attributes;
 using Rey.Hunter.Models2.Data;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Rey.Hunter.Models2.Business {
     [MongoCollection("busi.project")]

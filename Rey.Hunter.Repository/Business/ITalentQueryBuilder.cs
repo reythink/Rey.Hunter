@@ -26,7 +26,7 @@ namespace Rey.Hunter.Repository.Business {
         }
 
         public ITalentQueryBuilder FilterCompanyName(params string[] values) {
-            return this.AddFilters("CompanyName", values.Select(value => {
+            return this.AddFilters("FilterCompanyName", values.Select(value => {
                 var filterCurrent = Builders<TalentExperience>.Filter.Eq(x => x.Current, true);
                 var filterCompanyName = Builders<TalentExperience>.Filter.Regex(x => x.Company.Name, new BsonRegularExpression(value, "i"));
                 var filterElem = Builders<TalentExperience>.Filter.And(filterCurrent, filterCompanyName);
@@ -35,7 +35,7 @@ namespace Rey.Hunter.Repository.Business {
         }
 
         public ITalentQueryBuilder FilterPreviousCompanyName(params string[] values) {
-            return this.AddFilters("PreviousCompanyName", values.Select(value => {
+            return this.AddFilters("FilterPreviousCompanyName", values.Select(value => {
                 var filterNotCurrent = Builders<TalentExperience>.Filter.Eq(x => x.Current, false);
                 var filterCompanyName = Builders<TalentExperience>.Filter.Regex(x => x.Company.Name, new BsonRegularExpression(value, "i"));
                 var filterElem = Builders<TalentExperience>.Filter.And(filterNotCurrent, filterCompanyName);
@@ -44,7 +44,7 @@ namespace Rey.Hunter.Repository.Business {
         }
 
         public ITalentQueryBuilder FilterTitle(params string[] values) {
-            return this.AddFilters("CompanyName", values.Select(value => {
+            return this.AddFilters("FilterTitle", values.Select(value => {
                 var filterCurrent = Builders<TalentExperience>.Filter.Eq(x => x.Current, true);
                 var filterTitle = Builders<TalentExperience>.Filter.Regex(x => x.Title, new BsonRegularExpression(value, "i"));
                 var filterElem = Builders<TalentExperience>.Filter.And(filterCurrent, filterTitle);
@@ -53,7 +53,7 @@ namespace Rey.Hunter.Repository.Business {
         }
 
         public ITalentQueryBuilder FilterResponsibility(params string[] values) {
-            return this.AddFilters("Responsibility", values.Select(value => {
+            return this.AddFilters("FilterResponsibility", values.Select(value => {
                 var filterCurrent = Builders<TalentExperience>.Filter.Eq(x => x.Current, true);
                 var filterResponsibility = Builders<TalentExperience>.Filter.Regex(x => x.Responsibility, new BsonRegularExpression(value, "i"));
                 var filterElem = Builders<TalentExperience>.Filter.And(filterCurrent, filterResponsibility);
@@ -62,7 +62,7 @@ namespace Rey.Hunter.Repository.Business {
         }
 
         public ITalentQueryBuilder FilterGrade(params string[] values) {
-            return this.AddFilters("Grade", values.Select(value => {
+            return this.AddFilters("FilterGrade", values.Select(value => {
                 var filterCurrent = Builders<TalentExperience>.Filter.Eq(x => x.Current, true);
                 var filterGrade = Builders<TalentExperience>.Filter.Regex(x => x.Grade, new BsonRegularExpression(value, "i"));
                 var filterElem = Builders<TalentExperience>.Filter.And(filterCurrent, filterGrade);
@@ -71,19 +71,19 @@ namespace Rey.Hunter.Repository.Business {
         }
 
         public ITalentQueryBuilder FilterIndustry(params string[] values) {
-            return this.AddFilters("Industry", values.Select(value => {
-                var filterName = Builders<IndustryRef>.Filter.Regex(x => x.Name, new BsonRegularExpression(value, "i"));
-                return FilterBuilder.ElemMatch(x => x.Industry, filterName);
-            }));
+            return this.AddFilter("FilterIndustry",
+                    FilterBuilder.ElemMatch(x => x.Industry, Builders<IndustryRef>.Filter.In(x => x.Id, values))
+                );
         }
 
         public ITalentQueryBuilder FilterIndustryWithChildren(params string[] values) {
-            return this.AddFilters("Industry", values.Select(value => {
-                var filterName = Builders<IndustryRef>.Filter.Regex(x => x.Name, new BsonRegularExpression(value, "i"));
-                var filterPathName = Builders<NodeModelRef>.Filter.Regex(x => x.Name, new BsonRegularExpression(value, "i"));
-                var filter = Builders<IndustryRef>.Filter.Or(filterName, Builders<IndustryRef>.Filter.ElemMatch(x => x.Path, filterPathName));
-                return FilterBuilder.ElemMatch(x => x.Industry, filter);
-            }));
+            throw new NotImplementedException();
+            //return this.AddFilters("FilterIndustryWithChildren", values.Select(value => {
+            //    var filterName = Builders<IndustryRef>.Filter.Regex(x => x.Name, new BsonRegularExpression(value, "i"));
+            //    var filterPathName = Builders<NodeModelRef>.Filter.Regex(x => x.Name, new BsonRegularExpression(value, "i"));
+            //    var filter = Builders<IndustryRef>.Filter.Or(filterName, Builders<IndustryRef>.Filter.ElemMatch(x => x.Path, filterPathName));
+            //    return FilterBuilder.ElemMatch(x => x.Industry, filter);
+            //}));
         }
     }
 }

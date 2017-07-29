@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Rey.Hunter.Models2.Attributes {
     [AttributeUsage(AttributeTargets.Class)]

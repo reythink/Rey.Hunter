@@ -244,7 +244,7 @@ namespace Rey.Hunter.Importer {
                 model.Vita = (string)GetValue(item, "CV");
                 model.Notes = (string)GetValue(item, "Notes");
 
-                model.Location.Current = item["CurrentLocations"].AsBsonArray.Select(x => repLocation.FindOne(x["_id"].AsString).Name).FirstOrDefault();
+                model.Location.Current = item["CurrentLocations"].AsBsonArray.Select(x => (LocationRef)repLocation.FindOne(x["_id"].AsString)).FirstOrDefault();
                 model.Location.Mobility.AddRange(item["MobilityLocations"].AsBsonArray.Select(x => (LocationRef)repLocation.FindOne(x["_id"].AsString)));
 
                 model.Contact.Phone = (string)GetValue(item, "Phone");

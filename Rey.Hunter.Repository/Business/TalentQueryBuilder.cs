@@ -4,6 +4,7 @@ using Rey.Hunter.Models2.Business;
 using Rey.Hunter.Models2.Data;
 using System.Linq;
 using System;
+using Rey.Hunter.Models2.Enums;
 
 namespace Rey.Hunter.Repository.Business {
     public class TalentQueryBuilder : QueryBuilder<Talent, ITalentQueryBuilder>, ITalentQueryBuilder {
@@ -77,6 +78,72 @@ namespace Rey.Hunter.Repository.Business {
         public ITalentQueryBuilder FilterCrossFunction(params string[] values) {
             return this.AddFilter("FilterCrossFunction",
                     FilterBuilder.ElemMatch(x => x.Profile.CrossFunction, Builders<FunctionRef>.Filter.In(x => x.Id, values))
+                );
+        }
+
+        public ITalentQueryBuilder FilterCrossCategory(params string[] values) {
+            return this.AddFilter("FilterCrossCategory",
+                     FilterBuilder.ElemMatch(x => x.Profile.CrossCategory, Builders<CategoryRef>.Filter.In(x => x.Id, values))
+                 );
+        }
+
+        public ITalentQueryBuilder FilterCrossChannel(params string[] values) {
+            return this.AddFilter("FilterCrossChannel",
+                     FilterBuilder.ElemMatch(x => x.Profile.CrossChannel, Builders<ChannelRef>.Filter.In(x => x.Id, values))
+                 );
+        }
+
+        public ITalentQueryBuilder FilterBrand(params string[] values) {
+            return this.AddFilters("FilterBrand", values.Select(value => {
+                return FilterBuilder.Regex(x => x.Profile.Brand, new BsonRegularExpression(value, "i"));
+            }));
+        }
+
+        public ITalentQueryBuilder FilterKeyAccount(params string[] values) {
+            return this.AddFilters("FilterKeyAccount", values.Select(value => {
+                return FilterBuilder.Regex(x => x.Profile.KeyAccount, new BsonRegularExpression(value, "i"));
+            }));
+        }
+
+        public ITalentQueryBuilder FilterCurrentLocation(params string[] values) {
+            return this.AddFilter("FilterCurrentLocation",
+                    FilterBuilder.In(x => x.Location.Current.Id, values)
+                );
+        }
+
+        public ITalentQueryBuilder FilterMobilityLocation(params string[] values) {
+            return this.AddFilter("FilterMobilityLocation",
+                    FilterBuilder.ElemMatch(x => x.Location.Mobility, Builders<LocationRef>.Filter.In(x => x.Id, values))
+                );
+        }
+
+        public ITalentQueryBuilder FilterGender(params Gender[] values) {
+            return this.AddFilter("FilterGender",
+                    FilterBuilder.In(x => x.Gender, values.Select(x => (Gender?)x))
+                );
+        }
+
+        public ITalentQueryBuilder FilterEducation(params Education[] values) {
+            return this.AddFilter("FilterEducation",
+                    FilterBuilder.In(x => x.Education, values.Select(x => (Education?)x))
+                );
+        }
+
+        public ITalentQueryBuilder FilterLanguage(params Language[] values) {
+            return this.AddFilter("FilterLanguage",
+                    FilterBuilder.In(x => x.Language, values.Select(x => (Language?)x))
+                );
+        }
+
+        public ITalentQueryBuilder FilterNationality(params Nationality[] values) {
+            return this.AddFilter("FilterNationality",
+                    FilterBuilder.In(x => x.Nationality, values.Select(x => (Nationality?)x))
+                );
+        }
+
+        public ITalentQueryBuilder FilterIntension(params Intension[] values) {
+            return this.AddFilter("FilterIntension",
+                    FilterBuilder.In(x => x.Intension, values.Select(x => (Intension?)x))
                 );
         }
     }

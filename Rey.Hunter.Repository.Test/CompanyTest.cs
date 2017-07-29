@@ -1,6 +1,7 @@
 ﻿using Rey.Hunter.Models2;
 using Rey.Hunter.Models2.Business;
 using Rey.Hunter.Models2.Data;
+using Rey.Hunter.Models2.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,28 +39,83 @@ namespace Rey.Hunter.Repository.Test {
             Assert.Null(rep.FindOne(model.Id));
         }
 
-        [Fact(DisplayName = "TestCompanyQuery")]
+        [Fact(DisplayName = "Company.Query.Name")]
         public void TestCompanyQuery() {
             var rep = this.Repository.Company(this.Account);
             QueryResult result = null;
-            var list = rep.Query()
-                .FilterName("t")
-                .FilterIndustryName("consum")
-                .FilterType(2)
-                .Page(1)
-                .Build((ret) => {
-                    result = ret;
-                })
-                .ToList();
+            foreach (var item in rep.Query()
+                .FilterName("p", "a")
+                .Build(ret => result = ret)) {
+                var index1 = item.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase);
+                var index2 = item.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase);
+                Assert.True(index1 > -1 || index2 > -1);
+            }
+            Assert.NotNull(result);
         }
 
-        private List<string> RandomIndustry(List<Industry> industry, Random rand) {
-            var count = rand.Next(2, 5);
-            var results = new List<string>();
-            for (var i = 0; i < count; ++i) {
-                results.Add(industry[rand.Next(industry.Count)].Name);
+        [Fact(DisplayName = "Company.Query.Industry")]
+        public void QueryIndustry() {
+            var rep = this.Repository.Company(this.Account);
+            var random = new Random();
+            var selected = this.Repository.Industry(this.Account)
+                .FindAll()
+                .Where(x => random.Next() % 2 == 0)
+                .Select(x => x.Id)
+                .ToList();
+
+            QueryResult result = null;
+            foreach (var item in rep.Query()
+                .FilterIndustry(selected.ToArray())
+                .Build(ret => result = ret)) {
+                Assert.True(item.Industry.Any(sub => selected.Contains(sub.Id)));
             }
-            return results;
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Company.Query.Type")]
+        public void QueryType() {
+            var rep = this.Repository.Company(this.Account);
+            var values = Enum.GetValues(typeof(CompanyType)).Cast<CompanyType>();
+            QueryResult result = null;
+
+            foreach (var value in values) {
+                foreach (var item in rep.Query()
+                    .FilterType(value)
+                    .Build(ret => result = ret)) {
+                    Assert.True(item.Type == value);
+                }
+                Assert.NotNull(result);
+            }
+
+            foreach (var item in rep.Query()
+                .FilterType(values.ToArray())
+                .Build(ret => result = ret)) {
+                Assert.True(values.Contains(item.Type.Value));
+            }
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Company.Query.Status")]
+        public void QueryStatus() {
+            var rep = this.Repository.Company(this.Account);
+            var values = Enum.GetValues(typeof(CompanyStatus)).Cast<CompanyStatus>();
+            QueryResult result = null;
+
+            foreach (var value in values) {
+                foreach (var item in rep.Query()
+                    .FilterStatus(value)
+                    .Build(ret => result = ret)) {
+                    Assert.True(item.Status == value);
+                }
+                Assert.NotNull(result);
+            }
+
+            foreach (var item in rep.Query()
+                .FilterStatus(values.ToArray())
+                .Build(ret => result = ret)) {
+                Assert.True(values.Contains(item.Status.Value));
+            }
+            Assert.NotNull(result);
         }
     }
 }

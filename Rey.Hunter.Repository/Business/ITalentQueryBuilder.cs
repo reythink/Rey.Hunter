@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using Rey.Hunter.Models2;
 using Rey.Hunter.Models2.Business;
 using Rey.Hunter.Models2.Data;
 using Rey.Hunter.Repository.Data;
@@ -16,7 +17,7 @@ namespace Rey.Hunter.Repository.Business {
         ITalentQueryBuilder FilterResponsibility(params string[] values);
         ITalentQueryBuilder FilterGrade(params string[] values);
         ITalentQueryBuilder FilterIndustry(params string[] values);
-        ITalentQueryBuilder FilterIndustryWithChildren(IIndustryRepository repIndustry, params string[] values);
+        ITalentQueryBuilder FilterIndustryWithChildren(params string[] values);
     }
 
     public class TalentQueryBuilder : QueryBuilder<Talent, ITalentQueryBuilder>, ITalentQueryBuilder {
@@ -76,10 +77,12 @@ namespace Rey.Hunter.Repository.Business {
             }));
         }
 
-        public ITalentQueryBuilder FilterIndustryWithChildren(IIndustryRepository repIndustry, params string[] values) {
+        public ITalentQueryBuilder FilterIndustryWithChildren(params string[] values) {
             return this.AddFilters("Industry", values.Select(value => {
                 var filterName = Builders<IndustryRef>.Filter.Regex(x => x.Name, new BsonRegularExpression(value, "i"));
-                return FilterBuilder.ElemMatch(x => x.Industry, filterName);
+                var filterPathName = Builders<NodeModelRef>.Filter.Regex(x => x.Name, new BsonRegularExpression(value, "i"));
+                var filter = Builders<IndustryRef>.Filter.Or(filterName, Builders<IndustryRef>.Filter.ElemMatch(x => x.Path, filterPathName));
+                return FilterBuilder.ElemMatch(x => x.Industry, filter);
             }));
         }
     }

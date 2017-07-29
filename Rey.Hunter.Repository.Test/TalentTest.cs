@@ -28,11 +28,10 @@ namespace Rey.Hunter.Repository.Test {
             foreach (var item in rep.Query()
                 .FilterPreviousCompanyName("p", "a")
                 .Build(ret => result = ret)) {
-                Assert.True(item.Experience.Where(x => !x.Current ?? true).Any(exp => {
-                    var index1 = exp.Company.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase);
-                    var index2 = exp.Company.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase);
-                    return index1 > -1 || index2 > -1;
-                }));
+                Assert.True(item.Experience.Where(x => !x.Current ?? true).Any(exp =>
+                    exp.Company.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase) > -1 ||
+                    exp.Company.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase) > -1
+                ));
             }
             Assert.NotNull(result);
         }
@@ -94,6 +93,24 @@ namespace Rey.Hunter.Repository.Test {
                     var index2 = sub.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase);
                     return index1 > -1 || index2 > -1;
                 }));
+            }
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Talent.Query.IndustryWithChildren")]
+        public void QueryIndustryWithChildren() {
+            var rep = this.Repository.Talent(this.Account);
+            QueryResult result = null;
+            foreach (var item in rep.Query()
+                .FilterIndustryWithChildren("p", "a")
+                .Build(ret => result = ret)) {
+                Assert.True(item.Industry.Any(sub =>
+                    sub.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase) > -1 ||
+                    sub.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase) > -1 ||
+                    sub.Path.Any(node =>
+                        node.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase) > -1 ||
+                        node.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase) > -1)
+                ));
             }
             Assert.NotNull(result);
         }

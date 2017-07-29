@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Rey.Hunter.Models2.Data {
-    public class FunctionRef : ModelRef {
-        public string Name { get; set; }
+    public class FunctionRef : NodeModelRef {
+        public List<NodeModelRef> Path { get; set; } = new List<NodeModelRef>();
 
-        public FunctionRef(Function model) {
+        public FunctionRef(Function model)
+            : base(model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            this.Id = model.Id;
-            this.Name = model.Name;
+            this.Path.AddRange(model.Path);
         }
 
         public static implicit operator FunctionRef(Function model) {

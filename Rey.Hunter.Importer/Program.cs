@@ -127,7 +127,7 @@ namespace Rey.Hunter.Importer {
         }
 
         static IEnumerable<TModel> ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, bool, TModel> create, Account account)
-            where TModel : class, IModel, INodeModel {
+            where TModel : AccountNodeModel {
             var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var results = new List<TModel>();
 
@@ -141,7 +141,7 @@ namespace Rey.Hunter.Importer {
                     results.Add(model);
 
                     if (node.Item2 != null) {
-                        node.Item2.Children.Add(model.Id);
+                        model.SetParent(node.Item2);
                     }
 
                     var children = node.Item1["Children"].AsBsonArray;
@@ -158,31 +158,31 @@ namespace Rey.Hunter.Importer {
 
         static void ImportIndustry(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
-            var results = ImportNode(collection, mgr.Industry(account), (id, name, root) => new Industry { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Industry(account), (id, name, root) => new Industry { Id = id, Name = name }, account);
             Console.WriteLine($"industry: {results.Count()}");
         }
 
         static void ImportFunction(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_FUNCTION);
-            var results = ImportNode(collection, mgr.Function(account), (id, name, root) => new Function { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Function(account), (id, name, root) => new Function { Id = id, Name = name }, account);
             Console.WriteLine($"function: {results.Count()}");
         }
 
         static void ImportLocation(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_LOCATION);
-            var results = ImportNode(collection, mgr.Location(account), (id, name, root) => new Location { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Location(account), (id, name, root) => new Location { Id = id, Name = name }, account);
             Console.WriteLine($"location: {results.Count()}");
         }
 
         static void ImportCategory(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CATEGORY);
-            var results = ImportNode(collection, mgr.Category(account), (id, name, root) => new Category { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Category(account), (id, name, root) => new Category { Id = id, Name = name }, account);
             Console.WriteLine($"category: {results.Count()}");
         }
 
         static void ImportChannel(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CHANNEL);
-            var results = ImportNode(collection, mgr.Channel(account), (id, name, root) => new Channel { Id = id, Name = name, Root = root }, account);
+            var results = ImportNode(collection, mgr.Channel(account), (id, name, root) => new Channel { Id = id, Name = name }, account);
             Console.WriteLine($"channel: {results.Count()}");
         }
 

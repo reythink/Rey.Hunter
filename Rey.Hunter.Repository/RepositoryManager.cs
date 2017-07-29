@@ -1,13 +1,13 @@
-﻿using MongoDB.Bson.Serialization.Conventions;
+﻿using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using Rey.Hunter.Models2;
 using Rey.Hunter.Repository.Auth;
 using Rey.Hunter.Repository.Business;
 using Rey.Hunter.Repository.Data;
-using System.Collections.Generic;
 using System;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Bson.Serialization;
-using Rey.Hunter.Models2;
+using System.Collections.Generic;
 
 namespace Rey.Hunter.Repository {
     public class RepositoryManager : IRepositoryManager {

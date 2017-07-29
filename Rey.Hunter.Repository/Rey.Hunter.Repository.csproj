@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Rey.Hunter.Models2\Rey.Hunter.Models2.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="QueryBuilders\" />
+  </ItemGroup>
+
 </Project>

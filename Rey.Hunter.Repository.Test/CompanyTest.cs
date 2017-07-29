@@ -41,11 +41,15 @@ namespace Rey.Hunter.Repository.Test {
         [Fact(DisplayName = "TestCompanyQuery")]
         public void TestCompanyQuery() {
             var rep = this.Repository.Company(this.Account);
+            QueryResult result = null;
             var list = rep.Query()
-                .Name("t")
-                .IndustryName("con")
+                .FilterName("t")
+                .FilterIndustryName("consum")
+                .FilterType(2)
                 .Page(1)
-                .Build()
+                .Build((ret) => {
+                    result = ret;
+                })
                 .ToList();
         }
 

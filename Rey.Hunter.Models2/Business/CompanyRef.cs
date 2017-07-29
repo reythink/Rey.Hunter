@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2.Business {
-    public class CompanyRef : Model {
+    public class CompanyRef : ModelRef {
         public string Name { get; set; }
 
         public CompanyRef(Company model) {

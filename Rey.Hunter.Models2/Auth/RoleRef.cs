@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2 {
-    public class RoleRef : Model {
+    public class RoleRef : ModelRef {
         public string Name { get; set; }
 
         public RoleRef(Role model) {

@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2.Data {
-    public class FunctionRef : Model {
+    public class FunctionRef : ModelRef {
         public string Name { get; set; }
 
         public FunctionRef(Function model) {

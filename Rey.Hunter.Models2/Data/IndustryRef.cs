@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Rey.Hunter.Models2.Data {
-    public class IndustryRef : Model {
+    public class IndustryRef : ModelRef {
         public string Name { get; set; }
 
         public IndustryRef(Industry model) {

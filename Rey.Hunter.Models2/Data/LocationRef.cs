@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2.Data {
-    public class LocationRef : Model {
+    public class LocationRef : ModelRef {
         public string Name { get; set; }
 
         public LocationRef(Location model) {

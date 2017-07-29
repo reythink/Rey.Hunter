@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2.Data {
-    public class CategoryRef : Model {
+    public class CategoryRef : ModelRef {
         public string Name { get; set; }
 
         public CategoryRef(Category model) {

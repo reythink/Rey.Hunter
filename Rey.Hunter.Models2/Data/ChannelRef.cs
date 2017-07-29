@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2.Data {
-    public class ChannelRef : Model {
+    public class ChannelRef : ModelRef {
         public string Name { get; set; }
 
         public ChannelRef(Channel model) {

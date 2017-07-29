@@ -81,5 +81,21 @@ namespace Rey.Hunter.Repository.Test {
             }
             Assert.NotNull(result);
         }
+
+        [Fact(DisplayName = "Talent.Query.Industry")]
+        public void QueryIndustry() {
+            var rep = this.Repository.Talent(this.Account);
+            QueryResult result = null;
+            foreach (var item in rep.Query()
+                .FilterIndustry("p", "a")
+                .Build(ret => result = ret)) {
+                Assert.True(item.Industry.Any(sub => {
+                    var index1 = sub.Name.IndexOf("p", StringComparison.CurrentCultureIgnoreCase);
+                    var index2 = sub.Name.IndexOf("a", StringComparison.CurrentCultureIgnoreCase);
+                    return index1 > -1 || index2 > -1;
+                }));
+            }
+            Assert.NotNull(result);
+        }
     }
 }

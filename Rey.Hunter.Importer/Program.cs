@@ -316,7 +316,7 @@ namespace Rey.Hunter.Importer {
                 var model = new Project();
 
                 model.Id = (string)GetValue(item, "_id");
-                model.Name = (string)GetValue(item, "Name");
+                model.Position = (string)GetValue(item, "Name");
                 model.Headcount = (int?)GetValue(item, "Headcount");
                 model.Client = repCompany.FindOne((string)GetValue(item["Client"].AsBsonDocument, "_id"));
 

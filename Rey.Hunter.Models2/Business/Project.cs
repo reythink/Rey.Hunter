@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Rey.Hunter.Models2.Business {
     [MongoCollection("busi.project")]
     public class Project : AccountModel {
-        public string Name { get; set; }
+        public string Position { get; set; }
         public int? Headcount { get; set; }
         public CompanyRef Client { get; set; }
 

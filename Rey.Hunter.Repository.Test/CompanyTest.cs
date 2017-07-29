@@ -40,7 +40,7 @@ namespace Rey.Hunter.Repository.Test {
         }
 
         [Fact(DisplayName = "Company.Query.Name")]
-        public void TestCompanyQuery() {
+        public void QueryName() {
             var rep = this.Repository.Company(this.Account);
             QueryResult result = null;
             foreach (var item in rep.Query()

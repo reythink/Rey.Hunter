@@ -29,8 +29,8 @@ namespace Rey.Hunter.Models2.Business {
 
         public TalentProfile Profile { get; set; } = new TalentProfile();
 
-        public List<TalentExperience> Experiences { get; set; } = new List<TalentExperience>();
+        public List<TalentExperience> Experience { get; set; } = new List<TalentExperience>();
 
-        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
+        public List<Attachment> Attachment { get; set; } = new List<Attachment>();
     }
 }

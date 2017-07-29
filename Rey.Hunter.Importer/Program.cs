@@ -290,7 +290,7 @@ namespace Rey.Hunter.Importer {
                     expModel.Bonus = (string)GetValue(expItem.AsBsonDocument, "Bonus");
                     expModel.Allowance = (string)GetValue(expItem.AsBsonDocument, "Allowance");
 
-                    model.Experiences.Add(expModel);
+                    model.Experience.Add(expModel);
                 }
 
                 results.Add(model);

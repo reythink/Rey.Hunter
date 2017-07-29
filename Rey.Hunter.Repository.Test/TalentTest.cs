@@ -99,5 +99,62 @@ namespace Rey.Hunter.Repository.Test {
             }
             Assert.NotNull(result);
         }
+
+        [Fact(DisplayName = "Talent.Query.CrossIndustry")]
+        public void QueryCrossIndustry() {
+            var rep = this.Repository.Talent(this.Account);
+            var random = new Random();
+            var selected = this.Repository.Industry(this.Account)
+                .FindAll()
+                .Where(x => random.Next() % 2 == 0)
+                .Select(x => x.Id)
+                .ToList();
+
+            QueryResult result = null;
+            foreach (var item in rep.Query()
+                .FilterCrossIndustry(selected.ToArray())
+                .Build(ret => result = ret)) {
+                Assert.True(item.Profile.CrossIndustry.Any(sub => selected.Contains(sub.Id)));
+            }
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Talent.Query.Function")]
+        public void QueryFunction() {
+            var rep = this.Repository.Talent(this.Account);
+            var random = new Random();
+            var selected = this.Repository.Function(this.Account)
+                .FindAll()
+                .Where(x => random.Next() % 2 == 0)
+                .Select(x => x.Id)
+                .ToList();
+
+            QueryResult result = null;
+            foreach (var item in rep.Query()
+                .FilterFunction(selected.ToArray())
+                .Build(ret => result = ret)) {
+                Assert.True(item.Function.Any(sub => selected.Contains(sub.Id)));
+            }
+            Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Talent.Query.CrossFunction")]
+        public void QueryCrossFunction() {
+            var rep = this.Repository.Talent(this.Account);
+            var random = new Random();
+            var selected = this.Repository.Function(this.Account)
+                .FindAll()
+                .Where(x => random.Next() % 2 == 0)
+                .Select(x => x.Id)
+                .ToList();
+
+            QueryResult result = null;
+            foreach (var item in rep.Query()
+                .FilterCrossFunction(selected.ToArray())
+                .Build(ret => result = ret)) {
+                Assert.True(item.Profile.CrossFunction.Any(sub => selected.Contains(sub.Id)));
+            }
+            Assert.NotNull(result);
+        }
     }
 }

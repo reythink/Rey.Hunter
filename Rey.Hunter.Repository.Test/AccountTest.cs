@@ -48,10 +48,12 @@ namespace Rey.Hunter.Repository.Test {
             Assert.Equal(found1.Id, model1.Id);
             Assert.Equal(found1.Company, "Company1 Changed");
             Assert.False(found1.Enabled);
+            Assert.NotNull(found1.ModifyAt);
 
             Assert.Equal(found2.Id, model2.Id);
             Assert.Equal(found2.Company, "Company2 Changed");
             Assert.True(found2.Enabled);
+            Assert.NotNull(found2.ModifyAt);
 
             rep.DeleteOne(found1.Id);
             rep.DeleteOne(found2.Id);

@@ -63,6 +63,7 @@ namespace Rey.Hunter.Importer {
                 var model = new Account();
 
                 model.Id = (string)GetValue(item, "_id");
+                model.CreateAt = (DateTime?)GetValue(item, "CreateAt");
                 model.Company = (string)GetValue(item, "Company");
                 model.Enabled = (bool)GetValue(item, "Enabled");
 
@@ -86,6 +87,7 @@ namespace Rey.Hunter.Importer {
                 var model = new Role();
 
                 model.Id = (string)GetValue(item, "_id");
+                model.CreateAt = (DateTime?)GetValue(item, "CreateAt");
                 model.Name = (string)GetValue(item, "Name");
                 model.Enabled = (bool)GetValue(item, "Enabled");
 
@@ -108,6 +110,7 @@ namespace Rey.Hunter.Importer {
                 var model = new User();
 
                 model.Id = (string)GetValue(item, "_id");
+                model.CreateAt = (DateTime?)GetValue(item, "CreateAt");
                 model.Email = (string)GetValue(item, "Email");
                 model.Salt = (string)GetValue(item, "Salt");
                 model.Password = (string)GetValue(item, "Password");
@@ -126,7 +129,7 @@ namespace Rey.Hunter.Importer {
             Console.WriteLine($"user: {results.Count}");
         }
 
-        static IEnumerable<TModel> ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, bool, TModel> create, Account account)
+        static IEnumerable<TModel> ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, DateTime?, TModel> create, Account account)
             where TModel : AccountNodeModel {
             var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var results = new List<TModel>();
@@ -137,7 +140,11 @@ namespace Rey.Hunter.Importer {
 
                 while (stack.Count > 0) {
                     var node = stack.Pop();
-                    var model = create(node.Item1["_id"].AsString, node.Item1["Name"].AsString, node.Item2 == null);
+                    var id = (string)GetValue(node.Item1.AsBsonDocument, "_id");
+                    var name = (string)GetValue(node.Item1.AsBsonDocument, "Name");
+                    var createAt = (DateTime?)GetValue(node.Item1.AsBsonDocument, "CreateAt");
+                    var root = node.Item2 == null;
+                    var model = create(id, name, createAt);
                     results.Add(model);
 
                     if (node.Item2 != null) {
@@ -158,31 +165,31 @@ namespace Rey.Hunter.Importer {
 
         static void ImportIndustry(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
-            var results = ImportNode(collection, mgr.Industry(account), (id, name, root) => new Industry { Id = id, Name = name }, account);
+            var results = ImportNode(collection, mgr.Industry(account), (id, name, createAt) => new Industry { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"industry: {results.Count()}");
         }
 
         static void ImportFunction(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_FUNCTION);
-            var results = ImportNode(collection, mgr.Function(account), (id, name, root) => new Function { Id = id, Name = name }, account);
+            var results = ImportNode(collection, mgr.Function(account), (id, name, createAt) => new Function { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"function: {results.Count()}");
         }
 
         static void ImportLocation(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_LOCATION);
-            var results = ImportNode(collection, mgr.Location(account), (id, name, root) => new Location { Id = id, Name = name }, account);
+            var results = ImportNode(collection, mgr.Location(account), (id, name, createAt) => new Location { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"location: {results.Count()}");
         }
 
         static void ImportCategory(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CATEGORY);
-            var results = ImportNode(collection, mgr.Category(account), (id, name, root) => new Category { Id = id, Name = name }, account);
+            var results = ImportNode(collection, mgr.Category(account), (id, name, createAt) => new Category { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"category: {results.Count()}");
         }
 
         static void ImportChannel(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CHANNEL);
-            var results = ImportNode(collection, mgr.Channel(account), (id, name, root) => new Channel { Id = id, Name = name }, account);
+            var results = ImportNode(collection, mgr.Channel(account), (id, name, createAt) => new Channel { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"channel: {results.Count()}");
         }
 
@@ -196,6 +203,7 @@ namespace Rey.Hunter.Importer {
                 var model = new Company();
 
                 model.Id = (string)GetValue(item, "_id");
+                model.CreateAt = (DateTime?)GetValue(item, "CreateAt");
                 model.Name = (string)GetValue(item, "Name");
                 model.Type = (CompanyType?)(int)GetValue(item, "Type");
                 model.Status = (CompanyStatus?)(int)GetValue(item, "Status");
@@ -229,6 +237,7 @@ namespace Rey.Hunter.Importer {
                 var model = new Talent();
 
                 model.Id = (string)GetValue(item, "_id");
+                model.CreateAt = (DateTime?)GetValue(item, "CreateAt");
                 model.Industry.AddRange(item["Industries"].AsBsonArray.Select(x => (IndustryRef)repIndustry.FindOne(x["_id"].AsString)));
                 model.Function.AddRange(item["Functions"].AsBsonArray.Select(x => (FunctionRef)repFunction.FindOne(x["_id"].AsString)));
                 model.EnglishName = (string)GetValue(item, "EnglishName");
@@ -316,6 +325,7 @@ namespace Rey.Hunter.Importer {
                 var model = new Project();
 
                 model.Id = (string)GetValue(item, "_id");
+                model.CreateAt = (DateTime?)GetValue(item, "CreateAt");
                 model.Position = (string)GetValue(item, "Name");
                 model.Headcount = (int?)GetValue(item, "Headcount");
                 model.Client = repCompany.FindOne((string)GetValue(item["Client"].AsBsonDocument, "_id"));

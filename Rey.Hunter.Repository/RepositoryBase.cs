@@ -52,6 +52,7 @@ namespace Rey.Hunter.Repository {
             if (model.Id == null)
                 throw new ArgumentNullException(nameof(model.Id));
 
+            model.UpdateModifyAt();
             this.Collection.ReplaceOne(x => x.Id.Equals(model.Id), model);
         }
 

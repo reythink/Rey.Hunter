@@ -8,7 +8,9 @@
     <VersionSuffix>Build</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="wwwroot/app\directives\singleselect\index.js" />
+    <Content Remove="wwwroot/app\app.js" />
+    <Content Remove="wwwroot/app\index.js" />
+    <Content Remove="wwwroot/app\vendor.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,9 +20,7 @@
     <Content Include="wwwroot\app\controllers\company.js" />
     <Content Include="wwwroot\app\controllers\dashboard.js" />
     <Content Include="wwwroot\app\controllers\function.js" />
-    <Content Include="wwwroot\app\controllers\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="wwwroot\app\controllers\index.js" />
     <Content Include="wwwroot\app\controllers\industry.js" />
     <Content Include="wwwroot\app\controllers\location.js" />
     <Content Include="wwwroot\app\controllers\profile.js" />
@@ -31,85 +31,53 @@
     <Content Include="wwwroot\app\directives\attachmentlist\index.js" />
     <Content Include="wwwroot\app\directives\candidate\index.js" />
     <Content Include="wwwroot\app\directives\candidate\interview-panel.html" />
-    <Content Include="wwwroot\app\directives\candidate\status-panel.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\directives\candidate\table.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="wwwroot\app\directives\candidate\status-panel.html" />
+    <Content Include="wwwroot\app\directives\candidate\table.html" />
     <Content Include="wwwroot\app\directives\datepicker\index.js" />
     <Content Include="wwwroot\app\directives\enumselect\index.js" />
     <Content Include="wwwroot\app\directives\filter\index.js" />
-    <Content Include="wwwroot\app\directives\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\directives\multiselect\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="wwwroot\app\directives\index.js" />
+    <Content Include="wwwroot\app\directives\multiselect\index.js" />
     <Content Include="wwwroot\app\directives\selector\index.js" />
-    <Content Include="wwwroot\app\directives\sidebar\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\directives\singleselect\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="wwwroot\app\directives\sidebar\index.js" />
+    <Content Include="wwwroot\app\directives\singleselect\index.js" />
     <Content Include="wwwroot\app\directives\treeview\index.js" />
     <Content Include="wwwroot\app\filters\directives.js" />
     <Content Include="wwwroot\app\filters\filters.js" />
-    <Content Include="wwwroot\app\filters\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\modals\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\modals\join\index.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\modals\join\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\modals\role\auth.html" />
-    <Content Include="wwwroot\app\modals\role\index.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\modals\role\index.js" />
-    <Content Include="wwwroot\app\modals\user\index.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\modals\user\index.js" />
-    <Content Include="wwwroot\app\services\api.js" />
-    <Content Include="wwwroot\app\services\modal.js" />
-    <Content Include="wwwroot\app\services\order.js" />
-    <Content Include="wwwroot\app\services\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\vendor.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\index.js" />
+    <Content Include="wwwroot\app\filters\index.js" />
     <Content Include="wwwroot\app\modals\candidate\index.html" />
     <Content Include="wwwroot\app\modals\candidate\index.js" />
     <Content Include="wwwroot\app\modals\company\index.html" />
     <Content Include="wwwroot\app\modals\company\index.js" />
-    <Content Include="wwwroot\app\modals\export\index.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="wwwroot\app\modals\export\index.html" />
     <Content Include="wwwroot\app\modals\export\index.js" />
-    <Content Include="wwwroot\app\modals\import\index.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\modals\import\index.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="wwwroot\app\modals\import\index.html" />
+    <Content Include="wwwroot\app\modals\import\index.js" />
+    <Content Include="wwwroot\app\modals\index.js" />
+    <Content Include="wwwroot\app\modals\join\index.html" />
+    <Content Include="wwwroot\app\modals\join\index.js" />
     <Content Include="wwwroot\app\modals\portrait\index.html" />
     <Content Include="wwwroot\app\modals\portrait\index.js" />
     <Content Include="wwwroot\app\modals\project\index.html" />
     <Content Include="wwwroot\app\modals\project\index.js" />
+    <Content Include="wwwroot\app\modals\role\auth.html" />
+    <Content Include="wwwroot\app\modals\role\index.html" />
+    <Content Include="wwwroot\app\modals\role\index.js" />
     <Content Include="wwwroot\app\modals\talent\index.html" />
     <Content Include="wwwroot\app\modals\talent\index.js" />
+    <Content Include="wwwroot\app\modals\user\index.html" />
+    <Content Include="wwwroot\app\modals\user\index.js" />
+    <Content Include="wwwroot\app\services\api.js" />
     <Content Include="wwwroot\app\services\generator.js" />
+    <Content Include="wwwroot\app\services\index.js" />
+    <Content Include="wwwroot\app\services\modal.js" />
+    <Content Include="wwwroot\app\services\order.js" />
     <Content Include="wwwroot\app\services\page.js" />
     <Content Include="wwwroot\app\services\transfer.js" />
+    <Content Include="wwwroot\app\vendor.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\index.js" />
     <Content Include="wwwroot\css\admin.css" />
     <Content Include="wwwroot\css\AdminLTE.css" />
     <Content Include="wwwroot\img\avatar.png" />
@@ -163,9 +131,6 @@
     <ProjectReference Include="..\Rey.Hunter.Models\Rey.Hunter.Models.csproj" />
     <ProjectReference Include="..\Rey.Identity.Mongo\Rey.Identity.Mongo.csproj" />
     <ProjectReference Include="..\Rey.Mon\Rey.Mon.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\app\directives\multiselect\" />
   </ItemGroup>
 
 </Project>

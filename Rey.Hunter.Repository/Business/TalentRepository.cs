@@ -11,5 +11,9 @@ namespace Rey.Hunter.Repository.Business {
         public ITalentQueryBuilder Query() {
             return new TalentQueryBuilder(this);
         }
+
+        public override void UpdateRef(Talent model) {
+            throw new NotImplementedException();
+        }
     }
 }

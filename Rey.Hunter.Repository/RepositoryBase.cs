@@ -84,5 +84,7 @@ namespace Rey.Hunter.Repository {
         public virtual void Drop() {
             this.Database.DropCollection(this.GetCollectionName());
         }
+
+        public abstract void UpdateRef(TModel model);
     }
 }

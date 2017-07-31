@@ -10,33 +10,41 @@ using Xunit;
 
 namespace Rey.Hunter.Repository.Test {
     public class CompanyTest : TestBase {
-        [Fact(DisplayName = "TestCompany")]
-        public void TestCompany() {
+        [Fact(DisplayName = "Company.Actions")]
+        public void Actions() {
             var rep = this.Repository.Company(this.Account);
-            var model = new Company() {
-                Name = "Company Name"
-            };
+            var model = new Company() { Name = "Name" };
+
+            Assert.Null(model.Id);
 
             rep.InsertOne(model);
+
             Assert.NotNull(model.Id);
             Assert.NotNull(model.Account);
 
             var found = rep.FindOne(model.Id);
+
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
             Assert.NotNull(found.Account);
-            Assert.Equal(found.Name, "Company Name");
 
-            model.Name = "Company Name Changed";
-            rep.ReplaceOne(model);
-            found = rep.FindOne(model.Id);
+            Assert.Equal(found.Id, model.Id);
+            Assert.Equal(found.Name, "Name");
+
+            found.Name = "Name Changed";
+            rep.ReplaceOne(found);
+
+            found = rep.FindOne(found.Id);
+
             Assert.NotNull(found);
             Assert.NotNull(found.Id);
             Assert.NotNull(found.Account);
-            Assert.Equal(found.Name, "Company Name Changed");
 
-            rep.DeleteOne(model.Id);
-            Assert.Null(rep.FindOne(model.Id));
+            Assert.Equal(found.Id, model.Id);
+            Assert.Equal(found.Name, "Name Changed");
+
+            rep.DeleteOne(found.Id);
+            Assert.Null(rep.FindOne(found.Id));
         }
 
         [Fact(DisplayName = "Company.Query.Name")]
@@ -116,6 +124,17 @@ namespace Rey.Hunter.Repository.Test {
                 Assert.True(values.Contains(item.Status.Value));
             }
             Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Company.UpdateRef")]
+        public void UpdateRef() {
+            var rep = this.Repository.Company(this.Account);
+            var repIndustry = this.Repository.Industry(this.Account);
+            var model = rep.FindAll().First();
+            this.Repository.Account().ReplaceOne(this.Account);
+            var industry = repIndustry.FindOne(model.Industry.First().Id);
+            repIndustry.ReplaceOne(industry);
+            rep.UpdateRef(model);
         }
     }
 }

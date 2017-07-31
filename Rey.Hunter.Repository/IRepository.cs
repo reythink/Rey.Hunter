@@ -24,5 +24,7 @@ namespace Rey.Hunter.Repository {
         IEnumerable<TModel> FindAll();
 
         void Drop();
+
+        void UpdateRef(TModel model);
     }
 }

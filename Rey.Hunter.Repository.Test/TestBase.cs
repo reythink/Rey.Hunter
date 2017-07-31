@@ -1,4 +1,7 @@
 ﻿using Rey.Hunter.Models2;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 
 namespace Rey.Hunter.Repository.Test {
     public abstract class TestBase {

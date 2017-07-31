@@ -9,5 +9,9 @@ namespace Rey.Hunter.Repository.Data {
         public IndustryRepository(IRepositoryManager manager, Account account)
             : base(manager, account) {
         }
+
+        public override void UpdateRef(Industry model) {
+            throw new NotImplementedException();
+        }
     }
 }

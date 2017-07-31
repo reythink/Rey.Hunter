@@ -11,5 +11,9 @@ namespace Rey.Hunter.Repository.Business {
         public IProjectQueryBuilder Query() {
             return new ProjectQueryBuilder(this);
         }
+
+        public override void UpdateRef(Project model) {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -32,14 +32,6 @@ namespace Rey.Hunter.Repository {
             base.InsertMany(models);
         }
 
-        public override void ReplaceOne(TModel model) {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
-
-            model.Account = this.Account;
-            base.ReplaceOne(model);
-        }
-
         public override IEnumerable<TModel> FindAll() {
             return this.Collection.Find(x => x.Account.Id.Equals(this.Account.Id)).ToEnumerable();
         }

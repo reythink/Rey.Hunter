@@ -5,4 +5,8 @@ namespace Rey.Hunter.Models2 {
         string Id { get; }
         DateTime? UpdateAt { get; }
     }
+
+    public interface IModelRef<TModel> : IModelRef
+        where TModel : class, IModel {
+    }
 }

@@ -1,22 +1,17 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2 {
-    public class NodeModelRef : ModelRef, INodeModelRef {
+    public abstract class NodeModelRef : ModelRef, INodeModelRef {
+        public string Name { get; set; }
+    }
+
+    public class NodeModelRef<TModel> : ModelRef<TModel>, INodeModelRef
+        where TModel : class, INodeModel {
         public string Name { get; set; }
 
-        public NodeModelRef(AccountNodeModel model) {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
-
+        public NodeModelRef(TModel model) {
             this.Id = model.Id;
             this.Name = model.Name;
-        }
-
-        public static implicit operator NodeModelRef(AccountNodeModel model) {
-            if (model == null)
-                return null;
-
-            return new NodeModelRef(model);
         }
     }
 }

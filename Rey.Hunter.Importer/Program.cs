@@ -129,8 +129,9 @@ namespace Rey.Hunter.Importer {
             Console.WriteLine($"user: {results.Count}");
         }
 
-        static IEnumerable<TModel> ImportNode<TModel>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, DateTime?, TModel> create, Account account)
-            where TModel : AccountNodeModel {
+        static IEnumerable<TModel> ImportNode<TModel, TModelRef>(IMongoCollection<BsonDocument> collection, IRepository<TModel> rep, Func<string, string, DateTime?, TModel> create, Account account)
+            where TModel : AccountNodeModel<TModel, TModelRef>
+            where TModelRef : class, INodeModelRef {
             var filter = Builders<BsonDocument>.Filter.Eq("Account._id", account.Id);
             var results = new List<TModel>();
 
@@ -148,7 +149,8 @@ namespace Rey.Hunter.Importer {
                     results.Add(model);
 
                     if (node.Item2 != null) {
-                        model.Parent = node.Item2;
+                        model.SetParent(node.Item2);
+                        //model.Parent = node.Item2;
                     }
 
                     var children = node.Item1["Children"].AsBsonArray;
@@ -165,31 +167,31 @@ namespace Rey.Hunter.Importer {
 
         static void ImportIndustry(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_INDUSTRY);
-            var results = ImportNode(collection, mgr.Industry(account), (id, name, createAt) => new Industry { Id = id, CreateAt = createAt, Name = name }, account);
+            var results = ImportNode<Industry, IndustryRef>(collection, mgr.Industry(account), (id, name, createAt) => new Industry { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"industry: {results.Count()}");
         }
 
         static void ImportFunction(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_FUNCTION);
-            var results = ImportNode(collection, mgr.Function(account), (id, name, createAt) => new Function { Id = id, CreateAt = createAt, Name = name }, account);
+            var results = ImportNode<Function, FunctionRef>(collection, mgr.Function(account), (id, name, createAt) => new Function { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"function: {results.Count()}");
         }
 
         static void ImportLocation(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_LOCATION);
-            var results = ImportNode(collection, mgr.Location(account), (id, name, createAt) => new Location { Id = id, CreateAt = createAt, Name = name }, account);
+            var results = ImportNode<Location, LocationRef>(collection, mgr.Location(account), (id, name, createAt) => new Location { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"location: {results.Count()}");
         }
 
         static void ImportCategory(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CATEGORY);
-            var results = ImportNode(collection, mgr.Category(account), (id, name, createAt) => new Category { Id = id, CreateAt = createAt, Name = name }, account);
+            var results = ImportNode<Category, CategoryRef>(collection, mgr.Category(account), (id, name, createAt) => new Category { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"category: {results.Count()}");
         }
 
         static void ImportChannel(IMongoDatabase db, IRepositoryManager mgr, Account account) {
             var collection = db.GetCollection<BsonDocument>(NAME_CHANNEL);
-            var results = ImportNode(collection, mgr.Channel(account), (id, name, createAt) => new Channel { Id = id, CreateAt = createAt, Name = name }, account);
+            var results = ImportNode<Channel, ChannelRef>(collection, mgr.Channel(account), (id, name, createAt) => new Channel { Id = id, CreateAt = createAt, Name = name }, account);
             Console.WriteLine($"channel: {results.Count()}");
         }
 

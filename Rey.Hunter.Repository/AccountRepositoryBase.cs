@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 
 namespace Rey.Hunter.Repository {
-    public abstract class AccountModelRepositoryBase<TModel> : RepositoryBase<TModel>, IAccountModelRepository<TModel>
+    public abstract class AccountRepositoryBase<TModel> : RepositoryBase<TModel>, IAccountRepository<TModel>
         where TModel : class, IAccountModel {
         public Account Account { get; }
 
-        public AccountModelRepositoryBase(IRepositoryManager manager, Account account)
+        public AccountRepositoryBase(IRepositoryManager manager, Account account)
             : base(manager) {
             this.Account = account;
         }

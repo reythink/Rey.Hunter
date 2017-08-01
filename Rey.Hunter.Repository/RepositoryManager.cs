@@ -27,6 +27,16 @@ namespace Rey.Hunter.Repository {
             }.Freeze());
         }
 
+        public IRepository<TModel> Repository<TModel>()
+            where TModel : class, IModel {
+            return new DefaultRepository<TModel>(this);
+        }
+
+        public IAccountRepository<TModel> AccountRepository<TModel>(Account account)
+            where TModel : class, IAccountModel {
+            return new DefaultAccountRepository<TModel>(this, account);
+        }
+
         #region Auth
 
         public IAccountRepository Account() {

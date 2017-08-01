@@ -1,5 +1,5 @@
 ﻿namespace Rey.Hunter.Models2.Data {
-    public class LocationRef : NodeModelRef {
+    public class LocationRef : NodeModelRef<Location> {
         public LocationRef(Location model)
             : base(model) {
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2 {
-    public class AccountRef : ModelRef {
+    public class AccountRef : ModelRef<Account> {
         public AccountRef(Account model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));

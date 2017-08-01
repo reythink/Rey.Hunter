@@ -1,5 +1,5 @@
 ﻿namespace Rey.Hunter.Models2.Data {
-    public class FunctionRef : NodeModelRef {
+    public class FunctionRef : NodeModelRef<Function> {
         public FunctionRef(Function model)
             : base(model) {
         }

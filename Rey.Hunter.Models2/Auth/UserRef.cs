@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2 {
-    public class UserRef : ModelRef {
+    public class UserRef : ModelRef<User> {
         public string Name { get; set; }
         public string Email { get; set; }
 

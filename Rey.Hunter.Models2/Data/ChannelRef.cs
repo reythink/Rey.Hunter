@@ -1,5 +1,5 @@
 ﻿namespace Rey.Hunter.Models2.Data {
-    public class ChannelRef : NodeModelRef {
+    public class ChannelRef : NodeModelRef<Channel> {
         public ChannelRef(Channel model)
             : base(model) {
         }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System;
 
 namespace Rey.Hunter.Repository {
-    public abstract class AccountNodeModelRepositoryBase<TModel> : AccountModelRepositoryBase<TModel>, IAccountNodeModelRepository<TModel>
-        where TModel : class, IAccountModel, INodeModel {
-        public AccountNodeModelRepositoryBase(IRepositoryManager manager, Account account)
+    public abstract class AccountNodeRepositoryBase<TModel, TModelRef> : AccountRepositoryBase<TModel>, IAccountNodeRepository<TModel, TModelRef>
+        where TModel : class, IAccountModel, INodeModel<TModel, TModelRef>
+        where TModelRef : class, INodeModelRef {
+        public AccountNodeRepositoryBase(IRepositoryManager manager, Account account)
             : base(manager, account) {
         }
 

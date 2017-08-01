@@ -5,7 +5,7 @@ using Rey.Hunter.Models2.Data;
 using System.Linq;
 
 namespace Rey.Hunter.Repository.Data {
-    public class IndustryRepository : AccountNodeModelRepositoryBase<Industry>, IIndustryRepository {
+    public class IndustryRepository : AccountNodeRepositoryBase<Industry, IndustryRef>, IIndustryRepository {
         public IndustryRepository(IRepositoryManager manager, Account account)
             : base(manager, account) {
         }

@@ -9,6 +9,12 @@ namespace Rey.Hunter.Repository {
         IMongoClient Client { get; }
         string DefaultDatabaseName { get; }
 
+        IRepository<TModel> Repository<TModel>()
+            where TModel : class, IModel;
+
+        IAccountRepository<TModel> AccountRepository<TModel>(Account account)
+            where TModel : class, IAccountModel;
+
         #region Auth
 
         IAccountRepository Account();

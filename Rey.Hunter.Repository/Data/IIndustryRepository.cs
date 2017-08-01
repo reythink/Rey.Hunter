@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 
 namespace Rey.Hunter.Repository.Data {
-    public interface IIndustryRepository : IAccountNodeModelRepository<Industry> {
+    public interface IIndustryRepository : IAccountNodeRepository<Industry, IndustryRef> {
     }
 }

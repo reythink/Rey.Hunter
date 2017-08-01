@@ -3,7 +3,7 @@ using Rey.Hunter.Models2;
 using Rey.Hunter.Models2.Data;
 
 namespace Rey.Hunter.Repository.Data {
-    public class LocationRepository : AccountNodeModelRepositoryBase<Location>, ILocationRepository {
+    public class LocationRepository : AccountNodeRepositoryBase<Location, LocationRef>, ILocationRepository {
         public LocationRepository(IRepositoryManager manager, Account account)
             : base(manager, account) {
         }

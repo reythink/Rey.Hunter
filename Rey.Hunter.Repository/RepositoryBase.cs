@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Rey.Hunter.Repository {
     public abstract class RepositoryBase<TModel> : IRepository<TModel>
-       where TModel : class, IModel {
+        where TModel : class, IModel {
         public IRepositoryManager Manager { get; }
         private IMongoClient Client { get; }
         public IMongoDatabase Database { get; }

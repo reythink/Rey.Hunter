@@ -8,5 +8,8 @@ namespace Rey.Hunter.Models2 {
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? UpdateAt { get; set; }
     }
-}
 
+    public abstract class ModelRef<TModel> : ModelRef
+        where TModel : class, IModel {
+    }
+}

@@ -519,9 +519,11 @@ namespace Rey.Hunter.Repository.Test {
             Assert.NotNull(talent.Profile.CrossCategory.First().UpdateAt);
             Assert.True(talent.Profile.CrossCategory.First().UpdateAt >= crossCategory.ModifyAt);
 
-            repIndustry.DeleteOne(industry.Id);
-            repFunction.DeleteOne(function.Id);
+            repIndustry.DeleteMany(industry.Id, crossIndustry.Id);
+            repFunction.DeleteMany(function.Id, crossFunction.Id);
             repLocation.DeleteMany(currentLocation.Id, mobilityLocation.Id);
+            repChannel.DeleteOne(crossChannel.Id);
+            repCategory.DeleteOne(crossCategory.Id);
             repTalent.DeleteOne(talent.Id);
             repAccount.DeleteOne(account.Id);
         }

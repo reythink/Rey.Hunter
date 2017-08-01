@@ -26,6 +26,19 @@ namespace Rey.Hunter.Repository.Business {
             this.Update(modelRef);
         }
 
+        public void Update<T, T2>(Expression<Func<TModel, T2>> expr1, Expression<Func<T2, IModelRef<T>>> expr2)
+            where T : class, IModel {
+            if (expr1 == null)
+                throw new ArgumentNullException(nameof(expr1));
+
+            if (expr2 == null)
+                throw new ArgumentNullException(nameof(expr2));
+
+            var middle = GetValue(this.Model, expr1);
+            var modelRef = GetValue(middle, expr2);
+            this.Update(modelRef);
+        }
+
         public void Update<T>(Expression<Func<TModel, IEnumerable<IModelRef<T>>>> expr)
             where T : class, IModel {
             if (expr == null)
@@ -33,6 +46,21 @@ namespace Rey.Hunter.Repository.Business {
 
             var modelRefs = GetValue(this.Model, expr);
             this.Update(modelRefs);
+        }
+
+        public void Update<T, T2>(Expression<Func<TModel, IEnumerable<T2>>> expr1, Expression<Func<T2, IModelRef<T>>> expr2)
+            where T : class, IModel {
+            if (expr1 == null)
+                throw new ArgumentNullException(nameof(expr1));
+
+            if (expr2 == null)
+                throw new ArgumentNullException(nameof(expr2));
+
+            var middle = GetValue(this.Model, expr1);
+            foreach (var item in middle) {
+                var modelRef = GetValue(item, expr2);
+                this.Update(modelRef);
+            }
         }
 
         public void Dispose() {

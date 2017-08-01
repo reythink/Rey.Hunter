@@ -22,6 +22,10 @@ namespace Rey.Hunter.Repository.Business {
                 tool.Update(x => x.Function);
                 tool.Update(x => x.Location.Current);
                 tool.Update(x => x.Location.Mobility);
+                tool.Update(x => x.Profile.CrossIndustry);
+                tool.Update(x => x.Profile.CrossFunction);
+                tool.Update(x => x.Profile.CrossChannel);
+                tool.Update(x => x.Profile.CrossCategory);
             }
         }
     }

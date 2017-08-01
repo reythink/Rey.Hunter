@@ -396,12 +396,18 @@ namespace Rey.Hunter.Repository.Test {
             var repChannel = this.Repository.Channel(account);
 
             var industry = new Industry { Name = "Test Industry" };
+            var crossIndustry = new Industry { Name = "Cross Test Industry" };
             repIndustry.InsertOne(industry);
+            repIndustry.InsertOne(crossIndustry);
             Assert.NotNull(industry.Id);
+            Assert.NotNull(crossIndustry.Id);
 
             var function = new Function { Name = "Test Function" };
+            var crossFunction = new Function { Name = "Cross Test Function" };
             repFunction.InsertOne(function);
+            repFunction.InsertOne(crossFunction);
             Assert.NotNull(function.Id);
+            Assert.NotNull(crossFunction.Id);
 
             var currentLocation = new Location { Name = "Shanghai" };
             var mobilityLocation = new Location { Name = "Beijing" };
@@ -409,12 +415,23 @@ namespace Rey.Hunter.Repository.Test {
             Assert.NotNull(currentLocation.Id);
             Assert.NotNull(mobilityLocation.Id);
 
+            var crossChannel = new Channel { Name = "Cross Test Channel" };
+            repChannel.InsertOne(crossChannel);
+            Assert.NotNull(crossChannel.Id);
+
+            var crossCategory = new Category { Name = "Cross Test Category" };
+            repCategory.InsertOne(crossCategory);
+            Assert.NotNull(crossCategory.Id);
+
             var talent = new Talent { EnglishName = "Test Talent" };
             talent.Industry.Add(industry);
             talent.Function.Add(function);
             talent.Location.Current = currentLocation;
             talent.Location.Mobility.Add(mobilityLocation);
-
+            talent.Profile.CrossIndustry.Add(crossIndustry);
+            talent.Profile.CrossFunction.Add(crossFunction);
+            talent.Profile.CrossChannel.Add(crossChannel);
+            talent.Profile.CrossCategory.Add(crossCategory);
 
             repTalent.InsertOne(talent);
             Assert.NotNull(talent.Id);
@@ -425,6 +442,10 @@ namespace Rey.Hunter.Repository.Test {
             Assert.Null(talent.Function.First().UpdateAt);
             Assert.Null(talent.Location.Current.UpdateAt);
             Assert.Null(talent.Location.Mobility.First().UpdateAt);
+            Assert.Null(talent.Profile.CrossIndustry.First().UpdateAt);
+            Assert.Null(talent.Profile.CrossFunction.First().UpdateAt);
+            Assert.Null(talent.Profile.CrossChannel.First().UpdateAt);
+            Assert.Null(talent.Profile.CrossCategory.First().UpdateAt);
 
             Assert.Null(account.ModifyAt);
             repAccount.ReplaceOne(account);
@@ -466,7 +487,37 @@ namespace Rey.Hunter.Repository.Test {
             Assert.NotNull(talent.Location.Mobility.First().UpdateAt);
             Assert.True(talent.Location.Mobility.First().UpdateAt >= mobilityLocation.ModifyAt);
 
+            Assert.Null(crossIndustry.ModifyAt);
+            repIndustry.ReplaceOne(crossIndustry);
+            Assert.NotNull(crossIndustry.ModifyAt);
 
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Profile.CrossIndustry.First().UpdateAt);
+            Assert.True(talent.Profile.CrossIndustry.First().UpdateAt >= crossIndustry.ModifyAt);
+
+            Assert.Null(crossFunction.ModifyAt);
+            repFunction.ReplaceOne(crossFunction);
+            Assert.NotNull(crossFunction.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Profile.CrossFunction.First().UpdateAt);
+            Assert.True(talent.Profile.CrossFunction.First().UpdateAt >= crossFunction.ModifyAt);
+
+            Assert.Null(crossChannel.ModifyAt);
+            repChannel.ReplaceOne(crossChannel);
+            Assert.NotNull(crossChannel.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Profile.CrossChannel.First().UpdateAt);
+            Assert.True(talent.Profile.CrossChannel.First().UpdateAt >= crossChannel.ModifyAt);
+
+            Assert.Null(crossCategory.ModifyAt);
+            repCategory.ReplaceOne(crossCategory);
+            Assert.NotNull(crossCategory.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Profile.CrossCategory.First().UpdateAt);
+            Assert.True(talent.Profile.CrossCategory.First().UpdateAt >= crossCategory.ModifyAt);
 
             repIndustry.DeleteOne(industry.Id);
             repFunction.DeleteOne(function.Id);

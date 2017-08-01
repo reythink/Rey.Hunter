@@ -1,4 +1,7 @@
-﻿using Rey.Hunter.Models2.Enums;
+﻿using Rey.Hunter.Models2;
+using Rey.Hunter.Models2.Business;
+using Rey.Hunter.Models2.Data;
+using Rey.Hunter.Models2.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -375,6 +378,101 @@ namespace Rey.Hunter.Repository.Test {
                 Assert.True(values.Contains(item.Intension.Value));
             }
             Assert.NotNull(result);
+        }
+
+        [Fact(DisplayName = "Talent.UpdateRef")]
+        public void UpdateRef() {
+            var repAccount = this.Repository.Account();
+
+            var account = new Account { Company = "Test Account" };
+            repAccount.InsertOne(account);
+            Assert.NotNull(account.Id);
+
+            var repTalent = this.Repository.Talent(account);
+            var repIndustry = this.Repository.Industry(account);
+            var repFunction = this.Repository.Function(account);
+            var repLocation = this.Repository.Location(account);
+            var repCategory = this.Repository.Category(account);
+            var repChannel = this.Repository.Channel(account);
+
+            var industry = new Industry { Name = "Test Industry" };
+            repIndustry.InsertOne(industry);
+            Assert.NotNull(industry.Id);
+
+            var function = new Function { Name = "Test Function" };
+            repFunction.InsertOne(function);
+            Assert.NotNull(function.Id);
+
+            var currentLocation = new Location { Name = "Shanghai" };
+            var mobilityLocation = new Location { Name = "Beijing" };
+            repLocation.InsertMany(currentLocation, mobilityLocation);
+            Assert.NotNull(currentLocation.Id);
+            Assert.NotNull(mobilityLocation.Id);
+
+            var talent = new Talent { EnglishName = "Test Talent" };
+            talent.Industry.Add(industry);
+            talent.Function.Add(function);
+            talent.Location.Current = currentLocation;
+            talent.Location.Mobility.Add(mobilityLocation);
+
+
+            repTalent.InsertOne(talent);
+            Assert.NotNull(talent.Id);
+
+            repTalent.UpdateRef(talent);
+            Assert.Null(talent.Account.UpdateAt);
+            Assert.Null(talent.Industry.First().UpdateAt);
+            Assert.Null(talent.Function.First().UpdateAt);
+            Assert.Null(talent.Location.Current.UpdateAt);
+            Assert.Null(talent.Location.Mobility.First().UpdateAt);
+
+            Assert.Null(account.ModifyAt);
+            repAccount.ReplaceOne(account);
+            Assert.NotNull(account.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Account.UpdateAt);
+            Assert.True(talent.Account.UpdateAt >= account.ModifyAt);
+
+            Assert.Null(industry.ModifyAt);
+            repIndustry.ReplaceOne(industry);
+            Assert.NotNull(industry.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Industry.First().UpdateAt);
+            Assert.True(talent.Industry.First().UpdateAt >= industry.ModifyAt);
+
+            Assert.Null(function.ModifyAt);
+            repFunction.ReplaceOne(function);
+            Assert.NotNull(function.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Function.First().UpdateAt);
+            Assert.True(talent.Function.First().UpdateAt >= function.ModifyAt);
+
+            Assert.Null(currentLocation.ModifyAt);
+            repLocation.ReplaceOne(currentLocation);
+            Assert.NotNull(currentLocation.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Location.Current.UpdateAt);
+            Assert.True(talent.Location.Current.UpdateAt >= currentLocation.ModifyAt);
+
+            Assert.Null(mobilityLocation.ModifyAt);
+            repLocation.ReplaceOne(mobilityLocation);
+            Assert.NotNull(mobilityLocation.ModifyAt);
+
+            repTalent.UpdateRef(talent);
+            Assert.NotNull(talent.Location.Mobility.First().UpdateAt);
+            Assert.True(talent.Location.Mobility.First().UpdateAt >= mobilityLocation.ModifyAt);
+
+
+
+            repIndustry.DeleteOne(industry.Id);
+            repFunction.DeleteOne(function.Id);
+            repLocation.DeleteMany(currentLocation.Id, mobilityLocation.Id);
+            repTalent.DeleteOne(talent.Id);
+            repAccount.DeleteOne(account.Id);
         }
     }
 }

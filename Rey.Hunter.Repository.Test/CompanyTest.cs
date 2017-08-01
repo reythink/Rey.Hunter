@@ -156,7 +156,7 @@ namespace Rey.Hunter.Repository.Test {
 
             repCompany.UpdateRef(company);
             Assert.NotNull(company.Account.UpdateAt);
-            Assert.True(company.Account.UpdateAt > account.ModifyAt);
+            Assert.True(company.Account.UpdateAt >= account.ModifyAt);
 
             Assert.Null(industry.ModifyAt);
             repIndustry.ReplaceOne(industry);
@@ -164,7 +164,7 @@ namespace Rey.Hunter.Repository.Test {
 
             repCompany.UpdateRef(company);
             Assert.NotNull(company.Industry.First().UpdateAt);
-            Assert.True(company.Industry.First().UpdateAt > industry.ModifyAt);
+            Assert.True(company.Industry.First().UpdateAt >= industry.ModifyAt);
 
             repIndustry.DeleteOne(industry.Id);
             repCompany.DeleteOne(company.Id);

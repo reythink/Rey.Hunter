@@ -45,6 +45,13 @@ namespace Rey.Hunter.Repository {
             this.Collection.InsertMany(models);
         }
 
+        public virtual void InsertMany(params TModel[] models) {
+            if (models == null)
+                throw new ArgumentNullException(nameof(models));
+
+            this.Collection.InsertMany(models);
+        }
+
         public virtual void ReplaceOne(TModel model) {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
@@ -63,7 +70,14 @@ namespace Rey.Hunter.Repository {
             this.Collection.DeleteOne(x => x.Id.Equals(id));
         }
 
-        public void DeleteMany(IEnumerable<string> idList) {
+        public virtual void DeleteMany(IEnumerable<string> idList) {
+            if (idList == null)
+                throw new ArgumentNullException(nameof(idList));
+
+            this.Collection.DeleteMany(Builders<TModel>.Filter.In(x => x.Id, idList));
+        }
+
+        public virtual void DeleteMany(params string[] idList) {
             if (idList == null)
                 throw new ArgumentNullException(nameof(idList));
 

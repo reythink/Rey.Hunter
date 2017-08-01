@@ -13,7 +13,16 @@ namespace Rey.Hunter.Repository.Business {
         }
 
         public override void UpdateRef(Talent model) {
-            throw new NotImplementedException();
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            using (var tool = new UpdateTool<Talent>(this, model)) {
+                tool.Update(x => x.Account);
+                tool.Update(x => x.Industry);
+                tool.Update(x => x.Function);
+                tool.Update(x => x.Location.Current);
+                tool.Update(x => x.Location.Mobility);
+            }
         }
     }
 }

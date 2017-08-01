@@ -5,11 +5,12 @@ namespace Rey.Hunter.Models2 {
         public string Name { get; set; }
         public string Email { get; set; }
 
-        public UserRef(User model) {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+        public UserRef(User model)
+            : base(model) {
+        }
 
-            this.Id = model.Id;
+        public override void Init(User model) {
+            base.Init(model);
             this.Name = model.Name;
             this.Email = model.Email;
         }

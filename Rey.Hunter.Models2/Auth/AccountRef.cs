@@ -2,11 +2,8 @@
 
 namespace Rey.Hunter.Models2 {
     public class AccountRef : ModelRef<Account> {
-        public AccountRef(Account model) {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
-
-            this.Id = model.Id;
+        public AccountRef(Account model)
+            : base(model) {
         }
 
         public static implicit operator AccountRef(Account model) {

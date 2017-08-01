@@ -1,14 +1,15 @@
 ﻿using System;
 
 namespace Rey.Hunter.Models2.Business {
-    public class CompanyRef : ModelRef {
+    public class CompanyRef : ModelRef<Company> {
         public string Name { get; set; }
 
-        public CompanyRef(Company model) {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+        public CompanyRef(Company model)
+            : base(model) {
+        }
 
-            this.Id = model.Id;
+        public override void Init(Company model) {
+            base.Init(model);
             this.Name = model.Name;
         }
 

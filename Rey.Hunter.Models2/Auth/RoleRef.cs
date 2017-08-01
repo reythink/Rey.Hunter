@@ -4,11 +4,12 @@ namespace Rey.Hunter.Models2 {
     public class RoleRef : ModelRef<Role> {
         public string Name { get; set; }
 
-        public RoleRef(Role model) {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+        public RoleRef(Role model)
+            : base(model) {
+        }
 
-            this.Id = model.Id;
+        public override void Init(Role model) {
+            base.Init(model);
             this.Name = model.Name;
         }
 

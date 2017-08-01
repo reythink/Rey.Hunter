@@ -128,13 +128,47 @@ namespace Rey.Hunter.Repository.Test {
 
         [Fact(DisplayName = "Company.UpdateRef")]
         public void UpdateRef() {
-            var rep = this.Repository.Company(this.Account);
-            var repIndustry = this.Repository.Industry(this.Account);
-            var model = rep.FindAll().First();
-            this.Repository.Account().ReplaceOne(this.Account);
-            var industry = repIndustry.FindOne(model.Industry.First().Id);
+            var repAccount = this.Repository.Account();
+
+            var account = new Account { Company = "Test Account" };
+            repAccount.InsertOne(account);
+            Assert.NotNull(account.Id);
+
+            var repCompany = this.Repository.Company(account);
+            var repIndustry = this.Repository.Industry(account);
+
+            var industry = new Industry { Name = "Test Industry" };
+            repIndustry.InsertOne(industry);
+            Assert.NotNull(industry.Id);
+
+            var company = new Company { Name = "Test Company" };
+            company.Industry.Add(industry);
+            repCompany.InsertOne(company);
+            Assert.NotNull(company.Id);
+
+            repCompany.UpdateRef(company);
+            Assert.Null(company.Account.UpdateAt);
+            Assert.Null(company.Industry.First().UpdateAt);
+
+            Assert.Null(account.ModifyAt);
+            repAccount.ReplaceOne(account);
+            Assert.NotNull(account.ModifyAt);
+
+            repCompany.UpdateRef(company);
+            Assert.NotNull(company.Account.UpdateAt);
+            Assert.True(company.Account.UpdateAt > account.ModifyAt);
+
+            Assert.Null(industry.ModifyAt);
             repIndustry.ReplaceOne(industry);
-            rep.UpdateRef(model);
+            Assert.NotNull(industry.ModifyAt);
+
+            repCompany.UpdateRef(company);
+            Assert.NotNull(company.Industry.First().UpdateAt);
+            Assert.True(company.Industry.First().UpdateAt > industry.ModifyAt);
+
+            repIndustry.DeleteOne(industry.Id);
+            repCompany.DeleteOne(company.Id);
+            repAccount.DeleteOne(account.Id);
         }
     }
 }

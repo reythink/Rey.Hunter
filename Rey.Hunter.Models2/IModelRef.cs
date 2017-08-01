@@ -8,5 +8,7 @@ namespace Rey.Hunter.Models2 {
 
     public interface IModelRef<TModel> : IModelRef
         where TModel : class, IModel {
+        void Init(TModel model);
+        void Update(TModel model);
     }
 }

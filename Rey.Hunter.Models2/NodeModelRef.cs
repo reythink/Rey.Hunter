@@ -9,8 +9,12 @@ namespace Rey.Hunter.Models2 {
         where TModel : class, INodeModel {
         public string Name { get; set; }
 
-        public NodeModelRef(TModel model) {
-            this.Id = model.Id;
+        public NodeModelRef(TModel model) 
+            : base(model) {
+        }
+
+        public override void Init(TModel model) {
+            base.Init(model);
             this.Name = model.Name;
         }
     }

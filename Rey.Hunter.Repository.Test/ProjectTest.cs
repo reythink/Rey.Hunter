@@ -193,12 +193,14 @@ namespace Rey.Hunter.Repository.Test {
             Assert.True(project.Location.First().UpdateAt >= location.ModifyAt);
 
             Assert.Null(talent.ModifyAt);
+            talent.EnglishName = "Test Talent Changed";
             repTalent.ReplaceOne(talent);
             Assert.NotNull(talent.ModifyAt);
 
             repProject.UpdateRef(project);
             Assert.NotNull(project.Candidate.First().Talent.UpdateAt);
             Assert.True(project.Candidate.First().Talent.UpdateAt >= talent.ModifyAt);
+            Assert.Equal(project.Candidate.First().Talent.EnglishName, talent.EnglishName);
 
             repCompany.DeleteOne(company.Id);
             repUser.DeleteMany(manager.Id, consultant.Id);

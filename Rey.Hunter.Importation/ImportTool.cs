@@ -8,8 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Rey.Hunter.Importation {
-    public class ImportTool<TModel> : IDisposable
-        where TModel : class, IModel, new() {
+    public class ImportTool : IDisposable {
         #region Constants
 
         public const string IMPORT_NAME_DB = "rey_hunter";
@@ -47,21 +46,16 @@ namespace Rey.Hunter.Importation {
 
         #endregion Constants
 
-        protected IMongoClient ImportClient => this.Manager.ImportClient;
-        protected IMongoDatabase ImportDB => this.ImportClient.GetDatabase(IMPORT_NAME_DB);
+        public IMongoClient ImportClient => this.Manager.ImportClient;
+        public IMongoDatabase ImportDB => this.ImportClient.GetDatabase(IMPORT_NAME_DB);
 
-        protected IMongoClient ExportClient => this.Manager.ExportClient;
-        protected IMongoDatabase ExportDB => this.ExportClient.GetDatabase(EXPORT_NAME_DB);
+        public IMongoClient ExportClient => this.Manager.ExportClient;
+        public IMongoDatabase ExportDB => this.ExportClient.GetDatabase(EXPORT_NAME_DB);
 
-        private IImportManager Manager { get; }
-        private List<TModel> Models { get; }
-        public ImportTool(IImportManager manager, List<TModel> models) {
+        public IImportManager Manager { get; }
+
+        public ImportTool(IImportManager manager) {
             this.Manager = manager;
-            this.Models = models;
-        }
-
-        public ImportTool(IImportManager manager)
-            : this(manager, new List<TModel>()) {
         }
 
         public static string GetImportCollectionName<T>() {
@@ -102,10 +96,6 @@ namespace Rey.Hunter.Importation {
             return null;
         }
 
-        public static string GetImportCollectionName() {
-            return GetImportCollectionName<TModel>();
-        }
-
         public static string GetExportCollectionName<T>() {
             var type = typeof(T);
             if (type.Equals(typeof(Account)))
@@ -144,45 +134,23 @@ namespace Rey.Hunter.Importation {
             return null;
         }
 
-        public static string GetExportCollectionName() {
-            return GetExportCollectionName<TModel>();
-        }
-
-        public IMongoCollection<BsonDocument> GetImportCollection(string name) {
+        public virtual IMongoCollection<BsonDocument> GetImportCollection(string name) {
             return this.ImportDB.GetCollection<BsonDocument>(name);
         }
 
-        public IEnumerable<BsonDocument> GetImportItems(string name) {
+        public virtual IEnumerable<BsonDocument> GetImportItems(string name) {
             return this.GetImportCollection(name).Find(x => true).ToEnumerable();
         }
 
-        public IEnumerable<BsonDocument> GetImportItems(string name, Account account) {
+        public virtual IEnumerable<BsonDocument> GetImportItems(string name, Account account) {
             return this.GetImportCollection(name).Find(Builders<BsonDocument>.Filter.Eq("Account._id", account.Id)).ToEnumerable();
         }
 
-        public IEnumerable<BsonDocument> GetImportItems() {
-            return this.GetImportItems(GetImportCollectionName());
-        }
-
-        public IEnumerable<BsonDocument> GetImportItems(Account account) {
-            return this.GetImportItems(GetImportCollectionName(), account);
-        }
-
-        public TModel CreateModel() {
-            var model = new TModel();
-            this.Models.Add(model);
-            return model;
-        }
-
-        public IEnumerable<T> ExportItems<T>(string name, IEnumerable<T> models) {
+        public virtual IEnumerable<T> ExportItems<T>(string name, IEnumerable<T> models) {
             this.ExportDB.DropCollection(name);
             this.ExportDB.GetCollection<T>(name).InsertMany(models);
             Console.WriteLine($"{typeof(T).Name}: {models.Count()}");
             return models;
-        }
-
-        public IEnumerable<T> ExportItems<T>(IEnumerable<T> models) {
-            return this.ExportItems(GetExportCollectionName(), models);
         }
 
         public BsonValue GetBsonValue(BsonValue value, string name) {
@@ -237,18 +205,65 @@ namespace Rey.Hunter.Importation {
             return this.ExportDB.GetCollection<T>(GetExportCollectionName<T>()).Find(filter).SingleOrDefault();
         }
 
-        public TModel FindOne(string id) {
-            return this.FindOne<TModel>(id);
-        }
-
         public IEnumerable<T> FindMany<T>(IEnumerable<string> idList)
             where T : class, IModel {
             var filter = Builders<T>.Filter.In("_id", idList);
             return this.ExportDB.GetCollection<T>(GetExportCollectionName<T>()).Find(filter).ToEnumerable();
         }
 
+        public virtual void Dispose() {
+        }
+    }
+
+    public class ImportTool<TModel> : ImportTool
+        where TModel : class, IModel, new() {
+        private List<TModel> Models { get; }
+
+        public ImportTool(IImportManager manager, List<TModel> models)
+            : base(manager) {
+            this.Models = models;
+        }
+
+        public ImportTool(IImportManager manager)
+            : this(manager, new List<TModel>()) {
+        }
+
+        public static string GetImportCollectionName() {
+            return GetImportCollectionName<TModel>();
+        }
+
+        public static string GetExportCollectionName() {
+            return GetExportCollectionName<TModel>();
+        }
+
+        public IEnumerable<BsonDocument> GetImportItems() {
+            return this.GetImportItems(GetImportCollectionName());
+        }
+
+        public IEnumerable<BsonDocument> GetImportItems(Account account) {
+            return this.GetImportItems(GetImportCollectionName(), account);
+        }
+
+        public TModel CreateModel() {
+            var model = new TModel();
+            this.Models.Add(model);
+            return model;
+        }
+
+        public IEnumerable<T> ExportItems<T>(IEnumerable<T> models) {
+            return this.ExportItems(GetExportCollectionName(), models);
+        }
+
+        public TModel FindOne(string id) {
+            return this.FindOne<TModel>(id);
+        }
+
         public IEnumerable<TModel> FindMany(IEnumerable<string> idList) {
             return this.FindMany<TModel>(idList);
+        }
+
+        public override void Dispose() {
+            this.ExportItems(this.Models);
         }
 
         public void ImportAttachments(BsonValue value, string name, ICollection<Attachment> attachments) {
@@ -264,10 +279,6 @@ namespace Rey.Hunter.Importation {
                     CreateAt = this.GetValue<DateTime?>(item, "CreateAt"),
                 });
             }
-        }
-
-        public void Dispose() {
-            this.ExportItems(this.Models);
         }
     }
 }

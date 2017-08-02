@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using Rey.Hunter.Models2;
 using System.Collections.Generic;
+using System;
 
 namespace Rey.Hunter.Importation {
     public class ImportManager : IImportManager {
@@ -32,6 +33,7 @@ namespace Rey.Hunter.Importation {
             this.Importers.Add(new CompanyImporter(this));
             this.Importers.Add(new TalentImporter(this));
             this.Importers.Add(new ProjectImporter(this));
+            this.Importers.Add(new FileImporter(this));
         }
 
         public void Import() {

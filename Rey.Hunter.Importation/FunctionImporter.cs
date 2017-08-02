@@ -12,7 +12,7 @@ namespace Rey.Hunter.Importation {
         }
 
         public void Import(Account account) {
-            using (var tool = this.BeginImport()) {
+            using (var tool = this.BeginImportModel()) {
                 var items = tool.GetImportItems(account);
                 foreach (var item in items) {
                     var stack = new Stack<Tuple<BsonValue, Function>>();

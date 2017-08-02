@@ -10,7 +10,7 @@ namespace Rey.Hunter.Importation {
 
         public IEnumerable<Account> Import() {
             var models = new List<Account>();
-            using (var tool = this.BeginImport(models)) {
+            using (var tool = this.BeginImportModel(models)) {
                 var items = tool.GetImportItems();
                 foreach (var item in items) {
                     var model = tool.CreateModel();

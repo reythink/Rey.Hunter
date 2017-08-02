@@ -24,6 +24,6 @@ namespace Rey.Hunter.Models2.Business {
 
         public List<ProjectCandidate> Candidate { get; set; } = new List<ProjectCandidate>();
         public ProjectQuestion Question { get; set; } = new ProjectQuestion();
-        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
+        public List<Attachment> Attachment { get; set; } = new List<Attachment>();
     }
 }

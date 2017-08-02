@@ -189,7 +189,14 @@ namespace Rey.Hunter.Importation {
             var names = name.Split('.');
             var retVal = value;
             foreach (var n in names) {
-                retVal = retVal.AsBsonDocument[n];
+                if (retVal.IsBsonNull)
+                    return null;
+
+                var doc = retVal.AsBsonDocument;
+                if (!doc.Contains(n))
+                    return null;
+
+                retVal = doc[n];
 
                 if (retVal.IsBsonNull)
                     return null;

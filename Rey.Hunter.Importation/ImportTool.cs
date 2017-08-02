@@ -185,7 +185,22 @@ namespace Rey.Hunter.Importation {
             return this.ExportItems(GetExportCollectionName(), models);
         }
 
+        public BsonValue GetBsonValue(BsonValue value, string name) {
+            var names = name.Split('.');
+            var retVal = value;
+            foreach (var n in names) {
+                retVal = retVal.AsBsonDocument[n];
+
+                if (retVal.IsBsonNull)
+                    return null;
+            }
+            return retVal;
+        }
+
         public object GetValue(BsonValue value) {
+            if (value == null)
+                return null;
+
             return BsonTypeMapper.MapToDotNetValue(value);
         }
 
@@ -194,12 +209,7 @@ namespace Rey.Hunter.Importation {
         }
 
         public object GetValue(BsonValue value, string name) {
-            var names = name.Split('.');
-            var retVal = value;
-            foreach (var n in names) {
-                retVal = retVal.AsBsonDocument[n];
-            }
-            return BsonTypeMapper.MapToDotNetValue(retVal);
+            return this.GetValue(GetBsonValue(value, name));
         }
 
         public T GetValue<T>(BsonValue value, string name) {
@@ -207,12 +217,7 @@ namespace Rey.Hunter.Importation {
         }
 
         public IEnumerable<string> GetIdList(BsonValue value, string name) {
-            var names = name.Split('.');
-            var retVal = value;
-            foreach (var n in names) {
-                retVal = retVal.AsBsonDocument[n];
-            }
-
+            var retVal = GetBsonValue(value, name);
             if (!retVal.IsBsonArray)
                 throw new InvalidOperationException();
 
@@ -237,6 +242,21 @@ namespace Rey.Hunter.Importation {
 
         public IEnumerable<TModel> FindMany(IEnumerable<string> idList) {
             return this.FindMany<TModel>(idList);
+        }
+
+        public void ImportAttachments(BsonValue value, string name, ICollection<Attachment> attachments) {
+            var retVal = GetBsonValue(value, name);
+            if (!retVal.IsBsonArray)
+                throw new InvalidOperationException();
+
+            foreach (var item in retVal.AsBsonArray) {
+                attachments.Add(new Attachment {
+                    Name = this.GetValue<string>(item, "Name"),
+                    Url = this.GetValue<string>(item, "Url"),
+                    ContentType = this.GetValue<string>(item, "ContentType"),
+                    CreateAt = this.GetValue<DateTime?>(item, "CreateAt"),
+                });
+            }
         }
 
         public void Dispose() {

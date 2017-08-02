@@ -33,7 +33,8 @@ namespace Rey.Hunter.Importer {
 
         static void Main(string[] args) {
             var client = new MongoClient(new MongoClientSettings() {
-                Credentials = new List<MongoCredential> { MongoCredential.CreateCredential("admin", "admin", "admin123~") }
+                //Server = new MongoServerAddress("targetcareer.cn"),
+                Credentials = new List<MongoCredential> { MongoCredential.CreateCredential("admin", "admin", "admin123~") },
             }.Freeze());
             var db = client.GetDatabase(NAME_DB);
 

@@ -37,8 +37,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{622B76FE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rey.Hunter.Importation", "Rey.Hunter.Importation\Rey.Hunter.Importation.csproj", "{9939446B-5C58-4D6C-80A2-BE6A78B330D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rey.Hunter.Fuse", "Rey.Hunter.Fuse\Rey.Hunter.Fuse.csproj", "{183A89C1-A61E-4148-918D-10639CE7B102}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,10 +95,6 @@ Global
 		{9939446B-5C58-4D6C-80A2-BE6A78B330D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9939446B-5C58-4D6C-80A2-BE6A78B330D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9939446B-5C58-4D6C-80A2-BE6A78B330D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{183A89C1-A61E-4148-918D-10639CE7B102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{183A89C1-A61E-4148-918D-10639CE7B102}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{183A89C1-A61E-4148-918D-10639CE7B102}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{183A89C1-A61E-4148-918D-10639CE7B102}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +114,5 @@ Global
 		{B97787B2-B64E-424A-8DA6-2EF59CA75EED} = {5D7D7714-80B4-4169-922E-AD50B3EB7090}
 		{2CCC5079-5799-496C-B290-CC1B0D1A06C4} = {289E8533-B628-4B35-8ED2-F8EBAB352AB8}
 		{9939446B-5C58-4D6C-80A2-BE6A78B330D7} = {622B76FE-3BE5-4521-B6F7-C1BC6E0ED710}
-		{183A89C1-A61E-4148-918D-10639CE7B102} = {5D7D7714-80B4-4169-922E-AD50B3EB7090}
 	EndGlobalSection
 EndGlobal
